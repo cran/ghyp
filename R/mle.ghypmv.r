@@ -1,0 +1,13 @@
+setClass("mle.ghypmv",
+         representation(n.iter="numeric",
+                        llh="numeric",
+                        converged="logical",
+                        error.code="numeric",
+                        error.message="character"),
+         prototype(n.iter=numeric(0),
+                   llh=numeric(0),
+                   converged=FALSE,
+                   error.code=0,
+                   error.message=character(0)),
+         contains="ghypmv"
+)

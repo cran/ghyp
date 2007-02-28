@@ -1,0 +1,9 @@
+setClass("ghypmv",
+         representation(sigma="matrix",
+                        variance="matrix",
+                        data="matrix"),
+         prototype(sigma=matrix(0),
+                   variance=matrix(0),
+                   data=matrix(0)),
+         contains="ghypbase"
+)

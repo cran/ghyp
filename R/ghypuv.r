@@ -1,0 +1,9 @@
+setClass("ghypuv",
+         representation(sigma="numeric",
+                        variance="numeric",
+                        data="numeric"),
+         prototype(sigma=1,
+                   variance=numeric(0),
+                   data=numeric(0)),
+         contains="ghypbase"
+)
