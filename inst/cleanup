@@ -1,0 +1,5 @@
+#!/bin/bash
+for f in ./doc/*.ps; do
+    rm -f $f
+done
+exit 0

@@ -9,8 +9,8 @@
 }
 \usage{
 portfolio.optimize(object, ptf.mean = 0.01, 
-               risk.measure = c("variance", "quantile", "expected-shortfall"), 
-               level = 0.95,...)
+           risk.measure = c("variance", "quantile", "expected-shortfall"), 
+           level = 0.95,...)
 }
 \arguments{
   \item{object}{A multivariate generalized hyperbolic object.}
@@ -46,7 +46,6 @@ portfolio.optimize(object, ptf.mean = 0.01,
 \examples{
 
 }
-\keyword{distribution}
+\keyword{optimize}
 \keyword{multivariate}
-\keyword{models}  
 \keyword{iteration}

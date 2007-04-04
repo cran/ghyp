@@ -11,18 +11,23 @@
    distribution by using an Expectation Maximization (EM) based algorithm.
 }
 \usage{
-fit.ghypmv(data, lambda = 1, alpha.bar = 1, mu = NULL, sigma = NULL, gamma = NULL, 
-   opt.pars = c(lambda = T, alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
-   symmetric = F, nit = 2000, reltol = 1e-10, abstol = reltol * 10, na.rm = F, 
-   silent = FALSE, save.data = T, ...)   
+fit.ghypmv(data, lambda = 1, alpha.bar = 1, mu = NULL, sigma = NULL, 
+           gamma = NULL, opt.pars = c(lambda = T, alpha.bar = T, mu = T, 
+                                      sigma = T, gamma = !symmetric), 
+           symmetric = F, nit = 2000, reltol = 1e-10, abstol = reltol * 10, 
+           na.rm = F, silent = FALSE, save.data = T, ...)   
            
-fit.hypmv(data, opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = T), ...)
+fit.hypmv(data, 
+          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = T), ...)
 
-fit.NIGmv(data, opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = T), ...)
+fit.NIGmv(data, 
+          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = T), ...)
 
-fit.VGmv(data, lambda = 1, opt.pars = c(lambda = T, mu = T, sigma = T, gamma = T), ...)
+fit.VGmv(data, lambda = 1, 
+         opt.pars = c(lambda = T, mu = T, sigma = T, gamma = T), ...)
 
-fit.tmv(data, nu = 4, opt.pars = c(lambda = T, mu = T, sigma = T, gamma = T), ...)
+fit.tmv(data, nu = 4, 
+        opt.pars = c(lambda = T, mu = T, sigma = T, gamma = T), ...)
 }
 \arguments{
   \item{data}{A \code{vector} or univariate \code{\link{data.frame}}.}
@@ -83,7 +88,8 @@ fit.tmv(data, nu = 4, opt.pars = c(lambda = T, mu = T, sigma = T, gamma = T), ..
 }
 \examples{
   data(smi.stocks)
-  fit.ghypmv(data=smi.stocks,opt.pars=c(lambda=FALSE),lambda=2)
+  fit.ghypmv(data=smi.stocks,opt.pars=c(lambda=FALSE),lambda=2,
+             control=list(rel.tol=1e-5, abs.tol=1e-5), abstol=0.01, reltol=0.01)
 }
 \keyword{iteration}
 \keyword{optimize}

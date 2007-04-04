@@ -29,11 +29,6 @@ lin.transf(object, summand, multiplier)
   lin.transf(multivariate.ghyp, multiplier=1:3)
   ## Simple transformation
   lin.transf(multivariate.ghyp, summand=100:102)
-  ## Dimension increases to 4 (the variance becomes singular)
-  lin.transf(multivariate.ghyp, summand=100:103,multiplier=matrix(rnorm(12),ncol=3))  
 }
-\keyword{distribution}
-\keyword{models}
-\keyword{multivariate}
-
-
+\keyword{utilities}
+     

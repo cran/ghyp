@@ -1,0 +1,49 @@
+\name{stepAIC.ghyp}
+\alias{stepAIC.ghyp}
+\title{Perform a model selection based on the AIC}
+\description{
+  This function performs a model selection in the scope of the 
+  generalized hyperbolic distribution class based on the Akaike information
+  criterion. \code{stepAIC.ghyp} can be used for
+  the univariate as well as for the multivariate case.
+}
+\usage{
+stepAIC.ghyp(data, dist=c("ghyp","hyp","NIG","VG","t"), 
+             symmetric=NULL, ...)
+}
+\arguments{
+  \item{data}{A \code{vector}, \code{matrix} or \code{data.frame}.}
+  \item{dist}{A character vector of distributions from where the best fit will be identified.}
+  \item{symmetric}{Either \code{NULL}, \code{TRUE} or \code{FALSE}. \code{NULL} means that
+                   both symmetric and asymmetric models will be fitted. For symmetric models 
+                   select \code{TRUE} and for asymmetric models select \code{FALSE}.}
+  \item{\dots}{Arguments passed to \code{\link{fit.ghypuv}} or \code{\link{fit.ghypmv}}.}
+}
+\value{
+  A list with components:
+  \item{model}{The model minimizing the AIC.}
+  \item{fit.table}{A \code{data.frame} with columns \code{model}, \code{symmetric},
+                   \code{lambda}, \code{alpha.bar}, \code{aic}, \code{llh} (log-Likelihood),
+                   \code{converged}, \code{n.iter} (number of iterations) sorted according to the 
+                   aic. In the univariate case three additional columns containing 
+                   the parameters \code{mu}, \code{sigma} and \code{gamma} are added.}
+}
+\author{
+  David Lüthi
+}
+\seealso{
+  \code{\link{fit.ghypuv}} and \code{\link{fit.ghypuv}}.
+}
+\examples{
+\dontrun{
+  data(smi.stocks)
+  # Multivariate case:
+  stepAIC.ghyp(smi.stocks[,2:5], dist=c("ghyp","hyp","t"), symmetric=NULL,
+               control=list(maxit=500), silent=T, nit=500)
+  # Univariate case:
+  stepAIC.ghyp(smi.stocks[,"SMI"], dist=c("ghyp","NIG","VG"), symmetric=TRUE,
+               control=list(maxit=500), silent=T)
+
+}
+}
+\keyword{utilities}

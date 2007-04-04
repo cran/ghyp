@@ -43,7 +43,4 @@
   colMeans(vg.sim)
   var(vg.sim)  
 }
-\keyword{distribution}
-\keyword{models}
-\keyword{hplot}
 \keyword{methods}

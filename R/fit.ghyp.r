@@ -1,5 +1,5 @@
 "fit.ghyp" <- function(object,llh=0,n.iter=0,converged=FALSE,error.code=0,
-                     error.message="",parameter.variance)
+                       error.message="",parameter.variance,fitted.params,aic)
 
 {
   if(missing(parameter.variance)){
@@ -10,7 +10,8 @@
                             expected.value=object@expected.value,
                             variance=object@variance,data=object@data,
                             llh=llh,n.iter=n.iter,converged=converged,
-                            error.code=error.code,error.message=error.message))
+                            error.code=error.code,error.message=error.message,
+                            fitted.params=fitted.params, aic=aic))
 
   }else{
     return(new("mle.ghypuv",lambda=object@lambda,chi=object@chi,psi=object@psi,
@@ -21,6 +22,7 @@
                             variance=object@variance,data=object@data,
                             llh=llh,n.iter=n.iter,converged=converged,
                             parameter.variance=parameter.variance,
-                            error.code=error.code,error.message=error.message))
+                            error.code=error.code,error.message=error.message,
+                            fitted.params=fitted.params, aic=aic))
   }
 }

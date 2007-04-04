@@ -12,8 +12,9 @@
   whereas the lower part shows 2-dimensional histogramms.
 }
 \usage{
-\S4method{pairs}{ghypmv}(x, data = ghyp.data(x), main = "'ghypmv' pairwise plot.", nbins = 30, 
-     gaussian = T, qq = T, hist.col = c("white", topo.colors(40)), 
+\S4method{pairs}{ghypmv}(x, data = ghyp.data(x), main = "'ghypmv' pairwise plot.", 
+     nbins = 30, gaussian = T, qq = T, 
+     hist.col = c("white", topo.colors(40)), 
      spline.points = 150, root.tol = .Machine$double.eps^0.5, 
      rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
 }
@@ -42,7 +43,6 @@
   fitted.smi.stocks <- fit.NIGmv(data=smi.stocks[1:200,])
   pairs(fitted.smi.stocks)
 }
-\keyword{distribution}
-\keyword{models}
 \keyword{multivariate}
+\keyword{methods}
 \keyword{hplot}

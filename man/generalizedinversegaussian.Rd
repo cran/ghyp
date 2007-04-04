@@ -17,8 +17,9 @@ dgig(x, lambda = 1, chi = 1, psi = 1)
 pgig(q, lambda = 1, chi = 1, psi = 1, ...)
 
 qgig(p, lambda = 1, chi = 1, psi = 1, method = c("integration", "splines"), 
-   spline.points = 200, subdivisions = 200, root.tol = .Machine$double.eps^0.5, 
-   rel.tol = root.tol^1.5, abs.tol = rel.tol, ...)
+     spline.points = 200, subdivisions = 200, 
+     root.tol = .Machine$double.eps^0.5, 
+     rel.tol = root.tol^1.5, abs.tol = rel.tol, ...)
      
 rgig(n = 10, lambda = 1, chi = 1, psi = 1, envplot = F, messages = F)
 
@@ -87,6 +88,5 @@ Egig(lambda=10,chi=1,psi=1,func="x")
 Egig(lambda=10,chi=1,psi=1,func="var")
 Egig(lambda=10,chi=1,psi=1,func="1/x")
 }
-\keyword{iteration}
 \keyword{distribution}
-\keyword{models}
+\keyword{datagen}

@@ -1,6 +1,8 @@
 "ghyp.fit.info" <- function(object){
   if(is(object, "mle.ghypuv")){
     return(list(logLikelihood = object@llh,
+                aic = object@aic,
+                fitted.params = object@fitted.params,    
                 converged = object@converged,
                 n.iter = object@n.iter,
                 error.code = object@error.code,
@@ -9,6 +11,8 @@
                 
   }else if(is(object, "mle.ghypmv")){
     return(list(logLikelihood = object@llh,
+                aic = object@aic,
+                fitted.params = object@fitted.params,
                 converged = object@converged,
                 n.iter = object@n.iter,
                 error.code = object@error.code,

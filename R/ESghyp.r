@@ -5,8 +5,11 @@
   
   value <- qghyp(p,object,...)
   
-  pdf.args <- list(alpha.bar=object@alpha.bar,lambda=object@lambda,
+##  pdf.args <- list(alpha.bar=object@alpha.bar,lambda=object@lambda,
+##                   mu=object@mu,sigma=object@sigma,gamma=object@gamma)
+  pdf.args <- list(lambda=object@lambda,chi=object@chi,psi=object@psi,
                    mu=object@mu,sigma=object@sigma,gamma=object@gamma)
+                   
   value <- matrix(value,ncol=1)
   es.int.list <- apply(value,MARGIN=1,FUN=p.default,pdf="integrate.moment.ghypuv",
                        lower=-Inf,pdf.args=pdf.args)

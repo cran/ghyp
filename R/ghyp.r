@@ -58,7 +58,7 @@
       if(!is.null(data)){
         data <- check.data(data=data,case="mv",na.rm=F,fit=F)
       }else{
-        data <- matrix(0)
+        data <- matrix(numeric(0))
       }
 
       return(new("ghypmv",lambda=lambda,chi=chi,psi=psi,alpha.bar=alpha.bar,

@@ -5,17 +5,19 @@
 A package on generalized hyperbolic distributions
 }
 \description{
-This package provides all about univariate and multivariate generalized hyperbolic 
-distributions. Especially fitting procedures, computation of the density, quantile, probability, 
-random variates, expected shortfall and some portfolio optimization and plotting routines. 
+Description: This package provides all about univariate and multivariate generalized 
+hyperbolic distributions and its special cases (Hyperbolic, Normal Inverse Gaussian, 
+Variance Gamma and skewed Student-t distribution). Especially fitting procedures, 
+computation of the density, quantile, probability, random variates, expected shortfall 
+and some portfolio optimization and plotting routines. 
 In addition the generalized inverse gaussian distribution is contained in this package.
 }
 \details{
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 0.8.3\cr
-Date: \tab 2007-02-28\cr
+Version: \tab 0.9.0; svn-revision 110\cr
+Date: \tab 2007-04-04\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
 
@@ -50,6 +52,7 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link{fit.NIGmv}} \tab      Fit a normal inverse gaussian distribution to multivariate data\cr
   \code{\link{fit.VGmv}} \tab       Fit a variance gamma distribution to multivariate data\cr
   \code{\link{fit.tmv}} \tab        Fit a skewed student-t distribution to multivariate data\cr      
+  \code{\link{stepAIC.ghyp}} \tab   Perform a model selection based on the AIC\cr     
 }
 
 \strong{Portfolio optimization and utilities:}
@@ -62,7 +65,7 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link{ghyp.moments}} \tab           Expected value and variance of the \code{ghyp} and the \code{GIG} distribution\cr
   \code{\link{ghyp.params}} \tab            Parameters of a generalized hyperbolic distribution \cr
   \code{\link{ghyp.data}} \tab              Data of a (fitted) generalized hyperbolic distribution\cr
-  \code{\link{ghyp.fit.info}} \tab          Information about the fitting procedure\cr      
+  \code{\link{ghyp.fit.info}} \tab          Information about the fitting procedure, log-likelihood and AIC value\cr      
 }
 
 \strong{Plot functions:}
@@ -99,7 +102,7 @@ A document about generalized hyperbolic distributions can be found in the
 }
 %---------------------------------------------------------------------------------------
 \section{Object orientation}{
-We follow an object oriented programming approach in this package and
+We follow an object-oriented programming approach in this package and
 introduce distribution objects. There are mainly four reasons for that:
 \itemize{
   \item Unlike most distributions
@@ -121,16 +124,10 @@ introduce distribution objects. There are mainly four reasons for that:
         classes and some forms of polymorphism.}
 }
 }
-%---------------------------------------------------------------------------------------
-%\section{Extensions and upgrading}{
-%  This package is intended to be extended with further features like copulae et cetera.
-%}
-%---------------------------------------------------------------------------------------
-
 \author{
 Wolfgang Breymann, David Lüthi \cr
 
-Institute of Data Analyses and Process Design (\url{www.idp.zhwin.ch})  \cr
+Institute of Data Analyses and Process Design (\url{http://www.idp.zhwin.ch})  \cr
 
 Maintainer: David Lüthi <david.luethi@zhwin.ch>
 }
@@ -143,8 +140,10 @@ Alexander J. McNeil(2005), S-Plus Library for Quantitative Risk Management
 }
 
 \keyword{package}
-\keyword{dplot}
 \keyword{hplot}
 \keyword{multivariate}
+\keyword{iteration}
+\keyword{optimize}
 \keyword{distribution}
 \keyword{models}
+\keyword{datagen}

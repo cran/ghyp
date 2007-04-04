@@ -14,7 +14,7 @@ qqghyp(object, data = ghyp.data(object), gaussian = T, line = T,
        xlab = "Sample quantiles", ylab = "Theoretical quantiles", 
        ghyp.pch = 1, gauss.pch = 6, ghyp.lty = "solid", 
        gauss.lty = "dashed", ghyp.col = "black", gauss.col = "black", 
-       legend = T, location = "topleft", legend.cex = 0.8, 
+       plot.legend = T, location = "topleft", legend.cex = 0.8, 
        spline.points = 150, root.tol = .Machine$double.eps^0.5, 
        rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
 }
@@ -38,7 +38,7 @@ qqghyp(object, data = ghyp.data(object), gaussian = T, line = T,
   \item{ghyp.col}{A color of the quantiles of the generalized
                   hyperbolic distribution.}
   \item{gauss.col}{A color of the quantiles of the normal distribution.}
-  \item{legend}{If \code{TRUE} a legend is drawn.}
+  \item{plot.legend}{If \code{TRUE} a legend is drawn.}
   \item{location}{The location of the legend. See \code{\link{legend}} for possible values.}
   \item{legend.cex}{The character expansion of the legend. }
   \item{spline.points}{The number of support points when computing the quantiles.
@@ -56,6 +56,5 @@ qqghyp(object, data = ghyp.data(object), gaussian = T, line = T,
   smi <- fit.ghypuv(data=smi.stocks[,"Swiss.Re"])
   qqghyp(smi,spline.points=100)
 }
-\keyword{distribution}
 \keyword{models}
 \keyword{hplot}

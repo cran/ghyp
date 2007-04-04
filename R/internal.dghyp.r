@@ -58,12 +58,12 @@
       if(any(abs(Q)<eps)){
         # If lambda == 0.5 * dimension, there is another singularity.
         if(abs(lambda-0.5*d)<eps){
-          stop("Unhandled singularity: Some observations are close to 0 (<",eps,
+          stop("Unhandled singularity: Some observations are close to 0 (< ",eps,
                ") and lambda is close to 0.5!\n")
         }else{
           Q[abs(Q)<eps] <- sign(Q[abs(Q)<eps])* eps
           Q[Q==0] <- eps
-          warning("Some observations are close to 0 (<",eps,")!\n")
+          warning("Some observations are close to 0 (< ",eps,")!\n", immediate. = TRUE)
         }
       }
       log.top <-

@@ -16,8 +16,9 @@ dghyp(x, object = ghyp(), logvalue = F)
 pghyp(q, object = ghyp(), n.sim = 10000, subdivisions = 200, 
       rel.tol = .Machine$double.eps^0.5, abs.tol = rel.tol)
 
-qghyp(p, object = ghyp(), method = c("integration", "splines"), spline.points = 200, 
-      subdivisions = 200, root.tol = .Machine$double.eps^0.5, 
+qghyp(p, object = ghyp(), method = c("integration", "splines"), 
+      spline.points = 200, subdivisions = 200, 
+      root.tol = .Machine$double.eps^0.5, 
       rel.tol = root.tol^1.5, abs.tol = rel.tol)
 
 rghyp(n, object = ghyp())
@@ -103,7 +104,7 @@ ESghyp(p, object = ghyp(), ...)
   plot(quantiles[,1],pghyp(quantiles,multivariate.ghyp,n.sim=1000))
   rghyp(n=10,multivariate.ghyp)
 }
-\keyword{iteration}
 \keyword{distribution}
 \keyword{models}
 \keyword{multivariate}
+\keyword{datagen}

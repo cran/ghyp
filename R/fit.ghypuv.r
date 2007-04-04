@@ -41,30 +41,34 @@
               transform=transform,se = T,
               silent=silent,...)
 
-   if(tmp.fit$convergence!=0){
-     converged <- FALSE
-   }else{
-     converged <- TRUE
-   }
+  if(tmp.fit$convergence!=0){
+    converged <- FALSE
+  }else{
+    converged <- TRUE
+  }
 
-   if(is.null(tmp.fit$message)){
-     conv.type <- ""
-   }else{
-     conv.type <- paste("Message from 'optim':",tmp.fit$message)
-   }
+  if(is.null(tmp.fit$message)){
+    conv.type <- ""
+  }else{
+    conv.type <- paste("Message from 'optim':",tmp.fit$message)
+  }
 
-   if(save.data==FALSE){
-     data <- numeric(0)
-   }
-   tmp.ghyp.object <- ghyp(lambda=tmp.fit$par.ests["lambda"],
-                           alpha.bar=tmp.fit$par.ests["alpha.bar"],
-                           mu=tmp.fit$par.ests["mu"],
-                           sigma=tmp.fit$par.ests["sigma"],
-                           gamma=tmp.fit$par.ests["gamma"],
-                           data=data)
+  if(save.data==FALSE){
+    data <- NULL
+  }
+  nbr.fitted.params <- unname(sum(opt.pars))
+  aic <- -2 * tmp.fit$ll.max + 2 * nbr.fitted.params 
+  
+  tmp.ghyp.object <- ghyp(lambda=tmp.fit$par.ests["lambda"],
+                          alpha.bar=tmp.fit$par.ests["alpha.bar"],
+                          mu=tmp.fit$par.ests["mu"],
+                          sigma=tmp.fit$par.ests["sigma"],
+                          gamma=tmp.fit$par.ests["gamma"],
+                          data=data)
 
-   return(fit.ghyp(tmp.ghyp.object,llh=tmp.fit$ll.max,n.iter=tmp.fit$n.iter,
-                   converged=converged,
-                   error.code=tmp.fit$convergence, error.message=conv.type,
-                   parameter.variance=tmp.fit$parameter.variance))
+  return(fit.ghyp(tmp.ghyp.object,llh=tmp.fit$ll.max,n.iter=tmp.fit$n.iter,
+                  converged=converged,
+                  error.code=tmp.fit$convergence, error.message=conv.type,
+                  parameter.variance=tmp.fit$parameter.variance,
+                  fitted.params = opt.pars, aic = aic))
 }

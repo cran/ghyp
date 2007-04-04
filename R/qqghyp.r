@@ -5,7 +5,7 @@
                    ghyp.pch = 1,gauss.pch=6,ghyp.lty="solid",
                    gauss.lty="dashed",ghyp.col="black",
                    gauss.col="black",
-                   legend=T,location="topleft",legend.cex=0.8,
+                   plot.legend=T,location="topleft",legend.cex=0.8,
                    spline.points=150,
                    root.tol = .Machine$double.eps^0.5,
                    rel.tol = root.tol,abs.tol = root.tol^1.5,
@@ -40,7 +40,7 @@
     }
   }
 
- if(legend==TRUE){
+ if(plot.legend==TRUE){
   if(gaussian==TRUE){
     legend(location,legend=c(object@model,"Gaussian"),col=c(ghyp.col,gauss.col),
            lty=c(ghyp.lty,gauss.lty),cex=legend.cex,pch=c(ghyp.pch,gauss.pch))

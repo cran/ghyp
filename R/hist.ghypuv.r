@@ -1,8 +1,8 @@
 "hist.ghypuv"   <- function(x,data=ghyp.data(x),
-                        gaussian=TRUE,log=F,ylim=NULL,
+                        gaussian=TRUE,log.hist=F,ylim=NULL,
                         ghyp.col=1,ghyp.lwd=1,ghyp.lty="solid",
-                        col=1,nclass=30,legend=TRUE,
-                        location=if (log) "bottom" else "topright",
+                        col=1,nclass=30,plot.legend=TRUE,
+                        location=if (log.hist) "bottom" else "topright",
                         legend.cex=1,...)
 {
   test.class.ghyp(x,"ghypuv")
@@ -16,8 +16,8 @@
     ylim <- c(0,max(tmp.d.ghyp))
   }
 
-  if(log==TRUE){
-    tmp.hist <- hist(data,prob=T,plot=F,nclass=nclass,...)
+  if(log.hist==TRUE){
+    tmp.hist <- suppressWarnings(hist(data,probability=T,plot=F,nclass=nclass,...))
     ghyp.data <- tmp.hist$breaks[2:length(tmp.hist$breaks)]-diff(tmp.hist$breaks)[1]/2
     Density <- tmp.hist$density
     plot(ghyp.data,log(Density),col=col,...)
@@ -26,15 +26,15 @@
       lines(x.gh,log(dnorm(x.gh,mean=mean(data),sd=sd(data))),col=col)
     }
   }else{
-    hist(data,ylim=ylim,prob=T,nclass=nclass,...)
+    hist(data,ylim=ylim,probability=T,nclass=nclass,...)
     lines(x.gh,tmp.d.ghyp,col=ghyp.col,lwd=ghyp.lwd,lty=ghyp.lty)
     if(gaussian==TRUE){
       lines(x.gh,dnorm(x.gh,mean=mean(data),sd=sd(data)),col=col)
     }
   }
-  if(legend==TRUE){
+  if(plot.legend==TRUE){
 
-    if(log==TRUE){
+    if(log.hist==TRUE){
       if(gaussian==TRUE){
         tmp.text <- c("Histogramm",x@model,"Gaussian")
         tmp.col <- c(col,ghyp.col,col)

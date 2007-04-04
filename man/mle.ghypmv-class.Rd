@@ -6,7 +6,9 @@
 \title{Class mle.ghypmv}
 \description{The class \dQuote{mle.ghypmv} inherits from the class \dQuote{ghypmv}. In addition
   to the class \dQuote{ghypmv} this class stores fitting information. Namely the
-  number of iterations \code{n.iter}, the log likelihood value \code{llh},
+  number of iterations \code{n.iter}, the log likelihood value \code{llh}, 
+  the Akaike Information Criterion \code{aic}, a boolean vector stating which parameters were fitted
+  \code{fitted.params},
   a boolean \code{converged} whether the fitting procedure converged or not, 
   an \code{error.code} which stores the status of a possible error and 
   the corresponding \code{error.message}}
@@ -46,6 +48,8 @@
                              Object of class \code{"logical"}.}
     \item{\code{error.code}:}{An error code of class \code{"numeric"}.}
     \item{\code{error.message}:}{An error message of class \code{"character"}.}
+    \item{\code{fitted.params}:}{A boolean vector stating which parameters were fitted of class \code{"logical"}.}
+    \item{\code{aic}:}{The value of the Akaike Information Criterion of class \code{"numeric"}.}    
   }
 }
 \section{Extends}{
@@ -58,6 +62,10 @@ Class \code{"\linkS4class{ghypbase}"}, by class "ghypmv", distance 2.
    A \dQuote{vcov} method (see \code{\link[=vcov.ghypbase]{vcov}}). 
 }
 \author{David Lüthi}
+\note{
+  When showing special cases of the generalized hyperbolic distribution
+  the corresponding fixed parameters are plotted in brackets.
+}
 \seealso{
   \code{\link{optim}} for an interpretation of \code{error.code} and \code{error.message}, 
   \code{\link{fit.ghypmv}} where objects of class \code{mle.ghypuv} were created,

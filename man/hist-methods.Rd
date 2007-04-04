@@ -9,8 +9,9 @@
 }
 \usage{
 \S4method{hist}{ghypuv}(
-      x, data = ghyp.data(x), gaussian = TRUE, log = F, ylim = NULL, ghyp.col = 1, 
-      ghyp.lwd = 1, ghyp.lty = "solid", col = 1, nclass = 30, legend = TRUE, 
+      x, data = ghyp.data(x), gaussian = TRUE, log.hist = F, ylim = NULL, 
+      ghyp.col = 1, ghyp.lwd = 1, ghyp.lty = "solid", col = 1, 
+      nclass = 30, plot.legend = TRUE, 
       location = if (log) "bottom" else "topright", legend.cex = 1, ...)
 }
 \arguments{
@@ -19,7 +20,7 @@
            an object of class \code{\link[=ghypuv-class]{ghypuv}} and a data vector.}
   \item{data}{A vector.}
   \item{gaussian}{If \code{TRUE} a qq-plot of the normal distribution is plotted as a reference.}
-  \item{log}{If \code{TRUE} the logarithm of the histogramm is plotted.}
+  \item{log.hist}{If \code{TRUE} the logarithm of the histogramm is plotted.}
   \item{ylim}{The y limits of the plot.}
   \item{ghyp.col}{The color of the density of the generalized
                   hyperbolic distribution.}
@@ -29,7 +30,7 @@
                   hyperbolic distribution.}
   \item{col}{The color of the histogramm.}
   \item{nclass}{A single number giving the number of cells for the histogramm.}
-  \item{legend}{If \code{TRUE} a legend is drawn.}
+  \item{plot.legend}{If \code{TRUE} a legend is drawn.}
   \item{location}{The location of the legend. See \code{\link{legend}} for possible values.}
   \item{legend.cex}{The character expansion of the legend.}
   \item{\dots}{Arguments passed to \code{\link{plot}} and  \code{\link{qqghyp}}.}
@@ -47,7 +48,5 @@
                                opt.pars=c(mu=FALSE,sigma=FALSE),symmetric=T)
   hist(univariate.fit)
 }
-\keyword{distribution}
-\keyword{models}
 \keyword{hplot}
 \keyword{methods}

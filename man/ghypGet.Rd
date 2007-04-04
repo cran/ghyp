@@ -23,16 +23,20 @@ ghyp.fit.info(object)
 \arguments{
   \item{object}{An object inheriting from class 
                \code{\link[=ghypbase-class]{ghypbase}}.}
-  \item{type}{The parameters of either the \dQuote{alpha.bar} or the \dQuote{chi/psi}
-                    parametrization will be returned.}
+  \item{type}{The parameters of either the (\code{lambda, alpha.bar, mu, sigma, gamma}) or
+              the (\code{lambda, chi, psi, mu, sigma, gamma})
+              parametrization will be returned.}
 }
 \value{
-  \code{ghyp.params} reutrns a list with components:
+  \code{ghyp.params} reutrns the parameters of the generalized hyperbolic distribution                     
+                     as a list with components:
   \tabular{rl}{
-  \code{e.ghyp} \tab Expected value of a generalized hyperbolic distribution. \cr
-  \code{var.ghyp} \tab Variance of a generalized hyperbolic distribution.\cr
-  \code{e.gig} \tab Expected value of the corresponding generalized inverse gaussian distribution.\cr
-  \code{var.gig}\tab Variance of the corresponding generalized inverse gaussian distribution.\cr   
+  \code{lambda} \tab Shape parameter. \cr
+  \code{alpha.bar} \tab Shape parameter. \cr
+  \code{chi/psi} \tab Shape parameters. \cr  
+  \code{mu} \tab Location parameter. \cr
+  \code{sigma}\tab Dispersion parameter.\cr   
+  \code{gamma}\tab Skewness parameter.\cr   
   }
   
   \code{ghyp.moments} reutrns a list with components:  
@@ -45,6 +49,9 @@ ghyp.fit.info(object)
 
   \code{ghyp.fit.info} returns list with components: 
   \tabular{rl}{
+  \code{logLikelihood} \tab  The maximized log-likelihood value.\cr
+  \code{aic} \tab  The Akaike information criterion.\cr
+  \code{fitted.params} \tab  A boolean vector stating which parameters were fitted.\cr
   \code{converged} \tab  A boolean whether \code{\link{optim}} converged or not.\cr
   \code{n.iter} \tab The number of iterations. \cr
   \code{error.code} \tab Error code from \code{\link{optim}}.\cr
@@ -76,10 +83,7 @@ ghyp.fit.info(object)
   Data can be stored either when initializing an object of class 
   \code{\link[=ghypuv-class]{ghypuv}} or 
   \code{\link[=ghypmv-class]{ghypmv}} or using \code{\link{ghyp}} or
-  via the fitting routines  \code{\link{fit.ghypuv}} or \code{\link{fit.ghypmv}}.\cr
-  
-  When showing special cases of the generalized hyperbolic distribution
-  the corresponding parameters are plotted in brackets.
+  via the fitting routines  \code{\link{fit.ghypuv}} or \code{\link{fit.ghypmv}}.
 }
 \seealso{\code{\link[=mean.ghypbase]{mean}}, \code{\link[=vcov.ghypbase]{vcov}}, 
          \code{\link{fit.ghypmv}}, \code{\link{fit.ghypuv}}, \code{\link{ghyp}}, \code{\link{optim}}}
@@ -99,8 +103,7 @@ ghyp.fit.info(object)
 
   ## 'ghyp.fit.info' does only work when the object is of class 'mle.ghypuv' 
   ## or 'mle.ghypmv', i.e. is created using 'fit.ghypuv' etc.
-  mv.fit <- fit.tmv(data = ghyp.data(ghyp.mv))
+  mv.fit <- fit.tmv(data = ghyp.data(ghyp.mv), control=list(abs.tol=1e-3))
   ghyp.fit.info(mv.fit)
 }
-\keyword{internal}
 \keyword{utilities}

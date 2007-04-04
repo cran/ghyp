@@ -21,7 +21,7 @@ NIG(chi = 2, psi = 2, mu = 0, sigma = 1, gamma = 0, alpha.bar = NULL,
 
 student.t(nu = 5, mu = 0, sigma = 1, gamma = 0, data = NULL)  
 
-VG(lambda = 1, mu = 0, sigma = 1, gamma = 0, data = NULL)
+VG(lambda = 1, psi = 2*lambda, mu = 0, sigma = 1, gamma = 0, data = NULL)
 }
 \arguments{
   \item{lambda}{Shape parameter.}
@@ -81,15 +81,15 @@ VG(lambda = 1, mu = 0, sigma = 1, gamma = 0, data = NULL)
   ## lambda/chi parametrization of a multivariate generalized hyperbolic distribution
   ghyp(lambda=1, chi=1, psi=0.5, mu=rep(0,2), sigma=diag(rep(1,2)), gamma=rep(0,2))
 
-  ## lambda/chi parametrization of a univariate hyperbolic distribution
-  hyp(chi=1, psi=2, mu=1, sigma=0.1, gamma=0)
   ## alpha.bar parametrization of a univariate hyperbolic distribution
   hyp(alpha.bar=0.3, mu=1, sigma=0.1, gamma=0)
+  ## lambda/chi parametrization of a univariate hyperbolic distribution
+  hyp(chi=1, psi=2, mu=1, sigma=0.1, gamma=0)
 
-  ## lambda/chi parametrization of a univariate normal inverse gaussian distribution
-  NIG(chi=1, psi=2, mu=1, sigma=0.1, gamma=0)
   ## alpha.bar parametrization of a univariate normal inverse gaussian distribution
   NIG(alpha.bar=0.3, mu=1, sigma=0.1, gamma=0)
+  ## lambda/chi parametrization of a univariate normal inverse gaussian distribution
+  NIG(chi=1, psi=2, mu=1, sigma=0.1, gamma=0)
   
   ## alpha.bar parametrization of a univariate variance gamma distribution   
   VG(lambda=2, mu=1, sigma=0.1, gamma=0)
@@ -97,7 +97,6 @@ VG(lambda = 1, mu = 0, sigma = 1, gamma = 0, data = NULL)
   ## alpha.bar parametrization of a univariate student-t distribution 
   student.t(nu = 3, mu=1, sigma=0.1, gamma=0)
 }
-\keyword{classes}
 \keyword{distribution}
 \keyword{multivariate}
 \keyword{models}

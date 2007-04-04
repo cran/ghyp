@@ -6,7 +6,9 @@
 \title{Class mle.ghypuv}
 \description{The class \dQuote{mle.ghypuv} inherits from the class \dQuote{ghypuv}. In addition
   to the class \dQuote{ghypuv} this class stores fitting information. Namely the
-  number of iterations \code{n.iter}, the log likelihood value \code{llh},
+  number of iterations \code{n.iter}, the log likelihood value \code{llh}, 
+  a boolean vector stating which parameters were fitted
+  \code{fitted.params}, the Akaike Information Criterion \code{aic},
   a boolean \code{converged} whether the fitting procedure converged or not, 
   an \code{error.code} which stores the status of a possible error, 
   the corresponding \code{error.message} and the \code{parameter.variance}.}
@@ -49,6 +51,8 @@
     \item{\code{error.message}:}{An error message of class \code{"character"}.}
     \item{\code{parameter.variance}:}{The parameter variance is calculated to be the inverse of the fisher information matrix. 
          Parameter.variance is of class \code{"matrix"}.}
+    \item{\code{fitted.params}:}{A boolean vector stating which parameters were fitted of class \code{"logical"}.}
+    \item{\code{aic}:}{The value of the Akaike Information Criterion of class \code{"numeric"}.}  
   }
 }
 \section{Extends}{
@@ -66,6 +70,10 @@ Class \code{"\linkS4class{ghypbase}"}, by class "ghypuv", distance 2.
   \code{\link{fit.ghypuv}} where objects of class \code{mle.ghypuv} are created,
   \code{\link{ghypuv-class}} to have a look on the base class.
 
+}
+\note{
+  When showing special cases of the generalized hyperbolic distribution
+  the corresponding fixed parameters are plotted in brackets.
 }
 \examples{
   data(smi.stocks)

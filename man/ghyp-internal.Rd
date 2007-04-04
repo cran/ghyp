@@ -17,7 +17,7 @@ check.norm.pars(mu, sigma, gamma)
 check.opt.pars(opt.pars)
 
 fit.ghyp(object, llh = 0, n.iter = 0, converged = FALSE, error.code = 0, 
-         error.message = "", parameter.variance)
+         error.message = "", parameter.variance, fitted.params, aic)
          
 gh.model(lambda, chi, psi, gamma) 
 

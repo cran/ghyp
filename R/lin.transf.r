@@ -8,38 +8,6 @@
   ##                                              ghyp object and 'k' must be
   ##                                              the length of 'summand'
   ## (4) 'multiplier' and 'summand' are missing: -> stop
-##  if(missing(summand)){
-##  ## stop if 'summand' and 'multiplier' are missing 
-##    if(missing(multiplier)){
-##      stop("No arguments submitted!")
-##    }
-##    summand <- rep(0,nrow(multiplier))
-##  }else{
-##     if(!is.numeric(summand)){
-##        stop("Summand must be numeric!")
-##     }
-##     if(missing(multiplier)){
-##       if(length(summand)!=object@dimension){
-##          stop("Length of summand must be ",object@dimension,"!",sep="")
-##       }
-##     }else{
-##       if(length(summand)!=nrow(multiplier)){
-##          stop("lin.transf: length of summand must be of dimension ",
-##               nrow(multiplier),"!",sep="")
-##       }
-##     }
-##  }
-##  if(missing(multiplier)){
-##    multiplier <- diag(rep(1,object@dimension))
-##  }else{
-##     if(!is.numeric(multiplier)){
-##        stop("Multiplier must be numeric!")
-##     }
-##     if(ncol(multiplier)!=object@dimension){
-##        stop("Dimension of multiplier must be ",
-##             ncol(multiplier)," x ",object@dimension,"!",sep="")
-##     }
-##  }
   if(missing(summand) & missing(multiplier)){
   ## stop if 'summand' and 'multiplier' are missing 
     stop("No arguments submitted!")
@@ -70,20 +38,29 @@
         stop("Dimension mimatch: length(summand) must be equal to nrow(multiplier)!")
      }  
   }
+  if(length(summand) > object@dimension){
+    stop("Do not extend the dimension of the ghyp distribution, i.e. ncol(multiplier) ",
+         "and length(summand) must be <= dimension!")
+  }
+  if(any(diag(multiplier)==0)){
+    stop("Diagonal elements of multiplier must not be '0'!")
+  }  
   sigma <- multiplier %*% object@sigma %*% t(multiplier)
   if(ncol(sigma)==1){
     sigma <- as.vector(sigma)
+    if(object@dimension==1){
+      sigma <- sigma * object@sigma
+    }
   }
   if(length(summand)==1){
-    return(ghyp(lambda = object@lambda,alpha.bar=object@alpha.bar,
+    return(ghyp(lambda = object@lambda,chi=object@chi,psi=object@psi,
                 mu =  as.vector(multiplier %*% object@mu + summand),
                 sigma=sqrt(sigma),
                 gamma=as.vector(multiplier %*% object@gamma)))
   }else{
-    return(ghyp(lambda = object@lambda,alpha.bar=object@alpha.bar,
+    return(ghyp(lambda = object@lambda,chi=object@chi,psi=object@psi,
                 mu =  as.vector(multiplier %*% object@mu + summand),
                 sigma=sigma,
                 gamma=as.vector(multiplier %*% object@gamma)))
-  
   }
 }

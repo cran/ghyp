@@ -176,15 +176,22 @@
     converged <- T
   }
 
-   if(save.data==T){
-      data <- data
-   }else{
-     data <- matrix(0)
-   }
-   tmp.ghyp.object <- ghyp(lambda=lambda,alpha.bar=alpha.bar,
-                             mu=mu,sigma=sigma,gamma=gamma,data=data)
+  if(save.data==T){
+     data <- data
+  }else{
+    data <- NULL
+  }
 
-   return(fit.ghyp(tmp.ghyp.object,llh=ll,n.iter=i,converged=converged,
-                   error.code=conv, error.message=conv.type))
+  nbr.fitted.params <- unname(sum(opt.pars[c("alpha.bar","lambda")]) + 
+                              d * sum(opt.pars[c("mu","gamma")]) +
+                              d/2 * (d + 1) * opt.pars[c("sigma")])
+  aic <- -2 * ll + 2 * nbr.fitted.params 
+  
+  tmp.ghyp.object <- ghyp(lambda=lambda,alpha.bar=alpha.bar,
+                          mu=mu,sigma=sigma,gamma=gamma,data=data)
+
+  return(fit.ghyp(tmp.ghyp.object,llh=ll,n.iter=i,converged=converged,
+                  error.code=conv, error.message=conv.type,
+                  fitted.params = opt.pars, aic = aic))
 }
 

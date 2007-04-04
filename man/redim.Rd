@@ -25,6 +25,4 @@ redim(object, dim = c(1, 2))
   redim(multivariate.ghyp,dim=1)
   redim(multivariate.ghyp,dim=c(1,3))
 }
-\keyword{distribution}
-\keyword{models}
-\keyword{multivariate}
+\keyword{utilities}

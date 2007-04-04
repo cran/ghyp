@@ -14,7 +14,7 @@
        gamma=gamma, alpha.bar=0, data=data)
 }
 #<--------------------------------   VG   ------------------------------------>
-"VG" <- function(lambda=1, mu=0, sigma=1, gamma=0, data=NULL){
-  ghyp(lambda=lambda, chi=0, psi=2 * lambda, mu=mu, sigma=sigma, 
+"VG" <- function(lambda=1, psi = 2*lambda, mu=0, sigma=1, gamma=0, data=NULL){
+  ghyp(lambda=lambda, chi=0, psi=psi, mu=mu, sigma=sigma, 
        gamma=gamma, alpha.bar=NULL, data=data)
 }

@@ -11,21 +11,25 @@
 }
 \usage{
 fit.ghypuv(data, lambda = 1, alpha.bar = 0.1, mu = mean(data), 
-    sigma = sqrt(var(data)), gamma = 0, 
-    opt.pars = c(lambda = T, alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
-    symmetric = F, save.data = T, na.rm = T, silent = FALSE, ...)
+           sigma = sqrt(var(data)), gamma = 0, 
+           opt.pars = c(lambda = T, alpha.bar = T, mu = T, 
+                        sigma = T, gamma = !symmetric), 
+           symmetric = F, save.data = T, na.rm = T, silent = FALSE, ...)
            
-fit.hypuv(data, opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
+fit.hypuv(data, 
+          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
           symmetric = F, ...)
 
-fit.NIGuv(data, opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
+fit.NIGuv(data, 
+          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
           symmetric = F, ...)
 
 fit.VGuv(data, lambda = 1, 
          opt.pars = c(lambda = T, mu = T, sigma = T, gamma = !symmetric), 
          symmetric = F, ...)
 
-fit.tuv(data, nu = 4, opt.pars = c(nu = T, mu = T, sigma = T, gamma = !symmetric), 
+fit.tuv(data, nu = 4, 
+        opt.pars = c(nu = T, mu = T, sigma = T, gamma = !symmetric), 
         symmetric = F, ...)
 }
 \arguments{
@@ -69,7 +73,8 @@ fit.tuv(data, nu = 4, opt.pars = c(nu = T, mu = T, sigma = T, gamma = !symmetric
 }
 \examples{
   data(smi.stocks)
-  fit.NIGuv(data=smi.stocks[,"SMI"],opt.pars=c(alpha.bar=FALSE),alpha.bar=1)
+  fit.NIGuv(data=smi.stocks[,"SMI"],opt.pars=c(alpha.bar=FALSE),alpha.bar=1,
+            control=list(abs.tol = 1e-5, maxit = 100))
 }
 }
 \keyword{iteration}
