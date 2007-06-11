@@ -18,7 +18,7 @@
 
   if(log.hist==TRUE){
     tmp.hist <- suppressWarnings(hist(data,probability=T,plot=F,nclass=nclass,...))
-    ghyp.data <- tmp.hist$breaks[2:length(tmp.hist$breaks)]-diff(tmp.hist$breaks)[1]/2
+    ghyp.data <- tmp.hist$breaks[-1]-diff(tmp.hist$breaks)[1]/2
     Density <- tmp.hist$density
     plot(ghyp.data,log(Density),col=col,...)
     lines(x.gh,log(tmp.d.ghyp),col=ghyp.col,lwd=ghyp.lwd,lty=ghyp.lty)

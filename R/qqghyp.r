@@ -1,7 +1,7 @@
 "qqghyp" <- function(object,data=ghyp.data(object),
                    gaussian=T,line=T,
                    main="Generalized Hyperbolic Q-Q Plot",
-                   xlab="Sample quantiles",ylab="Theoretical quantiles",
+                   xlab="Theoretical Quantiles",ylab="Sample Quantiles",
                    ghyp.pch = 1,gauss.pch=6,ghyp.lty="solid",
                    gauss.lty="dashed",ghyp.col="black",
                    gauss.col="black",
@@ -24,19 +24,19 @@
                   rel.tol=rel.tol,abs.tol=abs.tol)
   emp.q <- sort(data)
 
-##   plot ghyp quantiles
-  plot(emp.q,ghyp.q,xlab=xlab,ylab=ylab,pch=ghyp.pch,col=ghyp.col,
+  ## plot ghyp quantiles
+  plot(ghyp.q,emp.q,xlab=xlab,ylab=ylab,pch=ghyp.pch,col=ghyp.col,
        main=main,...)
 
   if(gaussian==TRUE){
     gauss.q <- qnorm(ghyp.p,mean=mean(data),sd=sd(data))
-    points(emp.q,gauss.q,pch=gauss.pch,col=gauss.col)
+    points(gauss.q,emp.q,pch=gauss.pch,col=gauss.col)
   }
 
   if(line==TRUE){
-    abline(lm(ghyp.q ~ emp.q),lty=ghyp.lty,col=ghyp.col)
+    abline(lm(emp.q ~ ghyp.q),lty=ghyp.lty,col=ghyp.col)
     if(gaussian==TRUE){
-      abline(lm(gauss.q ~ emp.q),lty=gauss.lty,col=gauss.col)
+      abline(lm(emp.q ~ gauss.q),lty=gauss.lty,col=gauss.col)
     }
   }
 

@@ -11,7 +11,6 @@
 \usepackage{amstext}
 \usepackage{amsfonts}
 \usepackage{hyperref}
-\usepackage[round]{natbib}
 \usepackage{graphicx}
 \usepackage{url}
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,7 +103,6 @@
 \lhead{\thepage}
 \cfoot{\empty}
 
-
 \renewcommand{\labelenumi}{(\roman{enumi})}
 \numberwithin{equation}{section}
 \numberwithin{table}{section}
@@ -123,7 +121,6 @@
   linkcolor = {darkblue},
   citecolor = {darkblue},
   urlcolor = {darkblue},
-  hyperindex = {true},
   linktocpage = {true},
 }
 
@@ -154,8 +151,8 @@ Some code chunks indicate how the package \ghyp can be used.
 \tableofcontents{}
 \clearpage
 %-------------------------------------------------------------------------
+%-------------------------- Introduction --------------------------------------
 \section{Introduction}
-
 The origin of this package goes back to the first authors' years at
 RiskLab, when he worked together with Alexander McNeil to develop an
 algorithm for fitting multivariate generalized hyperbolic
@@ -167,11 +164,11 @@ one can choose between different parametrizations. In addition, with
 the present library it is possible to fit multivariate as well as univariate generalized
 hypberbolic distributions and not only the special cases.
 %-------------------------------------------------------------------------
+%-------------------------- Definition --------------------------------------
 \section{Definition}
 Facts about generalized hyperbolic (GH) distributions are cited according to
 \cite{mcneil} chapter $3.2$.\\[1ex]
 %-------------------------------------------------------------------------
-%-------------------------- Definition --------------------------------------
 The random vector $\X$ is said to have a multivariate
 GH distribution if
 \begin{equation}\label{eq:ghd}
@@ -186,7 +183,7 @@ where
    of $\Z$ and has a Generalized Inverse Gauss distribution (see appendix \ref{GIG}).
 \end{enumerate}
 %-------------------------------------------------------------------------
-%-------------------------- Expected & Variance ------------------------------
+%-------------------------- Expected value & Variance --------------------
 \subsection{Expected value and variance}
 The expected value and the variance are given by
 \begin{eqnarray}
@@ -223,7 +220,7 @@ with mean $\MU + W \GAMMA$ and variance $ W \Sigma$ the GH density
 can be found in the following way.
 %-----------------------------------------------------
 \begin{eqnarray}\label{eq:fghyp}
-  f_\X(x) &=& \int_0^\infty f_{\X|W}(x|w) \, f_W(w) \, \dd w \\ \nonumber
+  f_\X(\x) &=& \int_0^\infty f_{\X|W}(\x|w) \, f_W(w) \, \dd w \\ \nonumber
           &=& \int_0^\infty
                 \frac{e^{(\x-\MU)'\InvSigma\GAMMA}}
               {(2\pi)^{\frac{d}{2}}\dete{\Sigma}^{\OneDivTwo}w^{\dDivTwo}}
@@ -238,9 +235,10 @@ can be found in the following way.
             e^{(\x - \MU)'\InvSigma \GAMMA}}
             {(\sqrt{(\chi + \QX)(\psi + \GammaSigGamma)})^{\dDivTwo - \lambda}}
 \end{eqnarray}
-where $\QX$ denotes the mahalanobis distance and the relation (\ref{eq:besselrelation})
+where the relation (\ref{eq:besselrelation})
 of the modified bessel function of the third kind $\BesselLambda(\cdot)$ (\ref{eq:bessel})
-is used. The constraints of the parameters $\lambda, \chi$ and $\psi$ were
+is used and $\QX$ denotes the mahalanobis distance $\QX = (\x - \MU)' \InvSigma (\x - \MU)$.
+The constraints of the parameters $\lambda, \chi$ and $\psi$ are
 described in appendix \ref{eq:gigconstraints}.
 %-------------------------------------------------------------------------
 %-------------------------- Parametrization ------------------------------
@@ -393,12 +391,11 @@ The different steps of the MCECM algorithm are sketched as follows:
   \item{Maximise the second summand of (\ref{eq:likelihood}) with respect to
         $\lambda$, $\chi$ and $\psi$ to complete the calculation of $\Theta^{[k,2]}$
         and go back to step (2). Note that the objective function must calculate
-        $\chi$ and $\psi$ in dependence of $\lambda$ and $\abar$ using the relation
+        $\chi$ and $\psi$ in dependence of $\lambda$ and $\abar$ using relation
         (\ref{eq:abartochipsi}).
        }
 \end{enumerate}
 
-%-------------------------------------------------------------------------
 %-------------------------------------------------------------------------
 %-------------------------- Special cases ------------------------------
 \section{Special cases of the generalized hyperbolic distribution}\label{sec:specialcases}
@@ -419,9 +416,8 @@ known under special names \cite{mcneil}.
 \end{itemize}
 All the necessary formulas to fit the special cases can be found in the appendix.
 %-------------------------------------------------------------------------
-%-------------------------------------------------------------------------
-%-------------------------- Bessel ------------------------------
 \begin{appendix}
+%-------------------------- Bessel ------------------------------
 %-------------------------------------------------------------------------
 \section{Modified Bessel function of the third kind}
 The modified bessel function of the
@@ -561,7 +557,6 @@ detach(package:ghyp)
 \end{figure}
 \vspace{1cm}
 %-------------------------------------------------------------------------
-%-------------------------------------------------------------------------
 %------------------- Density of the special cases -----------------------
 \section{Densities of the special cases of the generalized hyperbolic
 distribution}
@@ -576,7 +571,7 @@ fix the parameter $\lambda$ either to $(d+1)/2$ or $-0.5$.
 With relation (\ref{eq:bessellimit2}) it can be easily shown that
 when $\psi \rightarrow 0$ and $\lambda < 0$ the density results in
 \begin{equation}
-  f_t(\x) = \frac{\chi^{-\lambda}
+  f_\X(\x) = \frac{\chi^{-\lambda}
             (\GammaSigGamma)^{\dDivTwo-\lambda}}
             {(2\pi)^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(-\lambda) 2^{-\lambda - 1}}\times
@@ -605,7 +600,7 @@ Because $\psi = 0$ the transformation of $\abar$ to $\chi$ and $\psi$
 \end{equation}
 Putting it all together the density is calculated to be
 \begin{equation}
-  f_t(\x) = \frac{(\nu - 2)^\NuDivTwo (\GammaSigGamma)^{\NuPlusDdivTwo}}
+  f_\X(\x) = \frac{(\nu - 2)^\NuDivTwo (\GammaSigGamma)^{\NuPlusDdivTwo}}
             {(2\pi)^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(\NuDivTwo) 2^{\NuDivTwo - 1}}\times
             \frac{\Bessel{\NuPlusDdivTwo}(
@@ -615,18 +610,18 @@ Putting it all together the density is calculated to be
 \end{equation}
 When $\GAMMA \rightarrow 0$ we observe the symmetric multivariate t distribution
 \begin{equation}
-  f_t(\x)) = \frac{(\nu - 2)^\NuDivTwo \Gamma(\NuPlusDdivTwo)}
+  f_\X(\x) = \frac{(\nu - 2)^\NuDivTwo \Gamma(\NuPlusDdivTwo)}
             {\pi^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(\NuDivTwo) (\nu - 2 + \QX)^{\NuPlusDdivTwo}}.
 \end{equation}
 %-------------------------------------------------------------------------
 %----------------------- Variance gamma distribution -------------------
 \subsection{Variance gamma distribution}
-The relation (\ref{eq:bessellimit2}) can be used again to show that
-when $\psi \rightarrow 0$ and $\lambda > 0$ the density of the
+Relation (\ref{eq:bessellimit1}) can be used again to show that
+for $\chi \rightarrow 0$ and $\lambda > 0$ the density of the
 GH distribution results in
 \begin{equation}
-  f_t(\x) = \frac{\psi^{\lambda}
+  f_\X(\x) = \frac{\psi^{\lambda}
             (\psi + \GammaSigGamma)^{\dDivTwo-\lambda}}
             {(2\pi)^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(\lambda) 2^{\lambda - 1}}\times
@@ -644,7 +639,7 @@ In the case of a variance gamma distribution the transformation of $\abar$ to $\
 \end{equation}
 Thus, the density is
 \begin{equation}
-  f_t(\x) = \frac{2 \, \lambda^{\lambda}
+  f_\X(\x) = \frac{2 \, \lambda^{\lambda}
             (2 \lambda + \GammaSigGamma)^{\dDivTwo-\lambda}}
             {(2\pi)^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(\lambda)}\times
@@ -653,9 +648,24 @@ Thus, the density is
             \,\, e^{(\x - \MU)'\InvSigma \GAMMA}}
             {(\sqrt{\QX (2 \lambda +\GammaSigGamma)})^{\dDivTwo - \lambda}}.
 \end{equation}
-
+% Second limiting case:
+A limiting case arises when $\QX \rightarrow 0$, that is when $\x - \MU \rightarrow 0$. 
+As long as $\lambda - \dDivTwo > 0$
+relation (\ref{eq:bessellimit1}) can be used to verify that the density reduces to
+\begin{equation}
+  f_\X(\x) = \frac{\psi^{\lambda}
+            (\psi + \GammaSigGamma)^{\dDivTwo-\lambda} \, \Gamma(\lambda - \dDivTwo)}
+            {2^d \, \pi^{\dDivTwo} \, \dete{\Sigma}^\OneDivTwo \, \Gamma(\lambda)}.
+\end{equation}
+By replacing $\psi$ with $2\lambda$ the limiting density is obtained in the
+($\LambdaAbar$)-parametrization. 
+\footnote{The numeric implementation in \R uses 
+spline interpolation for the range where $\QX < \epsilon$.}\\[2ex]
+For $\lambda - \dDivTwo \leq 0$  the density diverges. \footnote{The current 
+workaround in \R $\,$ simply sets observations where $\QX < \epsilon$ to
+$\epsilon$.} 
 %-------------------------------------------------------------------------
-%-------------   conditional density of the mixing variable W --------------
+%-------------   Conditional density of the mixing variable W --------------
 \section{Conditional density of the mixing variable $W$}
 Performing the E-Step of the MCECM algorithm requires the calculation
 of the conditional expectation of $w_i$ given $\x_i$. In this section
@@ -735,7 +745,7 @@ introduce distribution objects. There are mainly four reasons for that:
         the distribution object.
         }
   \item{Generic method dispatching can be used to provide a uniform interface to, e.g.,
-        simulate random variates of a specific distribution like \verb=rand(n, distribution.object)=.
+        calculate the expected value \verb=mean(distribution.object)=.
         Additionally, one can take advantage of generic programming since \R provides virtual
         classes and some forms of polymorphism.}
 \end{enumerate}

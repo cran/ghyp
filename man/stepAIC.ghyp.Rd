@@ -21,7 +21,8 @@ stepAIC.ghyp(data, dist=c("ghyp","hyp","NIG","VG","t"),
 }
 \value{
   A list with components:
-  \item{model}{The model minimizing the AIC.}
+  \item{best.model}{The model minimizing the AIC.}
+  \item{all.models}{All fitted models.}
   \item{fit.table}{A \code{data.frame} with columns \code{model}, \code{symmetric},
                    \code{lambda}, \code{alpha.bar}, \code{aic}, \code{llh} (log-Likelihood),
                    \code{converged}, \code{n.iter} (number of iterations) sorted according to the 

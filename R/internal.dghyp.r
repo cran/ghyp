@@ -12,7 +12,7 @@
   n <- length(x)
   inv.sigma <- 1/sigma^2
 
-  if (sum(abs(gamma))==0){
+  if(gamma==0){
     symm <- TRUE
     tilt <- 0
     Offset <- 0
@@ -53,27 +53,100 @@
     }
     else if (chi==0){
     # Variance gamma (symmetric and asymmetric)
+
+    # Density contains singularities for Q -> 0. Three cases depending on
+    # lambda are catched:
+
+    # any(Q < eps) & lambda >  0.5: Interpolate with splines
+    # any(Q < eps) & lambda <  0.5: Set Q[Q < eps] to eps
+    # any(Q < eps) & lambda == 0.5: Set Q[Q < eps] to NA 
+      
+      #<---------------  Internal function vg.density  ------------------>
+      vg.density <- function(Q,Offset,tilt,lambda,psi,sigma)
+      {
+        log.top <- besselM3((lambda - 0.5), sqrt((psi+Offset)*Q),logvalue=T) + tilt
+        log.bottom <- (0.5-lambda)*log(sqrt((psi+Offset)*Q))
+  
+        log.const.top <- log(psi)*lambda + (1-lambda)*log(2) +
+                         (0.5-lambda)*log(psi+Offset)
+
+        log.const.bottom <- 0.5*log(2 * pi) +lgamma(lambda) +
+                            log(sigma)
+        return(log.const.top + log.top - log.const.bottom - log.bottom)
+      }
+      #<-------------  End of internal function vg.density  ------------>      
+      
       eps <- .Machine$double.eps
       # Observations that are close to mu were kept at a minimum magnitude
-      if(any(abs(Q)<eps)){
+      if(any(Q < eps)){
         # If lambda == 0.5 * dimension, there is another singularity.
-        if(abs(lambda-0.5*d)<eps){
-          stop("Unhandled singularity: Some observations are close to 0 (< ",eps,
-               ") and lambda is close to 0.5!\n")
+        if(lambda == 0.5){
+          warning("NA's generated in internal.dghyp: Some standardized observations are close to 0 ",
+               " and lambda is close to 0.5!")
+          if(gamma==0){
+            tmp.tilt <- 0
+          }else{
+            tmp.tilt <- tilt[Q >= eps]
+          }
+          out <- rep(NA,length(Q))
+          out[Q >= eps] <- vg.density(Q[Q >= eps],Offset,tmp.tilt,lambda,psi,sigma) 
+        }else if(lambda > 0.5){ 
+          message("Singularity (x-mu)==0: Interpolate with splines.")
+
+          #<----------  Internal function vg.density.singular  -------------->
+          vg.density.singular <- function(Offset,lambda,psi,sigma)
+          {
+            log.const.top <- log(psi)*lambda + (0.5-lambda)*log(psi+Offset) + 
+                             lgamma(lambda-0.5)
+    
+            log.const.bottom <- log(2) + 0.5*log(pi) +lgamma(lambda) +
+                                log(sigma)
+            return(log.const.top - log.const.bottom)
+          }
+          #<------  End of internal function vg.density.singular  -----------> 
+          
+          # Compute observations > eps as usual
+          out <- rep(0,length(Q))
+
+          if(gamma==0){
+            tmp.tilt <- 0
+          }else{
+            tmp.tilt <- tilt[Q >= eps]
+          }
+          
+          out[Q >= eps] <- vg.density(Q[Q >= eps],Offset,tmp.tilt,lambda,psi,sigma)
+          
+          # Interpolate all observations < eps
+          # x points
+          tmp.x <- c(-2,-1,1,2)*sqrt(eps)*sigma + mu ##c(-sqrt(2),-1,1,sqrt(2))*sqrt(eps)*sigma + mu
+          spline.x <- c(tmp.x[1:2],mu,tmp.x[3:4])
+          
+          # y points          
+          if(gamma==0){
+            tmp.tilt <- 0
+          }else{
+            tmp.tilt <- (tmp.x-mu) * (inv.sigma * gamma) 
+          }
+          
+          tmp.Q <- ((tmp.x-mu)/sigma)^2
+          tmp.density <-  vg.density(tmp.Q,Offset,tmp.tilt,lambda,psi,sigma)
+          
+          spline.y <- c(tmp.density[1:2],vg.density.singular(Offset,lambda,psi,sigma),tmp.density[3:4])
+
+          vg.density.interp <- splinefun(spline.x,spline.y)
+          out[Q < eps] <- vg.density.interp(x[Q < eps])          
         }else{
-          Q[abs(Q)<eps] <- sign(Q[abs(Q)<eps])* eps
-          Q[Q==0] <- eps
-          warning("Some observations are close to 0 (< ",eps,")!\n", immediate. = TRUE)
+          Q[Q < eps] <- eps
+          warning("Singularity: Some standardized observations are close to 0 (< ",
+                  sprintf("%.6 E",eps),")!", 
+                  " Observations set to ",sprintf("%.6 E",eps),".",immediate. = TRUE)
+
+          out <- vg.density(Q,Offset,tilt,lambda,psi,sigma)
         }
+      }else{
+        out <- vg.density(Q,Offset,tilt,lambda,psi,sigma)
       }
-      log.top <-
-        besselM3((lambda - 0.5), sqrt((psi+Offset)*(chi + Q)),logvalue=T) + tilt
-      log.bottom <- (0.5-lambda)*log(sqrt((psi+Offset)*(chi + Q)))
-      log.const.top <- log(psi)/2 + (1-lambda)*log(2) +
-        (0.5-lambda)*log(1+Offset/psi)
-      log.const.bottom <- 0.5*log(2 * pi) +lgamma(lambda) +
-        log(sigma)
-      out <- log.const.top + log.top - log.const.bottom - log.bottom
+
     }
     else out <- NA
   }

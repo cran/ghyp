@@ -8,3 +8,12 @@
  	* Function stepAIC.ghyp added
  	* Argument names "log" and "legend" changed to "log.hist" and "plot.legend" respectively in qqghyp and hist
  	* Some corrections in the vignette
+ 	
+2007-06-08 David Luethi
+ 	ghyp V0.9.2
+ 	* Internal function abar2chipsi: epsilon changed to .Machine$double.eps
+ 	* Internal function internal.dghyp, internal.dghypmv: Warning message changed
+ 	* Internal function mle.default, fit.ghypmv: Output properly formatted with sprintf.
+ 	* Spline interpolation in internal function internal.dghyp for transition to singularity for the Variance Gamma case
+  * Generic functions logLik and AIC added.
+  * Some changes in the package vignette.

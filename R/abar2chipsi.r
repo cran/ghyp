@@ -1,4 +1,4 @@
-"abar2chipsi" <- function(alpha.bar, lambda, eps=1.e-12)
+"abar2chipsi" <- function(alpha.bar, lambda, eps=.Machine$double.eps)
 {
     if (alpha.bar < 0) { stop("alpha.bar must be non-negativ.") }
     if (alpha.bar > eps) {

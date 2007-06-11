@@ -154,10 +154,10 @@
       break
     }
     #<--------------------------- Print result -------------------------------->
-    if(!silent){
-      message <- paste("It ",i,"; rel Closeness ",formatC(rel.closeness, format="e", width=8),
-        "; log Likelihood ",format(ll,nsmall=6),"; alpha.bar ",format(alpha.bar,nsmall=3),
-        "; lambda ",format(lambda,nsmall=3),sep="")
+    if(!silent){   
+      message <- paste("It ",i,"; rel Closeness ",sprintf("%.6 E",rel.closeness),
+        "; log Likelihood ",sprintf("%.6 E",ll),"; alpha.bar ",sprintf("%.6 E",alpha.bar),
+        "; lambda ",sprintf("%.6 E",lambda),sep="")
       print(message)
     }
   }      

@@ -27,8 +27,8 @@
     pdf.args = c(pdf.args,as.list(theta),as.list(const.pars))
     llh <- -sum( do.call(pdf, pdf.args) )
     if(!silent){
-      print(paste("Llh: ",format(-llh,nsmall=6),"; Pars: ",
-            paste(format(theta,nsmall=4),collapse=", "),
+      print(paste("Llh: ",sprintf("%.14 E",-llh),"; Pars: ",
+            paste(sprintf("%.6 E",theta),collapse=", "),
             sep=""))
     }
     return(llh)
@@ -52,8 +52,7 @@
     ll.max = NA
     n.iter = NA
     message = fit 
-  } else {
-
+  }else{
     par.ests <- fit$par
     names(par.ests) = names(theta)
     for (nam in names(par.ests)) {
@@ -79,7 +78,6 @@
         hess <- NA
     }
   }
-  ##print(fit$counts)
   list(convergence = convergence, par.ests = vars, 
       parameter.variance = inv.hess, ll.max = ll.max,n.iter = n.iter,
       message=message)

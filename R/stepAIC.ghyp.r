@@ -1,4 +1,6 @@
-"stepAIC.ghyp" <- function(data,dist=c("ghyp","hyp","NIG","VG","t"),symmetric=NULL,...)
+"stepAIC.ghyp" <- function(data,
+                           dist=c("ghyp","hyp","NIG","VG","t"),
+                           symmetric=NULL,...)
 {
  dist <- match.arg(dist,several.ok=TRUE)
  tmp.data <- try(check.data(data,case="uv",na.rm=T,fit=TRUE),silent=TRUE)
@@ -7,7 +9,7 @@
    tmp.data <- try(check.data(data,case="mv",na.rm=T,fit=TRUE),silent=TRUE)
    type <- "mv"
    if(class(tmp.data)=="try-error"){
-     stop("Invalid data!")
+     stop("Invalid data!!!")
    }   
  }
  if(is.null(symmetric)){
@@ -34,7 +36,7 @@
                         converged = rep(NA,nbr.fits),
                         n.iter = rep(NA,nbr.fits))
 
- ## In the univariate case return a data.frame with each parameter
+ ## In the univariate case return a data.frame with each ghyp parameter
  if(type=="uv"){
     uv.params <- data.frame(mu = rep(NA,nbr.fits), 
                             sigma = rep(NA,nbr.fits), 
@@ -43,6 +45,11 @@
                         
  for(j in 1:length(symm)){
    for(i in 1:length(function.names)){
+     if(symm[j]){
+       cat("Currently fitting: symmetric",dist[i],"\n")
+     }else{
+       cat("Currently fitting: asymmetric",dist[i],"\n")     
+     }
      call.args <- c(list(data=tmp.data),list(...),list(symmetric=symm[j]))
     
      tmp.fit <- do.call(function.names[i],call.args)
@@ -78,5 +85,5 @@
  }
  best.model <- fitted.objects[[idx]]
  fit.info <- fit.info[order(fit.info$aic),]
- return(list(model=best.model,fit.table=fit.info))
+ return(list(best.model=best.model,all.models=fitted.objects,fit.table=fit.info))
 }

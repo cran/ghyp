@@ -85,7 +85,8 @@ ghyp.fit.info(object)
   \code{\link[=ghypmv-class]{ghypmv}} or using \code{\link{ghyp}} or
   via the fitting routines  \code{\link{fit.ghypuv}} or \code{\link{fit.ghypmv}}.
 }
-\seealso{\code{\link[=mean.ghypbase]{mean}}, \code{\link[=vcov.ghypbase]{vcov}}, 
+\seealso{\code{\link[=mean.ghypbase]{mean}}, \code{\link[=vcov.ghypbase]{vcov}},
+         \code{\link[=logLik.mle.ghyp]{logLik}}, \code{\link[=AIC.mle.ghyp]{AIC}},   
          \code{\link{fit.ghypmv}}, \code{\link{fit.ghypuv}}, \code{\link{ghyp}}, \code{\link{optim}}}
 \examples{
   ## multivariate generalized hyperbolic distribution

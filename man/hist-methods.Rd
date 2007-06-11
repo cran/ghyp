@@ -12,7 +12,7 @@
       x, data = ghyp.data(x), gaussian = TRUE, log.hist = F, ylim = NULL, 
       ghyp.col = 1, ghyp.lwd = 1, ghyp.lty = "solid", col = 1, 
       nclass = 30, plot.legend = TRUE, 
-      location = if (log) "bottom" else "topright", legend.cex = 1, ...)
+      location = if (log.hist) "bottom" else "topright", legend.cex = 1, ...)
 }
 \arguments{
   \item{x}{Usually a fitted univariate generalized hyperbolic distribution

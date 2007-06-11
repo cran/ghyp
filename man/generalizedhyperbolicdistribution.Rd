@@ -46,7 +46,7 @@ ESghyp(p, object = ghyp(), ...)
   \item{\dots}{Arguments passed from \code{ESghyp} to \code{qghyp}.}  
 }
 \details{
-   \code{qghyp} and \code{ESghyp} do only work for univariate generalized hyperbolic
+   \code{qghyp} and \code{ESghyp} only work for univariate generalized hyperbolic
    distributions. \cr
    
    \code{pghyp} is a crude implementation of the distribution function for 

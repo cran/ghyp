@@ -4,7 +4,7 @@
 \description{Internal ghyp functions. These functions are not to be called by the user.
 }
 \usage{
-abar2chipsi(alpha.bar, lambda, eps = 1e-12) 
+abar2chipsi(alpha.bar, lambda, eps = .Machine$double.eps) 
 
 besselM3(lambda = 9/2, x = 2, logvalue = FALSE)
 
@@ -43,6 +43,10 @@ p.default(q,pdf,pdf.args,lower,...)
 q.default(p, pdf, pdf.args, interval, p.lower, ...)
 
 test.class.ghyp(object, case = c("ghypbase","ghypuv","ghypmv"))
+
+llh.surface(obj,param=c("alpha.bar","lambda","mu","sigma","gamma"),
+            x.seq=NULL,y.seq=NULL,x.range=c(0,1),y.range=c(0,1),
+            n.grid=100, percent=FALSE,plot.it=TRUE)
 }
 \details{
 \code{abar2chipsi} \cr
@@ -128,6 +132,10 @@ This function simply checks if the dimensions match.
   \code{\link[=ghypbase-class]{ghypbase}}, \code{\link[=ghypuv-class]{ghypuv}} or
   \code{\link[=ghypmv-class]{ghypmv}} according to the argument \code{case}
   and states a corresponding error if not.
+  
+\code{llh.surface} \cr
+  This function is intended to draw surface plots of the log-likelihood function 
+  either over a one or two-dimensional parameter space.
 }
 \author{Wolfgang Breymann, David Lüthi}
 \keyword{internal}

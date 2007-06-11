@@ -8,6 +8,7 @@ A package on generalized hyperbolic distributions
 Description: This package provides all about univariate and multivariate generalized 
 hyperbolic distributions and its special cases (Hyperbolic, Normal Inverse Gaussian, 
 Variance Gamma and skewed Student-t distribution). Especially fitting procedures, 
+an AIC-based model selection routine and functions for the
 computation of the density, quantile, probability, random variates, expected shortfall 
 and some portfolio optimization and plotting routines. 
 In addition the generalized inverse gaussian distribution is contained in this package.
@@ -16,8 +17,8 @@ In addition the generalized inverse gaussian distribution is contained in this p
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 0.9.0; svn-revision 110\cr
-Date: \tab 2007-04-04\cr
+Version: \tab 0.9.2; svn-revision 122\cr
+Date: \tab 2007-06-11\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
 
@@ -60,6 +61,8 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link{portfolio.optimize}} \tab     Calculate an optimal portfolio given a multivariate \code{ghyp} distribution\cr
   \code{\link[=mean.ghypbase]{mean}} \tab   Returns the expected value\cr
   \code{\link[=vcov.ghypbase]{vcov}} \tab   Returns the variance in the univariate case or else the variance covariance matrix\cr
+  \code{\link[=logLik.mle.ghyp]{logLik}} \tab   Returns Log-Likelihood of fitted ghyp objects.\cr
+  \code{\link[=AIC.mle.ghyp]{AIC}} \tab     Returns Akaike's Information Criterion  of fitted ghyp objects.\cr  
   \code{\link{redim}} \tab                  Extract certain dimensions of a multivariate \code{ghyp} distribution\cr
   \code{\link{lin.transf}} \tab             Transform a multivariate generalized hyperbolic distribution\cr
   \code{\link{ghyp.moments}} \tab           Expected value and variance of the \code{ghyp} and the \code{GIG} distribution\cr

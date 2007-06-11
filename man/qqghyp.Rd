@@ -11,7 +11,7 @@
 \usage{
 qqghyp(object, data = ghyp.data(object), gaussian = T, line = T, 
        main = "Generalized Hyperbolic Q-Q Plot", 
-       xlab = "Sample quantiles", ylab = "Theoretical quantiles", 
+       xlab = "Theoretical Quantiles", ylab = "Sample Quantiles", 
        ghyp.pch = 1, gauss.pch = 6, ghyp.lty = "solid", 
        gauss.lty = "dashed", ghyp.col = "black", gauss.col = "black", 
        plot.legend = T, location = "topleft", legend.cex = 0.8, 
