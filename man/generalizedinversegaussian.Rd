@@ -74,7 +74,7 @@ Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = T)
   of either \code{x}, \code{1/x}, \code{log(x)} or the variance if \code{func} equals \code{var}.
 }
 \references{The algorithm for simulating generalized inverse gaussian variates is copied 
-            from the S-Plus library \emph{QRMlib} from Alexander J. McNeil (2005) 
+            from the S-Plus and \R library \emph{QRMlib} from Alexander J. McNeil (2005) 
             designed to accompany the book 
             \emph{Quantitative Risk Management, Concepts, Techniques and Tools}.
             \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}.}

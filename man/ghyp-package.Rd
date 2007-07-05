@@ -6,8 +6,8 @@ A package on generalized hyperbolic distributions
 }
 \description{
 Description: This package provides all about univariate and multivariate generalized 
-hyperbolic distributions and its special cases (Hyperbolic, Normal Inverse Gaussian, 
-Variance Gamma and skewed Student-t distribution). Especially fitting procedures, 
+hyperbolic distributions and its special cases (Hyperbolic (hyp), Normal Inverse Gaussian (NIG), 
+Variance Gamma (VG) and skewed Student-t distribution). Especially fitting procedures, 
 an AIC-based model selection routine and functions for the
 computation of the density, quantile, probability, random variates, expected shortfall 
 and some portfolio optimization and plotting routines. 
@@ -17,8 +17,8 @@ In addition the generalized inverse gaussian distribution is contained in this p
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 0.9.2; svn-revision 122\cr
-Date: \tab 2007-06-11\cr
+Version: \tab 0.9.3; svn-revision 132\cr
+Date: \tab 2007-07-05\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
 
@@ -65,7 +65,7 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link[=AIC.mle.ghyp]{AIC}} \tab     Returns Akaike's Information Criterion  of fitted ghyp objects.\cr  
   \code{\link{redim}} \tab                  Extract certain dimensions of a multivariate \code{ghyp} distribution\cr
   \code{\link{lin.transf}} \tab             Transform a multivariate generalized hyperbolic distribution\cr
-  \code{\link{ghyp.moments}} \tab           Expected value and variance of the \code{ghyp} and the \code{GIG} distribution\cr
+  \code{\link{ghyp.moment}} \tab            Moments of the univariate \code{ghyp} distribution\cr
   \code{\link{ghyp.params}} \tab            Parameters of a generalized hyperbolic distribution \cr
   \code{\link{ghyp.data}} \tab              Data of a (fitted) generalized hyperbolic distribution\cr
   \code{\link{ghyp.fit.info}} \tab          Information about the fitting procedure, log-likelihood and AIC value\cr      
@@ -96,12 +96,46 @@ A document about generalized hyperbolic distributions can be found in the
   There are already two packages \code{HyperbolicDist} and \code{fBasics} which cover 
   univariate generalized hyperbolic distributions. However, the univariate case is contained
   in this package as well because we aim to provide a uniform interface to deal with
-  generalized hyperbolic distribution. Additionally, the above-mentioned packages have
-  some restrictions concerning the fitting procedures (e.g. no possibility to keep some
-  parameters constant) and the special cases are not (completely) covered (\code{fBasics} covers 
-  the hyperbolic and normal inverse gaussian case). \cr
+  generalized hyperbolic distribution. Recently an \R port of the S-Plus library \code{QRMlib}
+  was released. The package \code{QRMlib} contains fitting procedure for the NIG, hyp and
+  skewed Student-t case but not for the generalized hyperbolic case.
   The package \code{fMultivar} implements
-  a fitting routine for multivariate skewed student-t distributions.
+  a fitting routine for multivariate skewed student-t distributions as well. 
+  The table below gives an overview of available packages concerning generalized 
+  hyperbolic distributions and their capabilities.
+
+  \tabular{lccccc}{
+  %<------------------------------------------------------------>
+  \tab \bold{ghyp} \tab \bold{Hyperbolic} \tab \bold{fBasics} \tab \bold{QRMlib}  \tab \bold{multi\_GHD} \cr
+  \tab \tab \bold{Dist} \tab \tab \bold{(R \& S-Plus)} \tab \bold{(Matlab)} \cr
+
+  %<------------------------------------------------------------>
+  \bold{Univariate:} \tab \tab \tab \tab \tab \cr
+  Density             \tab     \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
+  Distribution        \tab   \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
+  Quantile            \tab \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
+  Random Generation   \tab \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
+  GH special cases    \tab hyp, NIG, \tab hyp, VG \tab hyp, NIG \tab \tab \cr
+                      \tab VG, skew-t \tab \tab \tab \tab \cr  
+  Fit                 \tab  \code{x}    \tab only hyp \tab \code{x} \tab \tab \cr
+  Constant parameters \tab  \code{x}    \tab \tab \tab \tab \cr
+
+  %<------------------------------------------------------------>
+  \bold{Multivariate:} \tab \tab \tab \tab \tab \cr
+  Density             \tab     \code{x} \tab \tab  \tab \code{x} \tab \code{x}  \cr
+  Distribution        \tab   \code{x}    \tab \tab \tab \tab \cr
+  Random Generation   \tab \code{x}  \tab \tab \tab \code{x} \tab \code{x}\cr
+  GH special cases    \tab hyp, NIG,  \tab \tab \tab hyp, NIG \tab \cr
+                      \tab VG, skew-t \tab \tab \tab \tab \cr
+  Fit                 \tab  \code{x}    \tab \tab \tab only hyp, NIG, skew-t \tab \code{x}\cr
+  Constant parameters \tab  \code{x}    \tab \tab \tab \tab \cr
+
+  %<------------------------------------------------------------>
+  \bold{Diagnostic plots:} \tab \tab \tab \tab \tab \cr
+  hist              \tab  \code{x} \tab \code{x} \tab \code{x} \tab \tab \cr
+  Quantile-quantile \tab  \code{x} \tab \code{x} \tab \tab \tab \cr
+  pairs             \tab  \code{x} \tab \tab \tab \tab \cr
+  }
 }
 %---------------------------------------------------------------------------------------
 \section{Object orientation}{
@@ -135,11 +169,13 @@ Institute of Data Analyses and Process Design (\url{http://www.idp.zhwin.ch})  \
 Maintainer: David Lüthi <david.luethi@zhwin.ch>
 }
 \references{
-Alexander J. McNeil, Rüdiger Frey, Paul Embrechts (2005) \emph{Quantitative
-Risk Management, Concepts, Techniques and Tools} \cr   
+\emph{Quantitative Risk Management: Concepts, Techniques and Tools} by Alexander J. McNeil, Rüdiger
+Frey and Paul Embrechts \cr
+Princeton Press, 2005 \cr   
 
-Alexander J. McNeil(2005), S-Plus Library for Quantitative Risk Management 
-\emph{QRMlib}, \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}\cr
+\emph{S-Plus and \R Library for Quantitative Risk Management QRMlib} 
+by Alexander J. McNeil (2005) and Scott Ulman (\R-port) (2007)\cr
+\url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html} and \code{QRMlib}\cr
 }
 
 \keyword{package}
@@ -150,3 +186,4 @@ Alexander J. McNeil(2005), S-Plus Library for Quantitative Risk Management
 \keyword{distribution}
 \keyword{models}
 \keyword{datagen}
+

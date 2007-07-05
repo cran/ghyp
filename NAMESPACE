@@ -1,7 +1,7 @@
 import(graphics,stats,methods)
 export(ghyp,VG,NIG,student.t,hyp)
 export(dghyp,pghyp,ESghyp,qghyp,rghyp)
-export(ghyp.moments,ghyp.fit.info,ghyp.params,ghyp.data)
+export(ghyp.moment,ghyp.fit.info,ghyp.params,ghyp.data)
 export(portfolio.optimize)
 export(qqghyp,redim,lin.transf)
 export(dgig,Egig,ESgig,qgig,rgig,pgig)

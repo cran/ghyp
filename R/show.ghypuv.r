@@ -33,7 +33,7 @@
     # VG
     lambda.value <- sprintf(printf.format,object@lambda)
     lambda.string <- format.name(lambda.value,"lambda")
-    if(abs(ghyp.moments(object)$e.gig-1)<.Machine$double.eps ^ 0.5){
+    if(abs(Egig(object@lambda, object@chi, object@psi,func="x")-1)<.Machine$double.eps ^ 0.5){
       # when alpha.bar parametrization is used
       alpha.bar.value <- "        (0)"
       alpha.bar.string <- format.name(alpha.bar.value,"(alpha.bar)")
@@ -61,7 +61,7 @@
       lambda.value <- paste("   (",sprintf("%.1f",object@lambda),")",sep="")
       lambda.string <- format.name(lambda.value,"(lambda)")
     }
-    if(abs(ghyp.moments(object)$e.gig-1)<.Machine$double.eps ^ 0.5){
+    if(abs(Egig(object@lambda, object@chi, object@psi,func="x")-1)<.Machine$double.eps ^ 0.5){
       # when alpha.bar parametrization is used
       alpha.bar.value <- sprintf(printf.format,object@alpha.bar)
       alpha.bar.string <- format.name(alpha.bar.value,"alpha.bar")

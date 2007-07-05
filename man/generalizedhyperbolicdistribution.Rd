@@ -70,8 +70,9 @@ ESghyp(p, object = ghyp(), ...)
   \code{rghyp} generates random deviates.
 }
 \references{
-  Alexander J. McNeil, Rüdiger Frey, Paul Embrechts (2005) \emph{Quantitative
-    Risk Management, Concepts, Techniques and Tools}  \cr
+  \emph{Quantitative Risk Management: Concepts, Techniques and Tools} by Alexander J. McNeil, Rüdiger
+  Frey and Paul Embrechts \cr
+  Princeton Press, 2005 \cr   
 }
 \author{David Lüthi}
 \note{

@@ -22,7 +22,7 @@
                    \code{\link[=mle.ghypuv-class]{mle.ghypuv}} or
                    \code{\link[=mle.ghypmv-class]{mle.ghypmv}}.}
   \item{k}{The \dQuote{penalty} per parameter to be used; the default k = 2 is the classical AIC.} 
-  \item{ \dots}{An arbitrary number of objects of classes
+  \item{\dots}{An arbitrary number of objects of classes
                    \code{\link[=mle.ghypuv-class]{mle.ghypuv}} or
                    \code{\link[=mle.ghypmv-class]{mle.ghypmv}}.}                   
 }

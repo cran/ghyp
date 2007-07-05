@@ -8,7 +8,7 @@
 \title{Expected value and variance-covariance of generalized hyperbolic distributions}
 \description{
   The function \code{mean} returns the expected value. The function \code{vcov} returns
-  the variance in the univariate case and the variance covariance matrix in the
+  the variance in the univariate case and the variance-covariance matrix in the
   multivariate case.
 }
 \usage{
@@ -23,7 +23,9 @@
   Either the expected value or the variance.
 }
 \author{David Lüthi}
-\seealso{\code{\link{ghyp}}, \code{\link{ghypbase-class}}, \code{\link{ghyp.moments}}}
+\seealso{\code{\link{ghyp}}, \code{\link{ghypbase-class}}, \code{\link{Egig}} to 
+compute the expected value and the variance of the generalized inverse gaussian distributed
+mixing variable.}
 \examples{
   ## Univariate: Parametric 
   vg.dist <- VG(lambda=1.10,mu=10,sigma=10,gamma=2)

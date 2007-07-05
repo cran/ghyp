@@ -17,3 +17,8 @@
  	* Spline interpolation in internal function internal.dghyp for transition to singularity for the Variance Gamma case
   * Generic functions logLik and AIC added.
   * Some changes in the package vignette.
+  
+2007-07-05 David Luethi
+ 	ghyp V0.9.3
+  * Some changes in the package vignette and documentation.  
+  * Function ghyp.moment added.

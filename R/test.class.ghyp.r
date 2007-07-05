@@ -1,8 +1,5 @@
 test.class.ghyp <- function(object,case=c("ghypbase","ghypuv","ghypmv")){
   case = match.arg(case)
-##  print(case)
-##  print(object)
-##  print(class(object))
   if(case=="ghypbase"){
     if(!is(object, "ghypbase")){
       stop("Object does not inherit from class 'ghypbase'!\n")

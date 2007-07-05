@@ -1,5 +1,5 @@
 \name{ghyp-internal}
-\alias{ghyp.internalp}
+\alias{ghyp.internal}
 \title{Internal ghyp functions}
 \description{Internal ghyp functions. These functions are not to be called by the user.
 }
