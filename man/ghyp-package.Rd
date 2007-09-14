@@ -5,7 +5,7 @@
 A package on generalized hyperbolic distributions
 }
 \description{
-Description: This package provides all about univariate and multivariate generalized 
+This package provides all about univariate and multivariate generalized 
 hyperbolic distributions and its special cases (Hyperbolic (hyp), Normal Inverse Gaussian (NIG), 
 Variance Gamma (VG) and skewed Student-t distribution). Especially fitting procedures, 
 an AIC-based model selection routine and functions for the
@@ -17,65 +17,69 @@ In addition the generalized inverse gaussian distribution is contained in this p
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 0.9.3; svn-revision 132\cr
-Date: \tab 2007-07-05\cr
+Version: \tab 1.0.0; svn-revision 238\cr
+Date: \tab 2007-09-14\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
 
 \strong{Initialize:}
 \tabular{ll}{
-  \code{\link{ghyp}} \tab             Initialize a generalized hyperbolic distribution\cr
-  \code{\link{hyp}} \tab              Initialize a hyperbolic distribution\cr
-  \code{\link{NIG}} \tab              Initialize a normal inverse gaussian distribution\cr
-  \code{\link{VG}} \tab               Initialize a variance gamma distribution\cr
-  \code{\link{student.t}} \tab        Initialize a student-t distribution\cr
+  \code{\link{ghyp}} \tab             Initialize a generalized hyperbolic distribution.\cr
+  \code{\link{hyp}} \tab              Initialize a hyperbolic distribution.\cr
+  \code{\link{NIG}} \tab              Initialize a normal inverse gaussian distribution.\cr
+  \code{\link{VG}} \tab               Initialize a variance gamma distribution.\cr
+  \code{\link{student.t}} \tab        Initialize a student-t distribution.\cr
 }
 
 \strong{Density, distribution function, quantile function, expected shortfall and
   random generation:}
 \tabular{ll}{
-  \code{\link{dghyp}} \tab         Density of a generalized hyperbolic distribution\cr
-  \code{\link{pghyp}} \tab         Distribution function of a generalized hyperbolic distribution\cr
-  \code{\link{qghyp}} \tab         Quantile of a univariate generalized hyperbolic distribution\cr
-  \code{\link{ESghyp}} \tab        Expected shortfall of a univariate generalized hyperbolic distribution\cr
-  \code{\link{rghyp}} \tab         Random generation of a generalized hyperbolic distribution\cr
+  \code{\link{dghyp}} \tab         Density of a generalized hyperbolic distribution.\cr
+  \code{\link{pghyp}} \tab         Distribution function of a generalized hyperbolic distribution.\cr
+  \code{\link{qghyp}} \tab         Quantile of a univariate generalized hyperbolic distribution.\cr
+  \code{\link{ESghyp}} \tab        Expected shortfall of a univariate generalized hyperbolic distribution.\cr
+  \code{\link{rghyp}} \tab         Random generation of a generalized hyperbolic distribution.\cr
 }
 
 \strong{Fit to data:}
 \tabular{ll}{
-  \code{\link{fit.ghypuv}} \tab     Fit a generalized hyperbolic distribution to univariate data\cr
-  \code{\link{fit.hypuv}} \tab      Fit a hyperbolic distribution to univariate data\cr
-  \code{\link{fit.NIGuv}} \tab      Fit a normal inverse gaussian distribution to univariate data\cr
-  \code{\link{fit.VGuv}} \tab       Fit a variance gamma distribution to univariate data\cr
-  \code{\link{fit.tuv}} \tab        Fit a skewed student-t distribution to univariate data\cr      
-  \code{\link{fit.ghypmv}} \tab     Fit a generalized hyperbolic distribution to multivariate data\cr
-  \code{\link{fit.hypmv}} \tab      Fit a hyperbolic distribution to multivariate data\cr
-  \code{\link{fit.NIGmv}} \tab      Fit a normal inverse gaussian distribution to multivariate data\cr
-  \code{\link{fit.VGmv}} \tab       Fit a variance gamma distribution to multivariate data\cr
-  \code{\link{fit.tmv}} \tab        Fit a skewed student-t distribution to multivariate data\cr      
-  \code{\link{stepAIC.ghyp}} \tab   Perform a model selection based on the AIC\cr     
+  \code{\link{fit.ghypuv}} \tab     Fit a generalized hyperbolic distribution to univariate data.\cr
+  \code{\link{fit.hypuv}} \tab      Fit a hyperbolic distribution to univariate data.\cr
+  \code{\link{fit.NIGuv}} \tab      Fit a normal inverse gaussian distribution to univariate data.\cr
+  \code{\link{fit.VGuv}} \tab       Fit a variance gamma distribution to univariate data.\cr
+  \code{\link{fit.tuv}} \tab        Fit a skewed student-t distribution to univariate data.\cr      
+  \code{\link{fit.ghypmv}} \tab     Fit a generalized hyperbolic distribution to multivariate data.\cr
+  \code{\link{fit.hypmv}} \tab      Fit a hyperbolic distribution to multivariate data.\cr
+  \code{\link{fit.NIGmv}} \tab      Fit a normal inverse gaussian distribution to multivariate data.\cr
+  \code{\link{fit.VGmv}} \tab       Fit a variance gamma distribution to multivariate data.\cr
+  \code{\link{fit.tmv}} \tab        Fit a skewed student-t distribution to multivariate data.\cr      
+  \code{\link{stepAIC.ghyp}} \tab   Perform a model selection based on the AIC.\cr     
 }
 
 \strong{Portfolio optimization and utilities:}
 \tabular{ll}{
-  \code{\link{portfolio.optimize}} \tab     Calculate an optimal portfolio given a multivariate \code{ghyp} distribution\cr
-  \code{\link[=mean.ghypbase]{mean}} \tab   Returns the expected value\cr
-  \code{\link[=vcov.ghypbase]{vcov}} \tab   Returns the variance in the univariate case or else the variance covariance matrix\cr
+  \code{\link{portfolio.optimize}} \tab     Calculate an optimal portfolio given a multivariate \code{ghyp} distribution.\cr
+  \code{\link[=mean.ghyp]{mean}} \tab       Returns the expected value.\cr
+  \code{\link[=vcov.ghyp]{vcov}} \tab       Returns the variance(-covariance).\cr
   \code{\link[=logLik.mle.ghyp]{logLik}} \tab   Returns Log-Likelihood of fitted ghyp objects.\cr
-  \code{\link[=AIC.mle.ghyp]{AIC}} \tab     Returns Akaike's Information Criterion  of fitted ghyp objects.\cr  
-  \code{\link{redim}} \tab                  Extract certain dimensions of a multivariate \code{ghyp} distribution\cr
-  \code{\link{lin.transf}} \tab             Transform a multivariate generalized hyperbolic distribution\cr
-  \code{\link{ghyp.moment}} \tab            Moments of the univariate \code{ghyp} distribution\cr
-  \code{\link{ghyp.params}} \tab            Parameters of a generalized hyperbolic distribution \cr
-  \code{\link{ghyp.data}} \tab              Data of a (fitted) generalized hyperbolic distribution\cr
-  \code{\link{ghyp.fit.info}} \tab          Information about the fitting procedure, log-likelihood and AIC value\cr      
+  \code{\link[=AIC.mle.ghyp]{AIC}} \tab     Returns the Akaike's Information Criterion  of fitted ghyp objects.\cr  
+  \code{\link{lik.ratio.test}} \tab         Performs a likelihood-ratio test on fitted \code{ghyp} distributions.\cr
+  \code{\link[=[.ghyp]{[}} \tab             Extract certain dimensions of a multivariate \code{ghyp} distribution.\cr
+  \code{\link[=transform.ghyp]{transform}} \tab Transform a multivariate generalized hyperbolic distribution.\cr
+  \code{\link{ghyp.moment}} \tab            Moments of the univariate \code{ghyp} distribution.\cr
+  \code{\link[=coef.ghyp]{coef}} \tab       Parameters of a generalized hyperbolic distribution.\cr
+  \code{\link{ghyp.data}} \tab              Data of a (fitted) generalized hyperbolic distribution.\cr
+  \code{\link{ghyp.fit.info}} \tab          Information about the fitting procedure, log-likelihood and AIC value.\cr      
+  \code{\link[=summary.mle.ghyp]{summary}} \tab       Summary of a fitted generalized hyperbolic distribution.\cr  
 }
 
 \strong{Plot functions:}
 \tabular{ll}{
-  \code{\link{qqghyp}} \tab              Perform a quantile-quantile plot of a (fitted) univariate \code{ghyp} distribution\cr
-  \code{\link[=hist.ghypuv]{hist}} \tab         Plot a histogram of a (fitted) univariate generalized hyperbolic distribution\cr
-  \code{\link[=pairs.ghypmv]{pairs}} \tab        Produce a matrix of scatterplots with quantile-quantile plots on the diagonal.\cr
+  \code{\link{qqghyp}} \tab                 Perform a quantile-quantile plot of a (fitted) univariate \code{ghyp} distribution.\cr
+  \code{\link[=hist.ghyp]{hist}} \tab       Plot a histogram of a (fitted) univariate generalized hyperbolic distribution.\cr
+  \code{\link[=pairs.ghyp]{pairs}} \tab     Produce a matrix of scatterplots with quantile-quantile plots on the diagonal.\cr
+  \code{\link[=plot.ghyp]{plot}} \tab       Plot the density of a univariate \code{ghyp} distribution.\cr
+  \code{\link[=lines.ghyp]{lines}} \tab     Add the density of a univariate \code{ghyp} distribution to a graphics device.\cr
 }
 
 \strong{Generalized inverse gaussian distribution:} 
@@ -94,48 +98,13 @@ A document about generalized hyperbolic distributions can be found in the
 %---------------------------------------------------------------------------------------
 \section{Existing solutions}{
   There are already two packages \code{HyperbolicDist} and \code{fBasics} which cover 
-  univariate generalized hyperbolic distributions. However, the univariate case is contained
+  univariate generalized hyperbolic distributions and some of its special cases. However, the univariate case is contained
   in this package as well because we aim to provide a uniform interface to deal with
   generalized hyperbolic distribution. Recently an \R port of the S-Plus library \code{QRMlib}
   was released. The package \code{QRMlib} contains fitting procedure for the NIG, hyp and
   skewed Student-t case but not for the generalized hyperbolic case.
   The package \code{fMultivar} implements
   a fitting routine for multivariate skewed student-t distributions as well. 
-  The table below gives an overview of available packages concerning generalized 
-  hyperbolic distributions and their capabilities.
-
-  \tabular{lccccc}{
-  %<------------------------------------------------------------>
-  \tab \bold{ghyp} \tab \bold{Hyperbolic} \tab \bold{fBasics} \tab \bold{QRMlib}  \tab \bold{multi\_GHD} \cr
-  \tab \tab \bold{Dist} \tab \tab \bold{(R \& S-Plus)} \tab \bold{(Matlab)} \cr
-
-  %<------------------------------------------------------------>
-  \bold{Univariate:} \tab \tab \tab \tab \tab \cr
-  Density             \tab     \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
-  Distribution        \tab   \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
-  Quantile            \tab \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
-  Random Generation   \tab \code{x}    \tab \code{x} \tab \code{x} \tab \tab \cr
-  GH special cases    \tab hyp, NIG, \tab hyp, VG \tab hyp, NIG \tab \tab \cr
-                      \tab VG, skew-t \tab \tab \tab \tab \cr  
-  Fit                 \tab  \code{x}    \tab only hyp \tab \code{x} \tab \tab \cr
-  Constant parameters \tab  \code{x}    \tab \tab \tab \tab \cr
-
-  %<------------------------------------------------------------>
-  \bold{Multivariate:} \tab \tab \tab \tab \tab \cr
-  Density             \tab     \code{x} \tab \tab  \tab \code{x} \tab \code{x}  \cr
-  Distribution        \tab   \code{x}    \tab \tab \tab \tab \cr
-  Random Generation   \tab \code{x}  \tab \tab \tab \code{x} \tab \code{x}\cr
-  GH special cases    \tab hyp, NIG,  \tab \tab \tab hyp, NIG \tab \cr
-                      \tab VG, skew-t \tab \tab \tab \tab \cr
-  Fit                 \tab  \code{x}    \tab \tab \tab only hyp, NIG, skew-t \tab \code{x}\cr
-  Constant parameters \tab  \code{x}    \tab \tab \tab \tab \cr
-
-  %<------------------------------------------------------------>
-  \bold{Diagnostic plots:} \tab \tab \tab \tab \tab \cr
-  hist              \tab  \code{x} \tab \code{x} \tab \code{x} \tab \tab \cr
-  Quantile-quantile \tab  \code{x} \tab \code{x} \tab \tab \tab \cr
-  pairs             \tab  \code{x} \tab \tab \tab \tab \cr
-  }
 }
 %---------------------------------------------------------------------------------------
 \section{Object orientation}{
@@ -156,17 +125,22 @@ introduce distribution objects. There are mainly four reasons for that:
         the distribution object.
         
   \item Generic method dispatching can be used to provide a uniform interface to, e.g., 
-        simulate random variates of a specific distribution like \code{rand(n, distribution.object}.  
+        plot the probability density of a specific distribution like \code{plot(distribution.object)}.  
         Additionally, one can take advantage of generic programming since \R provides virtual 
         classes and some forms of polymorphism.}
 }
+\section{Acknowledgement}{
+This package has been partially developed in the framework of the COST-P10 
+\dQuote{Physics of Risk} project. Financial support by the Swiss State Secretariat 
+for Education and Research (SBF) is gratefully acknowledged.
 }
+
 \author{
 Wolfgang Breymann, David Lüthi \cr
 
-Institute of Data Analyses and Process Design (\url{http://www.idp.zhwin.ch})  \cr
+Institute of Data Analyses and Process Design (\url{http://www.idp.zhaw.ch})  \cr
 
-Maintainer: David Lüthi <david.luethi@zhwin.ch>
+Maintainer: David Lüthi <david.luethi@zhaw.ch>
 }
 \references{
 \emph{Quantitative Risk Management: Concepts, Techniques and Tools} by Alexander J. McNeil, Rüdiger

@@ -12,7 +12,7 @@ llh.surface <- function(obj,param=c("alpha.bar","lambda","mu","sigma","gamma"),
                         n.grid=100, percent=FALSE,plot.it=TRUE)
 {
   param <- match.arg(param,several.ok=TRUE)
-  current.params <- ghyp.params(obj,type="alpha.bar")
+  current.params <- coef(obj,type="alpha.bar")
   if(is.null(x.seq)){
     if(percent){
       v.0 <- current.params[[param[1]]]

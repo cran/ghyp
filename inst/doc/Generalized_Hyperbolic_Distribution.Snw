@@ -134,8 +134,8 @@ Preliminary draft\\[8ex]
 Wolfgang Breymann\\
 David L\"uthi\\[3ex]
 Institute of Data Analysis and Process Design\\
-www.idp.zhwin.ch \\[3ex]
-Email: david.luethi@zhwin.ch
+www.idp.zhaw.ch \\[3ex]
+Email: david.luethi@zhaw.ch
 }
 \maketitle
 \vspace{1cm}
@@ -223,15 +223,15 @@ can be found in the following way.
             {(2\pi)^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \BesselLambda(\SqrtChiPsi)}\times
             \frac{\Bessel{\lambda - \dDivTwo}(
-            \sqrt{(\chi + \QX)(\psi + \GammaSigGamma)}\,\,\,
+            \sqrt{(\chi + \QX)(\psi + \GammaSigGamma)})\,\,\,
             e^{(\x - \MU)'\InvSigma \GAMMA}}
             {(\sqrt{(\chi + \QX)(\psi + \GammaSigGamma)})^{\dDivTwo - \lambda}}
 \end{eqnarray}
 where the relation (\ref{eq:besselrelation})
 of the modified bessel function of the third kind $\BesselLambda(\cdot)$ (\ref{eq:bessel})
 is used and $\QX$ denotes the mahalanobis distance $\QX = (\x - \MU)' \InvSigma (\x - \MU)$.
-The constraints of the parameters $\lambda, \chi$ and $\psi$ are
-described in appendix \ref{eq:gigconstraints}.
+The domain of variation of the parameters $\lambda, \chi$ and $\psi$ is
+given in appendix \ref{eq:gigconstraints}.
 %-------------------------------------------------------------------------
 %-------------------------- Parametrization ------------------------------
 \section{Parametrization}
@@ -417,78 +417,78 @@ All the necessary formulas to fit the special cases can be found in the appendix
 \begin{center}
 \setkeys{Gin}{width=0.75\textwidth}
 <<echo=FALSE>>=
-library(ghyp)
+  library(ghyp)
 @
 <<fig=TRUE,echo=FALSE>>=
-lambda <- -2:2
-a.bar <- 0.5 * 0:3 +0.01
-
-x.range <- 0.45
-y.range <- 0.4
-x.seq <- seq(-4,4,length=250)
-x.seq.range <- x.range / diff(range(x.seq)) * x.seq
-
-par(mfrow=c(2,2), omi=0.5*c(1.7,0.8,0.8,0),mai=c(0,0,0,0))
-
-plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
-     xlab=expression(bar(alpha)),ylab=expression(lambda),xaxt="n")
-for(i in 1:length(a.bar)){
-  for(j in 1:length(lambda)){
-     gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=0)
-     gh.dens <- dghyp(x.seq,gh.obj)
-     gh.dens <- y.range/diff(range(gh.dens))*gh.dens
-
-     lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
-     points(a.bar[i],lambda[j])
+  lambda <- -2:2
+  a.bar <- 0.5 * 0:3 +0.01
+  
+  x.range <- 0.45
+  y.range <- 0.4
+  x.seq <- seq(-4,4,length=250)
+  x.seq.range <- x.range / diff(range(x.seq)) * x.seq
+  
+  par(mfrow=c(2,2), omi=0.5*c(1.7,0.8,0.8,0),mai=c(0,0,0,0))
+  
+  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
+       xlab=expression(bar(alpha)),ylab=expression(lambda),xaxt="n")
+  for(i in 1:length(a.bar)){
+    for(j in 1:length(lambda)){
+       gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=0)
+       gh.dens <- dghyp(x.seq,gh.obj)
+       gh.dens <- y.range/diff(range(gh.dens))*gh.dens
+  
+       lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
+       points(a.bar[i],lambda[j])
+    }
   }
-}
-legend("topleft",legend=expression(paste("Symmetric: ",gamma," = 0")),bty="n",lty="blank")
-
-plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
-     xlab=expression(bar(alpha)),yaxt="n",ylab="",xaxt="n")
-for(i in 1:length(a.bar)){
-  for(j in 1:length(lambda)){
-     gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=-1)
-     gh.dens <- dghyp(x.seq,gh.obj)
-     gh.dens <- y.range/diff(range(gh.dens))*gh.dens
-
-     lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
-     points(a.bar[i],lambda[j])
+  legend("topleft",legend=expression(paste("Symmetric: ",gamma," = 0")),bty="n",lty="blank")
+  
+  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
+       xlab=expression(bar(alpha)),yaxt="n",ylab="",xaxt="n")
+  for(i in 1:length(a.bar)){
+    for(j in 1:length(lambda)){
+       gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=-1)
+       gh.dens <- dghyp(x.seq,gh.obj)
+       gh.dens <- y.range/diff(range(gh.dens))*gh.dens
+  
+       lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
+       points(a.bar[i],lambda[j])
+    }
   }
-}
-legend("topleft",legend=expression(paste("Skewed: ",gamma," = -1")),bty="n",lty="blank")
-
-plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
-     xlab=expression(bar(alpha)),ylab=expression(lambda))
-for(i in 1:length(a.bar)){
-  for(j in 1:length(lambda)){
-     gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=0)
-     gh.dens <- log(dghyp(x.seq,gh.obj))
-     gh.dens <- y.range/diff(range(gh.dens))*gh.dens
-
-     lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
-     points(a.bar[i],lambda[j])
+  legend("topleft",legend=expression(paste("Skewed: ",gamma," = -1")),bty="n",lty="blank")
+  
+  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
+       xlab=expression(bar(alpha)),ylab=expression(lambda))
+  for(i in 1:length(a.bar)){
+    for(j in 1:length(lambda)){
+       gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=0)
+       gh.dens <- log(dghyp(x.seq,gh.obj))
+       gh.dens <- y.range/diff(range(gh.dens))*gh.dens
+  
+       lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
+       points(a.bar[i],lambda[j])
+    }
   }
-}
-legend("topleft",legend=expression(paste("Symmetric: ",gamma," = 0")),bty="n",lty="blank")
-
-plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
-     xlab=expression(bar(alpha)),yaxt="n",ylab="")
-for(i in 1:length(a.bar)){
-  for(j in 1:length(lambda)){
-     gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=-1)
-     gh.dens <- log(dghyp(x.seq,gh.obj))
-     gh.dens <- y.range/diff(range(gh.dens))*gh.dens
-
-     lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
-     points(a.bar[i],lambda[j])
+  legend("topleft",legend=expression(paste("Symmetric: ",gamma," = 0")),bty="n",lty="blank")
+  
+  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,1),xlim=c(-0.3,max(a.bar)+0.5),
+       xlab=expression(bar(alpha)),yaxt="n",ylab="")
+  for(i in 1:length(a.bar)){
+    for(j in 1:length(lambda)){
+       gh.obj <- ghyp(alpha.bar=a.bar[i],lambda=lambda[j],gamma=-1)
+       gh.dens <- log(dghyp(x.seq,gh.obj))
+       gh.dens <- y.range/diff(range(gh.dens))*gh.dens
+  
+       lines(x.seq.range+a.bar[i],gh.dens+lambda[j])
+       points(a.bar[i],lambda[j])
+    }
   }
-}
-legend("topleft",legend=expression(paste("Skewed: ",gamma," = -1")),bty="n",lty="blank")
-
-title(main =  "Density and log-Density of the generalized hyperbolic distribution",
-      sub=expression(paste("Y-Axis: ", lambda,"; X-Axis: ",bar(alpha),sep="")),
-      outer = T,cex.sub=1.2)
+  legend("topleft",legend=expression(paste("Skewed: ",gamma," = -1")),bty="n",lty="blank")
+  
+  title(main =  "Density and log-Density of the generalized hyperbolic distribution",
+        sub=expression(paste("Y-Axis: ", lambda,"; X-Axis: ",bar(alpha),sep="")),
+        outer = T,cex.sub=1.2)
 @
 \caption{The shape of the univariate generalized hyperbolic density drawn
          with different shape parameters $(\lambda,\abar)$. The location and
@@ -535,20 +535,34 @@ that the Bessel function is symmetric with respect to the index $\lambda$.
 %--------------------------R command -------------------------------
 \begin{figure}[!h]
 \begin{center}
-\setkeys{Gin}{width=0.4\textwidth}
+\setkeys{Gin}{width=0.45\textwidth}
 <<fig=TRUE,echo=FALSE>>=
-  x <- seq(0.1,1,length=30)
-  lambda <- rev(seq(0,2,length=30))
-  mod.bessel.3 <- outer(x,lambda)
-  for(i in 1:length(lambda)){
-    for(j in 1:length(x)){
-      mod.bessel.3[j,i] <- ghyp:::besselM3(x=x[j],lambda=lambda[i])
-    }
+  lambda <- seq(0.0,8,length=5)
+  x <- seq(0,20,length=1000)
+  line.type = c("solid","dotted","dashed","dotdash","longdash")
+  par(mfrow=c(1,2))
+  plot(x,besselK(x,lambda[1]),xlab="x",ylab=expression(K[lambda]),type="l",lty=line.type[1],log="")
+  for(i in 2:length(lambda)){
+    lines(x,besselK(x,lambda[i]),lty=line.type[i])
   }
-  persp(x=x,y=rev(lambda),z=mod.bessel.3,theta = 120,ylab="lambda", 
-        phi = 10,ticktype="detailed")
+  legend("topright",legend=lambda,lty=line.type,lwd=2,title=expression(paste(lambda,"=")))
+  
+  plot(x,besselK(x,lambda[1]),xlab="x",ylab=expression(log(K[lambda])),type="l",lty=line.type[1],log="y")
+  for(i in 2:length(lambda)){
+    lines(x,besselK(x,lambda[i]),lty=line.type[i])
+  }
+  ##  x <- seq(0.1,1,length=30)
+  ##  lambda <- rev(seq(0,2,length=30))
+  ##  mod.bessel.3 <- outer(x,lambda)
+  ##  for(i in 1:length(lambda)){
+  ##    for(j in 1:length(x)){
+  ##      mod.bessel.3[j,i] <- ghyp:::besselM3(x=x[j],lambda=lambda[i])
+  ##    }
+  ##  }
+  ##  persp(x=x,y=rev(lambda),z=mod.bessel.3,theta = 120,ylab="lambda", 
+  ##        phi = 10,ticktype="detailed")
 @
-\caption{The surface of the modified Bessel function of the third drawn over the $\lambda$-$x$ plane.}
+\caption{The modified Bessel function of the third kind drawn with different indices $\lambda$.}
 \end{center}
 \end{figure}
 \clearpage
@@ -616,44 +630,45 @@ student-t distribution by means of the MCECM algorithm (see \ref{eq:conddistinve
 \begin{center}
 \setkeys{Gin}{width=0.6\textwidth}
 <<fig=TRUE,echo=FALSE>>=
-lambda <- -2:2+1e-5
-alpha.bar <- 0.5 * 0:3 + 0.01
-x.range <- 0.25
-y.range <- 0.4
-x.seq <- seq(0,4,length=250)+1e-5
-x.seq.range <- x.range / diff(range(x.seq)) * x.seq
-par(mfrow=c(1,2), omi=0.5*c(0,0.0,0.8,0))
-
-par(mai=c(1,0.8,0,0))
-plot(0,0,type="n",ylim=range(lambda)+c(-0.5,0.5),xlim=c(-0.1,max(alpha.bar)+0.5),
-     xlab=expression(bar(alpha)),ylab=expression(lambda))
-for(i in 1:length(alpha.bar)){
-  for(j in 1:length(lambda)){
-    tmp <- ghyp:::abar2chipsi(lambda=lambda[j],alpha.bar=alpha.bar[i] )
-    gig.dens <- dgig(x.seq,lambda[i],tmp$chi,tmp$psi)
-    gig.dens <- y.range/diff(range(gig.dens))*gig.dens
-    lines(x.seq.range+alpha.bar[i],gig.dens+lambda[j])
-    points(alpha.bar[i],lambda[j])
+  lambda <- -2:2+1e-5
+  alpha.bar <- 0.5 * 0:3 + 0.01
+  x.range <- 0.25
+  y.range <- 0.4
+  x.seq <- seq(0,4,length=250)+1e-5
+  x.seq.range <- x.range / diff(range(x.seq)) * x.seq
+  par(mfrow=c(1,2), omi=0.5*c(0,0.0,0.8,0))
+  
+  par(mai=c(1,0.8,0,0))
+  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,0.5),xlim=c(-0.1,max(alpha.bar)+0.5),
+       xlab=expression(bar(alpha)),ylab=expression(lambda))
+  for(i in 1:length(alpha.bar)){
+    for(j in 1:length(lambda)){
+      tmp <- ghyp:::abar2chipsi(lambda=lambda[j],alpha.bar=alpha.bar[i] )
+      gig.dens <- dgig(x.seq,lambda[i],tmp$chi,tmp$psi)
+      gig.dens <- y.range/diff(range(gig.dens))*gig.dens
+      lines(x.seq.range+alpha.bar[i],gig.dens+lambda[j])
+      points(alpha.bar[i],lambda[j])
+    }
   }
-}
-
-par(mai=c(1,0,0,0.8))
-plot(0,0,type="n",ylim=range(lambda)+c(-0.5,0.5),xlim=c(-0.1,max(alpha.bar)+0.5),
-     xlab=expression(bar(alpha)),yaxt="n",ylab="")
-for(i in 1:length(alpha.bar)){
-  for(j in 1:length(lambda)){
-    tmp <- ghyp:::abar2chipsi(lambda=lambda[j],alpha.bar=alpha.bar[i] )
-    gig.dens <- log(dgig(x.seq,lambda[i],tmp$chi,tmp$psi))
-    gig.dens <- y.range/diff(range(gig.dens[is.finite(gig.dens)]))*gig.dens
-    lines(x.seq.range+alpha.bar[i],gig.dens+lambda[j])
-    points(alpha.bar[i],lambda[j])
+  
+  par(mai=c(1,0,0,0.8))
+  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,0.5),xlim=c(-0.1,max(alpha.bar)+0.5),
+       xlab=expression(bar(alpha)),yaxt="n",ylab="")
+  for(i in 1:length(alpha.bar)){
+    for(j in 1:length(lambda)){
+      tmp <- ghyp:::abar2chipsi(lambda=lambda[j],alpha.bar=alpha.bar[i] )
+      gig.dens <- log(dgig(x.seq,lambda[i],tmp$chi,tmp$psi))
+      gig.dens <- y.range/diff(range(gig.dens[is.finite(gig.dens)]))*gig.dens
+      lines(x.seq.range+alpha.bar[i],gig.dens+lambda[j])
+      points(alpha.bar[i],lambda[j])
+    }
   }
-}
-title(main =  "Density and log-density of the generalized inverse gaussian distribution",
-      outer = T,cex.main=0.8)
+  title(main =  "Density and log-density of the generalized inverse gaussian distribution",
+        outer = T,cex.main=0.8)
 @
 \caption{The density and the log-density of the generalized inverse gaussian distribution
-         drawn with different shape parameters $(\lambda,\abar)$.}
+         drawn with different shape parameters $(\lambda,\abar)$. 
+         See (\ref{eq:abartochipsi}) for the transformation from $\abar$ to $(\chi, \psi)$.}
 \end{center}
 \end{figure}
 \vspace{1cm}
@@ -862,14 +877,14 @@ portfolio optimization.
 This example shows how GH distribution objects can be initialized by either using
 the $(\LambdaChiPsi)$ or the $(\LambdaAbar)$-parametrization.
 <<>>=
-## Load the package "ghyp" and the data "smi.stocks" first
-library(ghyp)
-## Initialized a univariate GH distribution object with 
-## the lambda/alpha.bar parametrization
-ghyp(lambda=-2, alpha.bar=0.5, mu=10, sigma=5, gamma=1)
-## Initialized a multivariate GH distribution object with 
-## the lambda/chi/psi parametrization
-ghyp(lambda=-2, chi=5, psi=0.1, mu=10:11, sigma=diag(5:6), gamma=-1:0)
+  ## Load the package "ghyp" and the data "smi.stocks" first
+  library(ghyp)
+  ## Initialized a univariate GH distribution object with 
+  ## the lambda/alpha.bar parametrization
+  ghyp(lambda=-2, alpha.bar=0.5, mu=10, sigma=5, gamma=1)
+  ## Initialized a multivariate GH distribution object with 
+  ## the lambda/chi/psi parametrization
+  ghyp(lambda=-2, chi=5, psi=0.1, mu=10:11, sigma=diag(5:6), gamma=-1:0)
 @
 %-------------------------------------------------------------------------
 \subsection{Object-oriented approach}\label{sec:exampleobjoriented}
@@ -925,8 +940,8 @@ GH distribution. Again, some graphical verification is done to check the
 accuracy of the fit.
 \setkeys{Gin}{width=\textwidth}
 <<fig=TRUE,width=8,height=4>>=
-fitted.smi.returns <- fit.ghypuv(data=smi.stocks[,c("SMI")],silent=TRUE)
-par(mfrow=c(1,3))
+  fitted.smi.returns <- fit.ghypuv(data=smi.stocks[,c("SMI")],silent=TRUE)
+  par(mfrow=c(1,3))
   hist(fitted.smi.returns,ghyp.col="blue",legend.cex=0.7)
   hist(fitted.smi.returns,log.hist=T,nclass=30,plot.legend=F,ghyp.col="blue")
   qqghyp(fitted.smi.returns,plot.legend=T,legend.cex=0.7)

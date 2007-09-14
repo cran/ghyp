@@ -1,20 +1,60 @@
 #<--------------------------------   HYP   ------------------------------------>
-"hyp" <- function(chi=0.5, psi=2, mu=0, sigma=1, gamma=0, alpha.bar=NULL, data=NULL){
-  ghyp(lambda=(length(mu)+1)/2, chi=chi, psi=psi, mu=mu, sigma=sigma, 
-       gamma=gamma, alpha.bar=alpha.bar, data=data)
+"hyp" <- function(chi = 0.5, psi = 2, mu = 0, sigma = 1, gamma = 0, alpha.bar = NULL, data = NULL)
+{
+  call <- match.call()
+
+  if(is.null(alpha.bar)){
+    parametrization <- "lambda.chi.psi"
+  }else{
+    parametrization <- "lambda.alpha.bar"  
+  }
+  ghyp.object <- ghyp(lambda = (length(mu)+1)/2, chi = chi, psi = psi, mu = mu, 
+                      sigma = sigma, gamma = gamma, alpha.bar = alpha.bar, data = data)
+  ghyp.object@call <- call
+  ghyp.object@parametrization <- parametrization
+  return(ghyp.object)
 }
 #<--------------------------------   NIG   ------------------------------------>
-"NIG" <- function(chi=2, psi=2, mu=0, sigma=1, gamma=0, alpha.bar=NULL, data=NULL){
-  ghyp(lambda=-0.5, chi=chi, psi=psi, mu=mu, sigma=sigma, 
-       gamma=gamma, alpha.bar=alpha.bar, data=data)
+"NIG" <- function(chi = 2, psi = 2, mu = 0, sigma = 1, gamma = 0, alpha.bar = NULL, data = NULL)
+{
+  call <- match.call()
+
+  if(is.null(alpha.bar)){
+    parametrization <- "lambda.chi.psi"
+  }else{
+    parametrization <- "lambda.alpha.bar"  
+  }
+  ghyp.object <- ghyp(lambda = -0.5, chi = chi, psi = psi, mu = mu, sigma = sigma, 
+                      gamma = gamma, alpha.bar = alpha.bar, data = data)
+  ghyp.object@call <- call
+  ghyp.object@parametrization <- parametrization
+  return(ghyp.object)
 }
-#<--------------------------------   t   ------------------------------------>
-"student.t" <- function(nu=5, mu=0, sigma=1, gamma=0, data=NULL){
-  ghyp(lambda= -nu/2, psi=0, mu=mu, sigma=sigma, 
-       gamma=gamma, alpha.bar=0, data=data)
+#<--------------------------------   Student-t   ------------------------------------>
+"student.t" <- function(nu = 3.5, mu = 0, sigma = 1, gamma = 0, data = NULL)
+{
+  call <- match.call()
+
+  parametrization <- "lambda.alpha.bar"  
+  ghyp.object <-  ghyp(lambda = -nu/2, psi = 0, mu = mu, sigma = sigma, 
+                       gamma = gamma, alpha.bar = 0, data = data)
+  ghyp.object@call <- call
+  ghyp.object@parametrization <- parametrization
+  return(ghyp.object)
 }
 #<--------------------------------   VG   ------------------------------------>
-"VG" <- function(lambda=1, psi = 2*lambda, mu=0, sigma=1, gamma=0, data=NULL){
-  ghyp(lambda=lambda, chi=0, psi=psi, mu=mu, sigma=sigma, 
-       gamma=gamma, alpha.bar=NULL, data=data)
+"VG" <- function(lambda = 1, psi = 2*lambda, mu = 0, sigma = 1, gamma = 0, data = NULL)
+{
+  call <- match.call()
+
+  if(psi == 2 * lambda){
+    parametrization <- "lambda.alpha.bar"  
+  }else{
+    parametrization <- "lambda.chi.psi"
+  }
+  ghyp.object <- ghyp(lambda = lambda, chi = 0, psi = psi, mu = mu, sigma = sigma, 
+                      gamma = gamma, alpha.bar = NULL, data = data)
+  ghyp.object@call <- call
+  ghyp.object@parametrization <- parametrization
+  return(ghyp.object)
 }

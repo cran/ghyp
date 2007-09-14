@@ -14,23 +14,27 @@
 fit.ghypmv(data, lambda = 1, alpha.bar = 1, mu = NULL, sigma = NULL, 
            gamma = NULL, opt.pars = c(lambda = T, alpha.bar = T, mu = T, 
                                       sigma = T, gamma = !symmetric), 
-           symmetric = F, nit = 2000, reltol = 1e-10, abstol = reltol * 10, 
+           symmetric = F, standardize = F, nit = 2000, reltol = 1e-8, abstol = reltol * 10, 
            na.rm = F, silent = FALSE, save.data = T, ...)   
            
 fit.hypmv(data, 
-          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = T), ...)
+          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
+          symmetric = F, ...)
 
 fit.NIGmv(data, 
-          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = T), ...)
+          opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
+          symmetric = F, ...)
 
 fit.VGmv(data, lambda = 1, 
-         opt.pars = c(lambda = T, mu = T, sigma = T, gamma = T), ...)
+         opt.pars = c(lambda = T, mu = T, sigma = T, gamma = !symmetric), 
+         symmetric = F, ...)
 
-fit.tmv(data, nu = 4, 
-        opt.pars = c(lambda = T, mu = T, sigma = T, gamma = T), ...)
+fit.tmv(data, nu = 3.5, 
+        opt.pars = c(lambda = T, mu = T, sigma = T, gamma = !symmetric), 
+        symmetric = F, ...)
 }
 \arguments{
-  \item{data}{A \code{vector} or univariate \code{\link{data.frame}}.}
+  \item{data}{An object coercible to a \code{matrix}.}
   \item{lambda}{Shape parameter.}
   \item{alpha.bar}{Shape parameter.}
   \item{nu}{Shape parameter only used in case of a student-t distribution. It determines
@@ -40,8 +44,10 @@ fit.tmv(data, nu = 4,
   \item{gamma}{Skewness parameter.}
   \item{opt.pars}{A named logical \code{vector} which states which parameters should be fitted.}
   \item{symmetric}{If \code{TRUE} the skewness parameter \code{gamma} keeps zero.}
+  \item{standardize}{If \code{TRUE} the sample will be standardized before fitting. 
+                     Afterwards, the parameters and log-likelihood et cetera will be back-transformed.}
   \item{save.data}{If \code{TRUE} \code{data} will be stored within the 
-                   \code{\link[=mle.ghypmv-class]{mle.ghypmv}} object.}
+                   \code{\link[=mle.ghyp-class]{mle.ghyp}} object.}
   \item{na.rm}{If \code{TRUE} missing values will be removed from \code{data}.}
   \item{silent}{If \code{TRUE} no prompts will appear in the console.}
   \item{nit}{Maximal number of iterations of the expectation maximation algorithm.}
@@ -51,7 +57,7 @@ fit.tmv(data, nu = 4,
                fitting special cases of the generalized hyperbolic distribution.}
 }
 \details{
-  This function uses a modified EM algorithm which is called Multicycle Expectation 
+  This function uses a modified EM algorithm which is called Multi-Cycle Expectation 
   Conditional Maximization (MCECM)
   algorithm. This algorithm is sketched in the vignette of this package which
   can be found in the \code{doc} folder. A more detailed description is provided
@@ -65,7 +71,7 @@ fit.tmv(data, nu = 4,
   the \dots  argument of the fitting routines.  
 }
 \value{
-  An object of class \code{\link[=mle.ghypmv-class]{mle.ghypmv}}.
+  An object of class \code{\link[=mle.ghyp-class]{mle.ghyp}}.
 }
 \references{
   Alexander J. McNeil, Rüdiger Frey, Paul Embrechts (2005) \emph{Quantitative
@@ -81,6 +87,11 @@ fit.tmv(data, nu = 4,
   is catched and the reduced density function is computed. Because the transition is
   not smooth in the numerical implementation this can rarely result in nonsensical
   fits.
+  
+  Providing both arguments, \code{opt.pars} and \code{symmetric} respectively,
+  can result in a conflict when \code{opt.pars['gamma']} and \code{symmetric}
+  are \code{TRUE}. In this case \code{symmetric} will dominate and 
+  \code{opt.pars['gamma']} is set to \code{FALSE}.
 }
 \seealso{
   \code{\link{fit.ghypuv}}, \code{\link{fit.hypuv}}, \code{\link{fit.NIGuv}},
@@ -88,8 +99,9 @@ fit.tmv(data, nu = 4,
 }
 \examples{
   data(smi.stocks)
-  fit.ghypmv(data=smi.stocks,opt.pars=c(lambda=FALSE),lambda=2,
-             control=list(rel.tol=1e-5, abs.tol=1e-5), abstol=0.01, reltol=0.01)
+  
+  fit.ghypmv(data = smi.stocks, opt.pars = c(lambda = FALSE), lambda = 2,
+             control = list(rel.tol = 1e-5, abs.tol = 1e-5), reltol = 0.01)
 }
 \keyword{iteration}
 \keyword{optimize}

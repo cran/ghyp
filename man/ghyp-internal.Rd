@@ -8,45 +8,45 @@ abar2chipsi(alpha.bar, lambda, eps = .Machine$double.eps)
 
 besselM3(lambda = 9/2, x = 2, logvalue = FALSE)
 
-check.data(data, case = c("uv", "mv"), na.rm = T, fit = TRUE, dim = NULL)
+check.data(data, case = c("uv", "mv"), na.rm = TRUE, fit = TRUE, dim = NULL)
 
 check.gig.pars(lambda, chi, psi)
                         
-check.norm.pars(mu, sigma, gamma)
+check.norm.pars(mu, sigma, gamma, dimension)
 
-check.opt.pars(opt.pars)
+check.opt.pars(opt.pars, symmetric)
 
 fit.ghyp(object, llh = 0, n.iter = 0, converged = FALSE, error.code = 0, 
          error.message = "", parameter.variance, fitted.params, aic)
          
-gh.model(lambda, chi, psi, gamma) 
+ghyp.model(lambda, chi, psi, gamma) 
 
-identity(x)
+t.transform(lambda)
 
-t.transform(lambda)    
+inv.t.transform(lambda.transf)    
 
 integrate.moment.gig(x, moment = 1, ...)
 
 integrate.moment.ghypuv(x, moment = 1, ...)  
 
 internal.dghyp(x, lambda = 1, chi = 1, psi = 1, alpha.bar = NULL, 
-               mu = 1, sigma = 1, gamma = 0, logvalue = F)
+               mu = 1, sigma = 1, gamma = 0, logvalue = FALSE)
 
 internal.dghypmv(x, lambda, chi, psi, mu, sigma, gamma, logvalue = F)  
 
-mle.default(data, pdf, vars, opt.pars = rep(F, length(vars)), 
-            transform = rep("identity", length(vars)), se = F, 
-            na.rm = F, silent = FALSE, ...)
+mle.default(data, pdf, vars, opt.pars = rep(TRUE, length(vars)), 
+            transform = NULL, se = FALSE, 
+            na.rm = FALSE, silent = FALSE, ...)
             
 p.default(q,pdf,pdf.args,lower,...)
 
 q.default(p, pdf, pdf.args, interval, p.lower, ...)
 
-test.class.ghyp(object, case = c("ghypbase","ghypuv","ghypmv"))
+test.ghyp(object, case = c("ghyp", "univariate", "multivariate"))
 
-llh.surface(obj,param=c("alpha.bar","lambda","mu","sigma","gamma"),
-            x.seq=NULL,y.seq=NULL,x.range=c(0,1),y.range=c(0,1),
-            n.grid=100, percent=FALSE,plot.it=TRUE)
+llh.surface(obj, param=c("alpha.bar","lambda","mu","sigma","gamma"),
+            x.seq=NULL, y.seq=NULL, x.range=c(0,1), y.range=c(0,1),
+            n.grid=100, percent=FALSE, plot.it=TRUE)
 }
 \details{
 \code{abar2chipsi} \cr
@@ -80,20 +80,19 @@ This function simply checks if the dimensions match.
 \code{fit.ghyp} \cr
   This function is called by the functions
   \code{\link{fit.ghypuv}} and \code{\link{fit.ghypmv}} to create
-  objects of class \code{\link[=mle.ghypuv-class]{mle.ghypuv}} and 
-  \code{\link[=mle.ghypmv-class]{mle.ghypmv}}.
+  objects of class \code{\link[=mle.ghyp-class]{mle.ghyp}} and 
+  \code{\link[=mle.ghyp-class]{mle.ghyp}}.
 
-\code{gh.model} \cr
+\code{ghyp.model} \cr
   Check if the parameters denote a special case of the generalized hyperbolic
   distribution.
 
-\code{identity} \cr
-  Identity function used in \code{\link{fit.ghypuv}} as a
-  transformation function of certain parameters which have to be optimized numerically. 
-
 \code{t.transfrom} \cr
   Transformation  function used in \code{\link{fit.ghypuv}} for
-  certain parameters which have to be optimized numerically. 
+  parameter nu belonging to the Student-t distribution.
+
+\code{inv.t.transfrom} \cr
+  The inverse of \code{t.transfrom}.
 
 \code{integrate.moment.gig} \cr
   This function is used when computing the conditional expectation
@@ -127,10 +126,10 @@ This function simply checks if the dimensions match.
   A generic quantile function calculator given a density function. 
   See \code{\link{qghyp}} for a wrapper of this   function.
   
-\code{test.class.ghyp} \cr
+\code{test.ghyp} \cr
   This function tests whether the object is of class
-  \code{\link[=ghypbase-class]{ghypbase}}, \code{\link[=ghypuv-class]{ghypuv}} or
-  \code{\link[=ghypmv-class]{ghypmv}} according to the argument \code{case}
+  \code{\link[=ghyp-class]{ghyp}} and sometimes whether it is univariate or 
+  multivariate according to the argument \code{case}
   and states a corresponding error if not.
   
 \code{llh.surface} \cr

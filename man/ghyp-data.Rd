@@ -1,0 +1,66 @@
+\name{ghyp-data}
+\alias{ghyp.data}
+\alias{ghyp.fit.info}
+\title{Get methods for objects inheriting from class ghypbase}
+\description{
+  These functions simply return data stored within generalized hyperbolic
+  distribution objects, i.e. slots of the classes \code{ghyp} and \code{mle.ghyp}. 
+  \code{ghyp.fit.info} extracts information about the fitting procedure from objects of 
+  class  \code{\link[=mle.ghyp-class]{mle.ghyp}}.
+}
+\usage{
+ghyp.fit.info(object)
+
+ghyp.data(object)
+}
+\arguments{
+  \item{object}{An object inheriting from class 
+               \code{\link[=ghyp-class]{ghyp}}.}
+}
+\value{
+  \code{ghyp.fit.info} returns list with components: 
+  \tabular{rl}{
+  \code{logLikelihood} \tab  The maximized log-likelihood value.\cr
+  \code{aic} \tab  The Akaike information criterion.\cr
+  \code{fitted.params} \tab  A boolean vector stating which parameters were fitted.\cr
+  \code{converged} \tab  A boolean whether \code{\link{optim}} converged or not.\cr
+  \code{n.iter} \tab The number of iterations. \cr
+  \code{error.code} \tab Error code from \code{\link{optim}}.\cr
+  \code{error.message} \tab Error message from \code{\link{optim}}.\cr  
+  \code{parameter.variance} \tab Parameter variance (only for univariate fits).\cr
+  }
+
+  \code{ghyp.data} returns \code{NULL} if no data is stored within the
+  object, a \code{vector} if it is an univariate generalized hyperbolic distribution
+  and \code{matrix} if it is an multivariate generalized hyperbolic distribution.
+}
+\author{David Lüthi}
+\note{
+  \code{ghyp.fit.info} requires an object of 
+  class \code{\link[=mle.ghyp-class]{mle.ghyp}}. In the univariate case the parameter
+  variance is returned as well. The parameter variance is defined as the inverse of the
+  negative hesse-matrix computed by \code{\link{optim}}. Note that this makes sense only
+  in the case that the estimates are asymptotically normal distributed. \cr
+  
+  The class \code{\link[=ghyp-class]{ghyp}} contains a \code{data} slot.
+  Data can be stored either when an object is initialized or via the fitting routines and
+  the argument \code{save.data}.
+}
+\seealso{\code{\link[=coef.ghyp]{coef}}, \code{\link[=mean.ghyp]{mean}}, \code{\link[=vcov.ghyp]{vcov}},
+         \code{\link[=logLik.mle.ghyp]{logLik}}, \code{\link[=AIC.mle.ghyp]{AIC}} for other accessor functions,   
+         \code{\link{fit.ghypmv}}, \code{\link{fit.ghypuv}}, \code{\link{ghyp}} for constructor functions, 
+         \code{\link{optim}} for possible error messages.}
+\examples{
+  ## multivariate generalized hyperbolic distribution
+  ghyp.mv <- ghyp(lambda = 1, alpha.bar = 0.1, mu = rep(0, 2), sigma = diag(rep(1, 2)), 
+                  gamma = rep(0, 2), data = matrix(rt(1000, df = 4), ncol = 2))
+
+  ## Get data
+  ghyp.data(ghyp.mv)
+
+  ## 'ghyp.fit.info' does only work when the object is of class 'mle.ghyp',
+  ## i.e. is created by 'fit.ghypuv' etc.
+  mv.fit <- fit.tmv(data = ghyp.data(ghyp.mv), control = list(abs.tol = 1e-3))
+  ghyp.fit.info(mv.fit)
+}
+\keyword{utilities}

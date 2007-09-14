@@ -1,25 +1,24 @@
-\name{hist.ghypuv}
-\alias{hist.ghypuv}
+\name{hist-methods}
+\alias{hist.ghyp}
 \alias{hist-methods}
-\alias{hist,ghypuv-method}
+\alias{hist,ghyp-method}
 \title{Histogram for univariate generalized hyperbolic distributions}
 \description{
-  The generic function \code{hist.ghypuv} computes a histogram of the given data values
+  The function \code{hist} computes a histogram of the given data values
   and the univariate generalized hyperbolic density.
 }
 \usage{
-\S4method{hist}{ghypuv}(
-      x, data = ghyp.data(x), gaussian = TRUE, log.hist = F, ylim = NULL, 
-      ghyp.col = 1, ghyp.lwd = 1, ghyp.lty = "solid", col = 1, 
-      nclass = 30, plot.legend = TRUE, 
-      location = if (log.hist) "bottom" else "topright", legend.cex = 1, ...)
+\S4method{hist}{ghyp}(x, data = ghyp.data(x), gaussian = TRUE, 
+     log.hist = F, ylim = NULL, ghyp.col = 1, ghyp.lwd = 1, 
+     ghyp.lty = "solid", col = 1, nclass = 30, plot.legend = TRUE, 
+     location = if (log.hist) "bottom" else "topright", legend.cex = 1, ...)
 }
 \arguments{
   \item{x}{Usually a fitted univariate generalized hyperbolic distribution
-           of class \code{\link[=mle.ghypuv-class]{mle.ghypuv}}. Alternatively
-           an object of class \code{\link[=ghypuv-class]{ghypuv}} and a data vector.}
+           of class \code{\link[=mle.ghyp-class]{mle.ghyp}}. Alternatively
+           an object of class \code{\link[=ghyp-class]{ghyp}} and a data vector.}
   \item{data}{A vector.}
-  \item{gaussian}{If \code{TRUE} a qq-plot of the normal distribution is plotted as a reference.}
+  \item{gaussian}{If \code{TRUE} the probability density of the normal distribution is plotted as a reference.}
   \item{log.hist}{If \code{TRUE} the logarithm of the histogramm is plotted.}
   \item{ylim}{The y limits of the plot.}
   \item{ghyp.col}{The color of the density of the generalized
@@ -40,12 +39,14 @@
   No value returned
 }
 \author{David Lüthi}
-\seealso{\code{\link{qqghyp}}, \code{\link{fit.ghypuv}}, \code{\link{qghyp}}, \code{\link{plot}},
-        \code{\link{hist}}, \code{\link{legend}}}
+\seealso{\code{\link{qqghyp}}, \code{\link{fit.ghypuv}}, 
+        \code{\link{hist}}, \code{\link{legend}}, \code{\link[=plot.ghyp]{plot}}, 
+        \code{\link[=lines.ghyp]{lines}}.}
 \examples{
   data(smi.stocks)
-  univariate.fit <- fit.ghypuv(data=smi.stocks[,"SMI"],
-                               opt.pars=c(mu=FALSE,sigma=FALSE),symmetric=T)
+  univariate.fit <- fit.ghypuv(data = smi.stocks[,"SMI"],
+                               opt.pars = c(mu = FALSE, sigma = FALSE), 
+                               symmetric = TRUE)
   hist(univariate.fit)
 }
 \keyword{hplot}

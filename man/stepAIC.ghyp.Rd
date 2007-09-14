@@ -33,17 +33,19 @@ stepAIC.ghyp(data, dist=c("ghyp","hyp","NIG","VG","t"),
   David Lüthi
 }
 \seealso{
-  \code{\link{fit.ghypuv}} and \code{\link{fit.ghypuv}}.
+  \code{\link{lik.ratio.test}}, \code{\link{fit.ghypuv}} and \code{\link{fit.ghypmv}}.
 }
 \examples{
 \dontrun{
   data(smi.stocks)
+  
   # Multivariate case:
-  stepAIC.ghyp(smi.stocks[,2:5], dist=c("ghyp","hyp","t"), symmetric=NULL,
-               control=list(maxit=500), silent=T, nit=500)
+  stepAIC.ghyp(smi.stocks[, 2:5], dist = c("ghyp", "hyp", "t"), symmetric = NULL,
+               control = list(maxit = 500), silent = T, nit = 500)
+               
   # Univariate case:
-  stepAIC.ghyp(smi.stocks[,"SMI"], dist=c("ghyp","NIG","VG"), symmetric=TRUE,
-               control=list(maxit=500), silent=T)
+  stepAIC.ghyp(smi.stocks[, "SMI"], dist = c("ghyp", "NIG", "VG"), symmetric = TRUE,
+               control = list(maxit = 500), silent = T)
 
 }
 }

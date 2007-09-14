@@ -1,5 +1,9 @@
-"ghyp.fit.info" <- function(object){
-  if(is(object, "mle.ghypuv")){
+"ghyp.fit.info" <- function(object)
+{
+  if(!is(object, "mle.ghyp")){
+    stop("Object is not of class 'mle.ghyp'!")
+  }
+  if(object@dimension == 1){
     return(list(logLikelihood = object@llh,
                 aic = object@aic,
                 fitted.params = object@fitted.params,    
@@ -9,7 +13,7 @@
                 error.message = object@error.message,
                 parameter.variance = object@parameter.variance))
                 
-  }else if(is(object, "mle.ghypmv")){
+  }else{
     return(list(logLikelihood = object@llh,
                 aic = object@aic,
                 fitted.params = object@fitted.params,
@@ -18,8 +22,5 @@
                 error.code = object@error.code,
                 error.message = object@error.message))
 
-  }
-  else{
-    stop("Object in not of class 'mle.ghypuv' nor of class 'em.ghypmv'!\n")
   }
 }

@@ -17,17 +17,9 @@
     \item{\code{Swiss.Re}}{Swiss reinsurer.}
     }
 }
-%\details{
-%  ~~ If necessary, more details than the __description__ above ~~
-%}
-%\source{
-%  Reuters.
-%}
-%\references{
-%  ~~ possibly secondary sources and usages ~~
-%}
 \examples{
   data(smi.stocks)
+  
   pairs(smi.stocks)
 }
 \keyword{datasets}

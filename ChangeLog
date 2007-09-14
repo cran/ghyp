@@ -22,3 +22,22 @@
  	ghyp V0.9.3
   * Some changes in the package vignette and documentation.  
   * Function ghyp.moment added.
+  
+ David Luethi
+ 	ghyp V1.0.0
+  * fit.ghypmv: default relative tolerance set to 1e-8
+  * fit.ghypmv and fit.ghypuv: Parameter transformation changed to "log" 
+  * t.transform changed
+  * inf.t.transform: added; inverse of t.transform
+  * Some changes in the package vignette and documentation.    
+  * Bug fixed in check.opt.pars: Check for 'symmetric' and opt.pars['lambda']
+    and set opt.pars['lambda'] to FALSE when 'symmetric' is TRUE
+  * hist.ghypuv: Warnings now more meaningful
+  * check.norm.pars: Warnings now more meaningful
+  * Function 'lin.transf' replaced by the generic 'transform'
+  * Function 'redim' replaced by the generic '[.ghyp'
+  * Function 'ghyp.param' replaced by the generic 'coef'
+  * Methods 'show' changed and 'summary' added for objects of class 'mle.ghyp'
+  * Argument 'standardize' introduced in the fitting routines 'fit.ghyp..'
+  * Methods 'plot' and 'lines' added.
+  * Initial parameter value 'nu' changed in 'student.t', 'fit.tuv', 'fit.tmv'.

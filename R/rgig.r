@@ -1,4 +1,4 @@
-"rgig" <- function(n = 10, lambda=1,chi=1,psi=1, envplot = F,
+"rgig" <- function(n = 10, lambda = 1, chi = 1, psi = 1, envplot = F,
                    messages = F)
 {
   ## This source code is copied from the S-Plus library QRMlib
@@ -17,20 +17,21 @@
     return(1/rgamma(n, shape = ( - lambda), rate = (chi/2)))
   message <- NULL
   if(abs(lambda) < 1)
-    message <- paste(message,
-      "Not necessarily efficient rejection method", "\n")
+    message <- "Not necessarily efficient rejection method\n"
   neglambda <- F
-  if(lambda < 0) {
+  if(lambda < 0){
     neglambda = T
     lambda <- abs(lambda)
     tmp <- c(chi, psi)
     chi <- tmp[2]
     psi <- tmp[1]
   }
+  #----------------------------------------------------------
   efunc <- function(x, lambda, chi, psi)
   {
     (x^(lambda - 1)) * exp( - (chi/x + psi * x)/2)
   }
+  #----------------------------------------------------------  
   calcmode <- function(lambda, chi, psi)
   {
     if(psi > 0)
@@ -40,6 +41,7 @@
       return(chi/(2 - 2 * lambda))
     else stop("Problem in mode function")
   }
+  #----------------------------------------------------------
   themode <- calcmode(lambda, chi, psi)
   assign("lambda", lambda)
   assign("chi", chi)
@@ -47,7 +49,7 @@
   assign("themode", themode)
   assign("calcmode", calcmode)
   assign("efunc", efunc)
-  if(lambda < 1) {
+  if(lambda < 1){
     theta <- 0.01
     objective <- function(theta)
     {
@@ -63,11 +65,10 @@
         S2 <- efunc(xH, lambda, chi, 0)
         out <- Delta1 * S1 + Delta2 * S2
       }
-      out
+      return(out)
     }
     out <- optimize(objective, interval=c(1e-5,100),tol=1e-8)
-  }
-  else {
+  }else{
     theta <- c(0.01, psi/4)
     objective <- function(theta)
     {
@@ -76,18 +77,12 @@
       else if((psi - 2 * theta[2]) < 0)
         out <- NA
       else {
-        Delta1 <- (exp(themode * theta[1]) - 1)/theta[
-          1]
-        Delta2 <- exp( - themode * theta[2])/theta[
-          2]
-        xL <- calcmode(lambda, chi, psi + 2 * theta[
-          1])
-        xH <- calcmode(lambda, chi, psi - 2 * theta[
-          2])
-        S1 <- efunc(xL, lambda, chi, psi + 2 * theta[
-          1])
-        S2 <- efunc(xH, lambda, chi, psi - 2 * theta[
-          2])
+        Delta1 <- (exp(themode * theta[1]) - 1)/theta[1]
+        Delta2 <- exp( - themode * theta[2])/theta[2]
+        xL <- calcmode(lambda, chi, psi + 2 * theta[1])
+        xH <- calcmode(lambda, chi, psi - 2 * theta[2])
+        S1 <- efunc(xL, lambda, chi, psi + 2 * theta[1])
+        S2 <- efunc(xH, lambda, chi, psi - 2 * theta[2])
         out <- Delta1 * S1 + Delta2 * S2
       }
       out
@@ -163,12 +158,13 @@
     xsim = c(xsim,xx)
   }
   efficiency <- length(xsim)/iter
-  message <- paste(message, "Efficiency", round(efficiency * 100, 1),
-    "\n")
+  message <- paste(message, "Efficiency", round(efficiency * 100, 1),"\n")
   if(messages)
     cat(message)
-  if(neglambda)
+  if(neglambda){
     return(1/xsim)
-  else return(xsim)
+  }else{
+    return(xsim)
+  }
 }
 

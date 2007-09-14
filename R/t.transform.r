@@ -1,3 +1,7 @@
 "t.transform" <- function(lambda){
-  return(min(-abs(lambda),-1 - sqrt(.Machine$double.eps)))
+  return(-1-exp(lambda))
+}
+
+"inv.t.transform" <- function(lambda.transf){
+  return(log(-1-lambda.transf))
 }

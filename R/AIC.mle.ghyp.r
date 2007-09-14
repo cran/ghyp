@@ -1,11 +1,10 @@
 "AIC.mle.ghyp" <- function(object, ..., k = 2)
 {
   ghyp.models <- list(...)
-  ## Internal function; test whether all objects are of type mle.ghypuv or mle.ghypmv
+  ## Internal function; test whether all objects are of type mle.ghyp
   test.class.mle.ghyp <- function(x){
-    if(!is(x, "mle.ghypuv") & !is(x, "mle.ghypmv")){
-      stop("Some of the objects are not of class 'mle.ghypuv'", 
-           " nor of class 'mle.ghypmv'!")
+    if(!is(x, "mle.ghyp")){
+      stop("Some of the objects are not of class 'mle.ghyp'!")
     }
   }
 
@@ -34,5 +33,5 @@
   return(tmp.aic)
 }
 
-setMethod("AIC", signature(object="mle.ghypuv"),AIC.mle.ghyp)
-setMethod("AIC", signature(object="mle.ghypmv"),AIC.mle.ghyp)
+setMethod("AIC", signature(object="mle.ghyp"),AIC.mle.ghyp)
+
