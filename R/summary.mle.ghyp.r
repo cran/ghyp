@@ -1,8 +1,11 @@
 "summary.mle.ghyp" <- function(object)
 {
-  if(!object@converged){
+  if(!object@converged && !is.na(object@n.iter)){
      cat("Warning: fitting procedure did not converge!\n\n")
+  }else if(!object@converged && is.na(object@n.iter)){
+     cat("Error: fitting procedure crashed! See error message below!\n\n")  
   }
+    
   show.ghyp(object)
 
   cat("\nCall:\n", deparse(object@call), "\n\n", sep = "")

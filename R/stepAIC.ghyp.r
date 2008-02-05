@@ -27,20 +27,22 @@
  function.names <- paste("fit.", dist, type, sep = "")
  fitted.objects <- vector(mode = "list", nbr.fits)
 
- fit.info <- data.frame(model = rep(function.names, length(symm)),
-                        symmetric = rep(symm, each = length(function.names)),
+ fit.info <- data.frame(model = rep(dist, length(symm)),
+                        symmetric = rep(symm, each = length(dist)),
                         lambda = rep(NA, nbr.fits),
                         alpha.bar = rep(NA, nbr.fits),
                         aic = rep(NA, nbr.fits),
                         llh = rep(NA, nbr.fits), 
                         converged = rep(NA, nbr.fits),
-                        n.iter = rep(NA, nbr.fits))
+                        n.iter = rep(NA, nbr.fits),
+                        stringsAsFactors = FALSE)
 
  ## In the univariate case return a data.frame with each ghyp parameter
  if(type=="uv"){
     uv.params <- data.frame(mu = rep(NA, nbr.fits), 
                             sigma = rep(NA, nbr.fits), 
-                            gamma = rep(NA, nbr.fits))
+                            gamma = rep(NA, nbr.fits),
+                            stringsAsFactors = FALSE)
  }
                         
  for(j in 1:length(symm)){
@@ -54,7 +56,6 @@
     
      tmp.fit <- do.call(function.names[i], call.args)
      tmp.fit@call <- call
-     fitted.objects[[(j - 1) * length(dist) + i]] <- tmp.fit
 
      tmp.params <- coef(tmp.fit, type = "alpha.bar")
      tmp.fit.info <- ghyp.fit.info(tmp.fit)
@@ -62,16 +63,18 @@
      if(type=="uv"){
        uv.params[(j - 1) * length(dist) + i, ] <- data.frame(tmp.params$mu, 
                                                              tmp.params$sigma, 
-                                                             tmp.params$gamma)
+                                                             tmp.params$gamma,
+                                                             stringsAsFactors = FALSE)
      }
 
-     tmp.result <- data.frame(function.names[i], symm[j], 
-                     tmp.params$lambda, tmp.params$alpha.bar, 
-                     tmp.fit.info$aic, tmp.fit.info$logLikelihood,
-                     tmp.fit.info$converged, tmp.fit.info$n.iter)
-     
-     fit.info[(j - 1) * length(dist) + i, ] <- tmp.result
-
+     tmp.result <- data.frame(dist[i], symm[j], 
+                              tmp.params$lambda, tmp.params$alpha.bar, 
+                              tmp.fit.info$aic, tmp.fit.info$logLikelihood,
+                              tmp.fit.info$converged, tmp.fit.info$n.iter,
+                              stringsAsFactors = FALSE)
+   
+   fit.info[(j - 1) * length(dist) + i, ] <- tmp.result
+   fitted.objects[[(j - 1) * length(dist) + i]] <- tmp.fit
    }
  }
 
@@ -85,6 +88,6 @@
    idx <- idx[1]
  }
  best.model <- fitted.objects[[idx]]
- fit.info <- fit.info[order(fit.info$aic), ]
+ fit.info <- fit.info[order(fit.info$aic, na.last = TRUE), ]
  return(list(best.model = best.model, all.models = fitted.objects, fit.table = fit.info))
 }

@@ -15,5 +15,5 @@
   return(tmp.logLik)
 }
 
-setMethod("logLik", signature(object="mle.ghyp"),logLik.mle.ghyp)
+setMethod("logLik", signature(object = "mle.ghyp"), logLik.mle.ghyp)
 

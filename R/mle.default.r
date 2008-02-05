@@ -18,9 +18,13 @@
   ## Theta contains the parameters intended to be fitted
   theta = vars[opt.pars]
 
+  ## Theta backup (track parameter difference from optim)
+  theta.backup <- theta
+
   ##<------------   Negative log-Likelihood function adapter ----------->
   negloglik <- function(theta, pdf, data, transf, const.pars, silent)
   {
+    theta.backup <<- theta
     ## Transformation of the parameters
     for(nam in intersect(names(theta), names(transf))) {
       theta[nam] = do.call(transf[nam], list(theta[nam]))
@@ -37,7 +41,8 @@
   ##<------------------------------------------------------------------->
   
   fit = try(optim(theta, negloglik, hessian = se, pdf = pdf,
-                  data = data, transf = transform, const.pars = vars[!opt.pars], silent = silent, ...))
+                  data = data, transf = transform, const.pars = vars[!opt.pars], 
+                  silent = silent, ...))
   ##1  indicates that the iteration limit maxit had been reached.
   ##10 indicates degeneracy of the Nelder–Mead simplex.
   ##51 indicates a warning from the "L-BFGS-B" method; see component message for further details.
@@ -45,14 +50,16 @@
   if(class(fit) == "try-error") {
     warning("An error occured during the fitting procedure!")
     convergence = 100
-    vars[1:length(vars)] = NA
-    par.ests = vars
-    alt.pars = vars
-    par.ses = NA
-    hess = NA
-    ll.max = NA
-    n.iter = NA
+    hess = as.numeric(NA)
+    ll.max = as.numeric(NA)
+    n.iter = as.numeric(NA)
     message = fit 
+    inv.hess <- matrix(NA)
+    par.ests <- theta.backup
+    for(nam in intersect(names(par.ests), names(transform))) {
+      par.ests[nam] = do.call(transform[nam], list(par.ests[nam]))
+    }
+    vars[opt.pars] = par.ests
   }else{
     par.ests <- fit$par
     names(par.ests) = names(theta)

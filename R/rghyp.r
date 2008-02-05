@@ -12,4 +12,3 @@
            outer(W, object@gamma))
   }
 }
-  

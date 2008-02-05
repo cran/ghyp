@@ -76,12 +76,18 @@
     tmp.fit$par.ests["mu"] <- tmp.fit$par.ests["mu"] * tmp.sd + tmp.mean
     tmp.fit$par.ests["sigma"] <- tmp.fit$par.ests["sigma"] * tmp.sd
     tmp.fit$par.ests["gamma"] <- tmp.fit$par.ests["gamma"] * tmp.sd
-    tmp.fit$ll.max <- sum(internal.dghyp(x = data, lambda = tmp.fit$par.ests["lambda"],
-                                         alpha.bar = tmp.fit$par.ests["alpha.bar"],
-                                         mu = tmp.fit$par.ests["mu"],
-                                         sigma = tmp.fit$par.ests["sigma"],
-                                         gamma = tmp.fit$par.ests["gamma"],
-                                         logvalue = TRUE))
+    tmp.llh <- try(sum(internal.dghyp(x = data, lambda = tmp.fit$par.ests["lambda"],
+                                             alpha.bar = tmp.fit$par.ests["alpha.bar"],
+                                             mu = tmp.fit$par.ests["mu"],
+                                             sigma = tmp.fit$par.ests["sigma"],
+                                             gamma = tmp.fit$par.ests["gamma"],
+                                             logvalue = TRUE)))
+    if(class(tmp.llh) == "try-error"){
+      warning("Error occured during renormalization! Log-likelihood set to zero!\n")
+      tmp.fit$ll.max <- as.numeric(NA)
+    }else{
+      tmp.fit$ll.max <- tmp.llh
+    }
     tmp.fit$parameter.variance <- matrix(NA)
   }
 

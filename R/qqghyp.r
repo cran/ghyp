@@ -42,10 +42,10 @@
 
  if(plot.legend == TRUE){
   if(gaussian == TRUE){
-    legend(location, legend = c(object@model, "Gaussian"), col = c(ghyp.col, gauss.col),
+    legend(location, legend = c(ghyp.name(object, abbr = TRUE, skew.attr = TRUE), "Gaussian"), col = c(ghyp.col, gauss.col),
            lty = c(ghyp.lty, gauss.lty), cex = legend.cex, pch = c(ghyp.pch,gauss.pch))
   }else{
-    legend(location, legend = object@model, col = ghyp.col,
+    legend(location, legend = ghyp.name(object, abbr = TRUE, skew.attr = TRUE), col = ghyp.col,
            lty = ghyp.lty, cex = legend.cex, pch = ghyp.pch)
   }
 

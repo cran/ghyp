@@ -27,42 +27,40 @@
     plot(ghyp.data, log(Density), col = col, ...)
     lines(x.gh, log(tmp.d.ghyp), col = ghyp.col, lwd = ghyp.lwd, lty = ghyp.lty)
     if(gaussian == TRUE){
-      lines(x.gh, log(dnorm(x.gh, mean = mean(data), sd = sd(data))), col = col)
+      lines(x.gh, log(dnorm(x.gh, mean = mean(data), sd = sd(data))), col = col, lty = "dashed")
     }
   }else{
     hist(data, ylim = ylim, probability = T, nclass = nclass, ...)
     lines(x.gh, tmp.d.ghyp, col = ghyp.col, lwd = ghyp.lwd, lty = ghyp.lty)
     if(gaussian == TRUE){
-      lines(x.gh, dnorm(x.gh, mean = mean(data), sd = sd(data)), col = col)
+      lines(x.gh, dnorm(x.gh, mean = mean(data), sd = sd(data)), col = col, lty = "dashed")
     }
   }
   if(plot.legend == TRUE){
 
     if(log.hist == TRUE){
       if(gaussian == TRUE){
-        tmp.text <- c("Histogramm", x@model, "Gaussian")
+        tmp.text <- c("Histogramm", ghyp.name(x, abbr = TRUE, skew.attr = TRUE), "Gaussian")
         tmp.col <- c(col, ghyp.col, col)
-        tmp.lty <- c(NA, ghyp.lty, "dotted")
+        tmp.lty <- c(NA, ghyp.lty, "dashed")
         tmp.pch <- c(1, NA, NA)
-        legend(location, legend = tmp.text, col = tmp.col,
-               lty = tmp.lty, pch = tmp.pch, cex = legend.cex)
       }else{
-        tmp.text <- c("Histogramm", x@model)
+        tmp.text <- c("Histogramm", ghyp.name(x, abbr = TRUE, skew.attr = TRUE))
         tmp.col <- c(col, ghyp.col)
         tmp.lty <- c(NA, ghyp.lty)
         tmp.pch <- c(1, NA)
-        legend(location, legend = tmp.text, col = tmp.col,
-               lty = tmp.lty, pch = tmp.pch, cex = legend.cex)
       }
+      legend(location, legend = tmp.text, col = tmp.col,
+             lty = tmp.lty, pch = tmp.pch, cex = legend.cex)
     }else{
       if(gaussian == TRUE){
-        tmp.text <- c(x@model, "Gaussian")
+        tmp.text <- c(ghyp.name(x, abbr = TRUE, skew.attr = TRUE), "Gaussian")
         tmp.col <- c(ghyp.col, col)
-        tmp.lty <- c(ghyp.lty, "dotted")
+        tmp.lty <- c(ghyp.lty, "dashed")
         legend(location, legend = tmp.text, col = tmp.col,
                lty = tmp.lty, cex = legend.cex)
       }else{
-        legend(location, legend = x@model, col = ghyp.col,
+        legend(location, legend = ghyp.name(x, abbr = TRUE, skew.attr = TRUE), col = ghyp.col,
                lty = ghyp.lty, cex = legend.cex)
       }
     }

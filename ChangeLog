@@ -23,7 +23,7 @@
   * Some changes in the package vignette and documentation.  
   * Function ghyp.moment added.
   
- David Luethi
+2007-09-14 David Luethi
  	ghyp V1.0.0
   * fit.ghypmv: default relative tolerance set to 1e-8
   * fit.ghypmv and fit.ghypuv: Parameter transformation changed to "log" 
@@ -41,3 +41,10 @@
   * Argument 'standardize' introduced in the fitting routines 'fit.ghyp..'
   * Methods 'plot' and 'lines' added.
   * Initial parameter value 'nu' changed in 'student.t', 'fit.tuv', 'fit.tmv'.
+
+2008-02-05 David Luethi
+   ghyp V1.1.0
+  * fit.ghypuv, fit.ghypmv now with a rather reasonable error handling
+  * Function 'ghyp.name' added
+  * Internal function besselM3: For nu == 0.5 in besselK there is a faster expression for the bessel function which is now implemented.
+  * Some minor changes in the vignette

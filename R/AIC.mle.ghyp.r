@@ -33,5 +33,5 @@
   return(tmp.aic)
 }
 
-setMethod("AIC", signature(object="mle.ghyp"),AIC.mle.ghyp)
+setMethod("AIC", signature(object = "mle.ghyp"), AIC.mle.ghyp)
 

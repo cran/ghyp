@@ -1,5 +1,6 @@
 \name{ghyp-data}
 \alias{ghyp.data}
+\alias{ghyp.name}
 \alias{ghyp.fit.info}
 \title{Get methods for objects inheriting from class ghypbase}
 \description{
@@ -12,10 +13,14 @@
 ghyp.fit.info(object)
 
 ghyp.data(object)
+
+ghyp.name(object, abbr = FALSE, skew.attr = TRUE)
 }
 \arguments{
   \item{object}{An object inheriting from class 
                \code{\link[=ghyp-class]{ghyp}}.}
+  \item{abbr}{If \code{TRUE} the abbreviation of the \code{ghyp} distribution will be returned.}
+  \item{skew.attr}{If \code{TRUE} an attribute will be added to the name of the \code{ghyp} distribution stating whether the distribution is symmetric or not.}  
 }
 \value{
   \code{ghyp.fit.info} returns list with components: 
@@ -33,6 +38,8 @@ ghyp.data(object)
   \code{ghyp.data} returns \code{NULL} if no data is stored within the
   object, a \code{vector} if it is an univariate generalized hyperbolic distribution
   and \code{matrix} if it is an multivariate generalized hyperbolic distribution.
+  
+  \code{ghyp.name} returns the name of the \code{ghyp} distribution which can be the name of a special case.
 }
 \author{David Lüthi}
 \note{
@@ -57,6 +64,10 @@ ghyp.data(object)
 
   ## Get data
   ghyp.data(ghyp.mv)
+  
+  ## Get the name of the ghyp object
+  ghyp.name(ghyp(alpha.bar = 0))
+  ghyp.name(ghyp(alpha.bar = 0, lambda = -4), abbr = TRUE)
 
   ## 'ghyp.fit.info' does only work when the object is of class 'mle.ghyp',
   ## i.e. is created by 'fit.ghypuv' etc.

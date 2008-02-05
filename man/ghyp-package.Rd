@@ -17,8 +17,8 @@ In addition the generalized inverse gaussian distribution is contained in this p
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 1.0.0; svn-revision 238\cr
-Date: \tab 2007-09-14\cr
+Version: \tab 1.1.0; svn-revision 254\cr
+Date: \tab 2008-02-05\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
 
@@ -70,6 +70,7 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link[=coef.ghyp]{coef}} \tab       Parameters of a generalized hyperbolic distribution.\cr
   \code{\link{ghyp.data}} \tab              Data of a (fitted) generalized hyperbolic distribution.\cr
   \code{\link{ghyp.fit.info}} \tab          Information about the fitting procedure, log-likelihood and AIC value.\cr      
+  \code{\link{ghyp.name}} \tab              Returns the name of the \code{ghyp} distribution or a subclass of it.\cr      
   \code{\link[=summary.mle.ghyp]{summary}} \tab       Summary of a fitted generalized hyperbolic distribution.\cr  
 }
 

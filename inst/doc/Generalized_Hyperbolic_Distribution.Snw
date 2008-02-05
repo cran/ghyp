@@ -57,7 +57,7 @@
                       B \MU + \mathbf{b},B \Sigma B' ,B\GAMMA)}
 \newcommand{\ThetaK}{\Theta^{[k]}}
 \newcommand{\InvGamma}{\hbox{I}\Gamma}
-\newcommand{\ghyp}{{\tt ghyp $\,$}}
+\newcommand{\ghyp}{{\texttt{ghyp}}}
 \newcommand{\set}[1]{\left\{#1\right\}}
 \newcommand{\sek}[1]{\left(#1\right)}
 
@@ -95,7 +95,7 @@
 
 \newcommand{\customspace}{\\[3ex]}
 
-\newcommand{\R}{\texttt{R}$\,$}
+\newcommand{\R}{\texttt{R}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \addtolength{\textheight}{-2.4cm}
 
@@ -140,10 +140,10 @@ Email: david.luethi@zhaw.ch
 \maketitle
 \vspace{1cm}
 \begin{abstract}
-In this document the \R package \ghyp is described in detail. Basically, the density functions of the
+In this document the~\R~package~\ghyp~is described in detail. Basically, the density functions of the
 generalized hyperbolic distribution
 and its special cases and the fitting procedure.
-Some code chunks indicate how the package \ghyp can be used.
+Some code chunks indicate how the package~\ghyp~can be used.
 \end{abstract}
 \thispagestyle{empty}
 \clearpage
@@ -172,7 +172,7 @@ Facts about generalized hyperbolic (GH) distributions are cited according to
 The random vector $\X$ is said to have a multivariate
 GH distribution if
 \begin{equation}\label{eq:ghd}
-  \X := \MU + W \GAMMA + \sqrt{W} A \Z
+  \X \stackrel{\text{d}}{=} \MU + W \GAMMA + \sqrt{W} A \Z
 \end{equation}
 where
 \begin{enumerate}
@@ -595,7 +595,7 @@ Furthermore
   \EXP{\ln X} =  \frac{\dd \EXP{X^\alpha}}{\dd \alpha}_{\alpha=0}.
 \end{equation}
 Numerical calculations may be performed with the integral representation as well.
-In the \texttt{R} package \ghyp the derivative construction is implemented.
+In the~\R~package~\ghyp~the derivative construction is implemented.
 %-------------------------- Gamma ------------------------------
 \subsection{Gamma distribution}
 When $\chi = 0$ and $\lambda > 0$ the GIG distribution reduces to the gamma distribution
@@ -703,7 +703,7 @@ parametrization yields to a slightly different student-t parametrization:
 In this package the parameter $\Sigma$ denotes the variance in the multivariate case and
 the standard deviation in the univariate case. Thus,
 set $\sigma = \sqrt{\nu/(\nu-2)}$ in the univariate case to get the same results as
-with the standard \R implementation of the student-t distribution.
+with the standard~\R~implementation of the student-t distribution.
 }.
 Because $\psi = 0$ the transformation of $\abar$ to $\chi$ and $\psi$
 (see \ref{eq:abartochipsi}) reduces to
@@ -775,10 +775,10 @@ relation (\ref{eq:bessellimit1}) can be used to verify that the density reduces 
 \end{equation}
 By replacing $\psi$ with $2\lambda$ the limiting density is obtained in the
 ($\LambdaAbar$)-parametrization. 
-\footnote{The numeric implementation in \R uses 
+\footnote{The numeric implementation in~\R~uses 
 spline interpolation for the case where $\lambda - \dDivTwo > 0$ and $\QX < \epsilon$.}\\[2ex]
 For $\lambda - \dDivTwo \leq 0$  the density diverges. \footnote{The current 
-workaround in \R $\,$ simply sets observations where $\QX < \epsilon$ to
+workaround in~\R~simply sets observations where $\QX < \epsilon$ to
 $\epsilon$ when $\lambda - \dDivTwo \leq 0$.} 
 %-------------------------------------------------------------------------
 %-------------   Conditional density of the mixing variable W --------------
@@ -843,7 +843,7 @@ $(\lambda - \dDivTwo,\QX, \psi + \GammaSigGamma )$.
 \end{eqnarray}
 %-------------------------------------------------------------------------
 \section{Distribution objects}
-In the package \ghyp we follow an object-oriented programming approach and
+In the package~\ghyp~we follow an object-oriented programming approach and
 introduce distribution objects. There are mainly four reasons for that:
 \renewcommand{\labelenumi}{\arabic{enumi}.}
 \begin{enumerate}
@@ -862,7 +862,7 @@ introduce distribution objects. There are mainly four reasons for that:
         }
   \item{Generic method dispatching can be used to provide a uniform interface to, e.g.,
         calculate the expected value \verb=mean(distribution.object)=.
-        Additionally, one can take advantage of generic programming since \R provides virtual
+        Additionally, one can take advantage of generic programming since~\R~provides virtual
         classes and some forms of polymorphism.}
 \end{enumerate}
 See appendix \ref{sec:example} for several examples and \ref{sec:exampleobjoriented} for particular
@@ -930,9 +930,9 @@ do some graphical diagnostics of the accuracy of the fit.
 \setkeys{Gin}{width=\textwidth}
 <<fig=TRUE>>=
  data(smi.stocks)
- fitted.returns.mv <- fit.ghypmv(data=smi.stocks[,c("CS","Nestle","Novartis")],
+ fitted.returns.mv <- fit.ghypmv(data=smi.stocks[1:500,c("CS","Nestle","Novartis")],
                                  silent=TRUE)
- pairs(fitted.returns.mv, cex=0.5, legend.cex=0.5, nbins=50)
+ pairs(fitted.returns.mv, cex=0.5, legend.cex=0.8, nbins=50)
 @
 \\[3ex]
 In the following part daily log-returns of the SMI are fitted to the
@@ -954,7 +954,7 @@ accuracy of the fit.
 \bibitem{mcneil} \emph{Quantitative Risk Management: Concepts, Techniques and Tools} 
                   by Alexander J. McNeil, R\"udiger Frey and Paul Embrechts \\
                   Princeton Press, 2005
-\bibitem{QRMlib} \emph{S-Plus and \R Library for Quantitative Risk Management QRMlib} 
+\bibitem{QRMlib} \emph{S-Plus and~\R~Library for Quantitative Risk Management QRMlib} 
                  by Alexander J. McNeil (2005) and Scott Ulman (\R-port) (2007)\\
                  \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}
 \bibitem{brw}    \emph{One-dimensional hyperbolic distributions}, Wolfgang Breymann, 
