@@ -110,7 +110,7 @@
       tmp.fit <- list(convergence = 0, message = NULL)
       
       ll <-  sum(internal.dghypmv(data, lambda = lambda, chi = chi, psi = psi,
-                                  mu = mu, sigma = sigma, gamma = gamma, logvalue=T))  
+                                  mu = mu, sigma = sigma, gamma = gamma, logvalue = TRUE))  
       #<------------------------- Start interations ------------------------------->
       while ((abs.closeness > abstol) & (rel.closeness > reltol) & (i < nit)){
         i <- i + 1
@@ -287,7 +287,7 @@
   ghyp.object <- ghyp(lambda = lambda, alpha.bar = alpha.bar,
                       mu = mu, sigma = sigma, gamma = gamma, data = data)
   
-  ghyp.object@parametrization <- "lambda.alpha.bar"
+  ghyp.object@parametrization <- "alpha.bar"
   ghyp.object@call <- call 
   
   return(fit.ghyp(ghyp.object, llh = llh, n.iter = n.iter, converged = converged,

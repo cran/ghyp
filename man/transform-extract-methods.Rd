@@ -5,10 +5,8 @@
 \alias{[,ghyp,numeric,missing,missing-method} 
 \title{Linear transformation and extraction of generalized hyperbolic distributions}
 \description{
-This function may be useful when generalized hyperbolic distribution objects
-should be linearly transformed (\dfn{`data` * multiplier + summand}). 
-A generalized hyperbolic distribution object will
-be returned.   
+The \code{transform} function can be used to linearly transform generalized hyperbolic distribution objects. 
+The extraction operator \code{[} extracts some margins of a multivariate generalized hyperbolic distribution object.
 }
 \usage{
 \S4method{transform}{ghyp}(`_data`, summand, multiplier)

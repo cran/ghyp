@@ -13,10 +13,10 @@
   hyperbolic distribution. 
   The class \dQuote{mle.ghyp} inherits from 
   the class \dQuote{ghyp}. The class \dQuote{mle.ghyp} adds some additional slots
-  which contains information about the fitting
-  procedure. Namely the
-  number of iterations \code{n.iter}, the log likelihood value \code{llh}, 
-  the Akaike Information Criterion \code{aic}, a boolean vector \code{fitted.params} 
+  which contain information about the fitting
+  procedure. Namely, these are the
+  number of iterations (\code{n.iter}), the log likelihood value (\code{llh}), 
+  the Akaike Information Criterion (\code{aic}), a boolean vector (\code{fitted.params})
   stating which parameters were fitted,
   a boolean \code{converged} whether the fitting procedure converged or not, 
   an \code{error.code} which stores the status of a possible error and 
@@ -25,60 +25,56 @@
   }
 \section{Objects from the Class}{
   Objects should only be created by calls to the constructors \code{\link{ghyp}},
-  \code{\link{hyp}}, \code{\link{NIG}}, \code{\link{VG}} and \code{\link{student.t}}
+  \code{\link{hyp}}, \code{\link{NIG}}, \code{\link{VG}}, \code{\link{student.t}} and \code{\link{gauss}}
   or by calls to the fitting routines like \code{\link{fit.ghypuv}},
   \code{\link{fit.ghypmv}}, \code{\link{fit.hypuv}}, \code{\link{fit.hypmv}} et cetera.
 }
 \section{Slots}{
 	  \strong{Slots of class ghyp:}
     \describe{
-    \item{\code{call}:}{The function-call of class \code{"call"}.}
-    \item{\code{lambda}:}{Shape parameter of class \code{"numeric"}.}
-    \item{\code{alpha.bar}:}{Shape parameter of class \code{"numeric"}.}
+    \item{\code{call}:}{The function-call of class \code{call}.}
+    \item{\code{lambda}:}{Shape parameter of class \code{numeric}.}
+    \item{\code{alpha.bar}:}{Shape parameter of class \code{numeric}.}
     \item{\code{chi}:}{Shape parameter of an alternative parametrization.
-                      Object of class \code{"numeric"}.}
+                      Object of class \code{numeric}.}
     \item{\code{psi}:}{Shape parameter of an alternative parametrization.
-                      Object of class \code{"numeric"}.}
-    \item{\code{mu}:}{Location parameter of lass \code{"numeric"}.}
-    \item{\code{sigma}:}{Dispersion parameter of class \code{"numeric"} in the univariate case and 
-                         \code{"matrix"} in the multivariate case.}
-    \item{\code{gamma}:}{Skewness parameter of class \code{"numeric"}.}
+                      Object of class \code{numeric}.}
+    \item{\code{mu}:}{Location parameter of lass \code{numeric}.}
+    \item{\code{sigma}:}{Dispersion parameter of class \code{matrix}.}
+    \item{\code{gamma}:}{Skewness parameter of class \code{numeric}.}
     \item{\code{model}:}{Model, i.e., (a)symmetric generalized hyperbolic distribution or 
-                         (a)symmetric special case. Object of class \code{"character"}.}
+                         (a)symmetric special case. Object of class \code{character}.}
     \item{\code{dimension}:}{Dimension of the generalized hyperbolic distribution. 
-                             Object of class \code{"numeric"}.}
+                             Object of class \code{numeric}.}
     \item{\code{expected.value}:}{The expected value of a generalized 
                                   hyperbolic distribution.
-                                  Object of class \code{"numeric"}.}
+                                  Object of class \code{numeric}.}
     \item{\code{variance}:}{The variance of a generalized 
-                            hyperbolic distribution. Either of class \code{"numeric"} in the univariate case and 
-                            \code{"matrix"} in the multivariate case.}
-    \item{\code{data}:}{The data-slot is of class \code{"matrix"} for multivariate distributions and 
-                        of class \code{"numeric"} for univariate distributions. When an object of class 
+                            hyperbolic distribution of class \code{matrix}.}
+    \item{\code{data}:}{The data-slot is of class \code{matrix}. When an object of class 
                         \code{ghypmv} is instantiated the user can decide whether
                         data should be stored within the object or not. This is the default and may be useful
                         when fitting eneralized hyperbolic distributions to data and 
                         perform further analysis afterwards.}
     \item{\code{parametrization}:}{Parametrization of the generalized 
-                                  hyperbolic distribution of class \code{"character"}.
-                                  These are currently either \code{"lambda.chi.psi"} or 
-                                  \code{"lambda.alpha.bar"}.}
+                                  hyperbolic distribution of class \code{character}.
+                                  These are currently either \dQuote{chi.psi}, \dQuote{alpha.bar} or \dQuote{alpha.delta}.}
     }
 
 	  \strong{Slots added by class mle.ghyp:}
     \describe{
-    \item{\code{n.iter}:}{The number of iterations of class \code{"numeric"}.}
-    \item{\code{llh}:}{The log likelihood value of class \code{"numeric"}.}
+    \item{\code{n.iter}:}{The number of iterations of class \code{numeric}.}
+    \item{\code{llh}:}{The log likelihood value of class \code{numeric}.}
     \item{\code{converged}:}{A boolean whether converged or not.
-                             Object of class \code{"logical"}.}
-    \item{\code{error.code}:}{An error code of class \code{"numeric"}.}
-    \item{\code{error.message}:}{An error message of class \code{"character"}.}
-    \item{\code{fitted.params}:}{A boolean vector stating which parameters were fitted of class \code{"logical"}.}
-    \item{\code{aic}:}{The value of the Akaike Information Criterion of class \code{"numeric"}.}    
-    \item{\code{parameter.variance}:}{The parameter variance is calculated to be the inverse 
+                             Object of class \code{logical}.}
+    \item{\code{error.code}:}{An error code of class \code{numeric}.}
+    \item{\code{error.message}:}{An error message of class \code{character}.}
+    \item{\code{fitted.params}:}{A boolean vector stating which parameters were fitted of class \code{logical}.}
+    \item{\code{aic}:}{The value of the Akaike Information Criterion of class \code{numeric}.}    
+    \item{\code{parameter.variance}:}{The parameter variance is the inverse 
                                       of the fisher information matrix. This slot is filled only in the case of 
                                       an univariate fit.
-                                      Parameter.variance is of class \code{"matrix"}.}    
+                                      This slot is of class \code{matrix}.}    
   }
 }
 \section{Extends}{
@@ -104,9 +100,9 @@ Class \dQuote{mle.ghyp} extends class \code{"\linkS4class{ghyp}"}, directly.
   the corresponding fixed parameters are not printed.
 }
 \seealso{
-  \code{\link{optim}} for an interpretation of \code{error.code} and \code{error.message}. \cr
-  \code{\link{ghyp}}, \code{\link{hyp}}, \code{\link{NIG}}, \code{\link{VG}}, \code{\link{student.t}} for constructors
-  of the class \code{ghyp}. 
+  \code{\link{optim}} for an interpretation of \code{error.code}, \code{error.message} and \code{parameter.variance}. \cr
+  \code{\link{ghyp}}, \code{\link{hyp}}, \code{\link{NIG}}, \code{\link{VG}}, \code{\link{student.t}} and 
+  \code{\link{gauss}} for constructors of the class \code{ghyp}. 
   \code{\link{fit.ghypuv}}, \code{\link{fit.ghypmv}} et cetera for the fitting routies and constructors of the class
   \code{mle.ghyp}.
 }
@@ -114,7 +110,7 @@ Class \dQuote{mle.ghyp} extends class \code{"\linkS4class{ghyp}"}, directly.
   data(smi.stocks)
   multivariate.fit <- fit.ghypmv(data = smi.stocks, 
                                  opt.pars = c(lambda = FALSE, alpha.bar = FALSE), 
-                                 lambda=2)
+                                 lambda = 2)
   summary(multivariate.fit)
   
   vcov(multivariate.fit)

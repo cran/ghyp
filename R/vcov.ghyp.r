@@ -1,5 +1,5 @@
 "vcov.ghyp" <- function(object){
-  if(object@dimension == 1){
+  if(is.univariate(object)){
     return(as.vector(object@variance))
   }else{
     return(object@variance)

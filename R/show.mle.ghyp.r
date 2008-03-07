@@ -5,7 +5,7 @@
   }else if(!object@converged && is.na(object@n.iter)){
      cat("Error: fitting procedure crashed! Use 'summary' to see the message!\n\n")  
   }
- 
+
   callNextMethod()
   
   cat("\nlog-likelihood:\n", logLik(object), "\n\n", sep = "")

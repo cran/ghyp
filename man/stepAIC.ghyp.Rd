@@ -8,8 +8,8 @@
   the univariate as well as for the multivariate case.
 }
 \usage{
-stepAIC.ghyp(data, dist=c("ghyp","hyp","NIG","VG","t"), 
-             symmetric=NULL, ...)
+stepAIC.ghyp(data, dist = c("ghyp", "hyp", "NIG", "VG", "t", "gauss"), 
+             symmetric = NULL, ...)
 }
 \arguments{
   \item{data}{A \code{vector}, \code{matrix} or \code{data.frame}.}
@@ -40,13 +40,21 @@ stepAIC.ghyp(data, dist=c("ghyp","hyp","NIG","VG","t"),
   data(smi.stocks)
   
   # Multivariate case:
-  stepAIC.ghyp(smi.stocks[, 2:5], dist = c("ghyp", "hyp", "t"), symmetric = NULL,
-               control = list(maxit = 500), silent = T, nit = 500)
+  aic.mv <- stepAIC.ghyp(smi.stocks[, 2:5], dist = c("ghyp", "hyp", "t", "gauss"), 
+                         symmetric = NULL, control = list(maxit = 500), 
+                         silent = TRUE, nit = 500)
+               
+  summary(aic.mv$best.model)
                
   # Univariate case:
-  stepAIC.ghyp(smi.stocks[, "SMI"], dist = c("ghyp", "NIG", "VG"), symmetric = TRUE,
-               control = list(maxit = 500), silent = T)
+  aic.uv <- stepAIC.ghyp(smi.stocks[, "SMI"], dist = c("ghyp", "NIG", "VG", "gauss"), 
+                         symmetric = TRUE, control = list(maxit = 500), silent = TRUE)
+
+
+  # Test whether the ghyp-model provides a significant improvement with 
+  # respect to the VG-model:
+  lik.ratio.test(aic.uv$all.models[[1]], aic.uv$all.models[[3]]) 
 
 }
-}
+}                                                                          
 \keyword{utilities}

@@ -1,5 +1,5 @@
-"rgig" <- function(n = 10, lambda = 1, chi = 1, psi = 1, envplot = F,
-                   messages = F)
+"rgig" <- function(n = 10, lambda = 1, chi = 1, psi = 1, envplot = FALSE,
+                   messages = FALSE)
 {
   ## This source code is copied from the S-Plus library QRMlib
   ## from Alexander J. McNeil (2005) designed to accompany the book 

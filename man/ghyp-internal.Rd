@@ -32,17 +32,26 @@ integrate.moment.ghypuv(x, moment = 1, ...)
 internal.dghyp(x, lambda = 1, chi = 1, psi = 1, alpha.bar = NULL, 
                mu = 1, sigma = 1, gamma = 0, logvalue = FALSE)
 
-internal.dghypmv(x, lambda, chi, psi, mu, sigma, gamma, logvalue = F)  
+internal.dghypmv(x, lambda, chi, psi, mu, sigma, gamma, logvalue = FALSE)  
 
 mle.default(data, pdf, vars, opt.pars = rep(TRUE, length(vars)), 
             transform = NULL, se = FALSE, 
             na.rm = FALSE, silent = FALSE, ...)
             
-p.default(q,pdf,pdf.args,lower,...)
+p.default(q, pdf, pdf.args, lower, upper, ...)
 
 q.default(p, pdf, pdf.args, interval, p.lower, ...)
 
 test.ghyp(object, case = c("ghyp", "univariate", "multivariate"))
+
+is.gaussian(object)
+
+is.univariate(object)
+
+is.symmetric.t(object)
+
+get.stepAIC.ghyp(stepAIC.obj, dist = c("ghyp", "hyp", "NIG", "VG", "t", "gauss"), 
+                 symmetric = FALSE)
 
 llh.surface(obj, param=c("alpha.bar","lambda","mu","sigma","gamma"),
             x.seq=NULL, y.seq=NULL, x.range=c(0,1), y.range=c(0,1),
@@ -67,10 +76,6 @@ llh.surface(obj, param=c("alpha.bar","lambda","mu","sigma","gamma"),
 
 \code{check.norm.pars} \cr
 This function simply checks if the dimensions match.
-  
-\code{check.gig.pars} \cr
-  Some combinations of the GIG parameters are not allowed. This 
-  function checks whether the parameters are valid or not. 
 
 \code{check.opt.pars} \cr
   When calling the fitting routines (\code{\link{fit.ghypuv}} and \code{\link{fit.ghypmv}})
@@ -132,6 +137,18 @@ This function simply checks if the dimensions match.
   multivariate according to the argument \code{case}
   and states a corresponding error if not.
   
+\code{is.gaussian} \cr
+  Tests whether the object is of a gaussian type.
+
+\code{is.symmetric.t} \cr
+  Tests whether the object is of a symmetric Student-t distribution.
+
+\code{is.univariate} \cr
+  Tests whether the object is a univariate ghyp-distribution.
+
+\code{get.stepAIC.ghyp} \cr
+  Returns a specific model from a list returned by \code{stepAIC.ghyp}
+    
 \code{llh.surface} \cr
   This function is intended to draw surface plots of the log-likelihood function 
   either over a one or two-dimensional parameter space.

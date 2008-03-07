@@ -6,12 +6,12 @@
 \alias{ESghyp}
 \title{The Generalized Hyperbolic Distribution}
 \description{
-  Density, distribution function, quantile function, expected shortfall and
+  Density, distribution function, quantile function, expected-shortfall and
   random generation for the univariate and multivariate
   generalized hyperbolic distribution and its special cases.
 }
 \usage{
-dghyp(x, object = ghyp(), logvalue = F)
+dghyp(x, object = ghyp(), logvalue = FALSE)
 
 pghyp(q, object = ghyp(), n.sim = 10000, subdivisions = 200, 
       rel.tol = .Machine$double.eps^0.5, abs.tol = rel.tol)
@@ -23,15 +23,17 @@ qghyp(p, object = ghyp(), method = c("integration", "splines"),
 
 rghyp(n, object = ghyp())
 
-ESghyp(p, object = ghyp(), ...)
+ESghyp(alpha, object = ghyp(), distr = c("return", "loss"), ...)
 }
 \arguments{
   \item{p}{A vector of probabilities.}
   \item{x}{A vector, matrix or data.frame of quantiles.}
   \item{q}{A vector, matrix or data.frame of quantiles.}
+  \item{alpha}{A vector of confidence levels.}
   \item{n}{Number of observations.}
   \item{object}{An object inheriting from class \code{\link[=ghyp-class]{ghyp}}.}
   \item{logvalue}{If \code{TRUE} the logarithm of the density will be returned.}
+  \item{distr}{Whether the ghyp-object specifies a return or a loss-distribution (see \bold{Details}).}
   \item{n.sim}{The number of simulations when computing \code{pghyp} of a multivariate
                generalized hyperbolic distribution.}
   \item{subdivisions}{The number of subdivisions passed to \code{\link{integrate}} when
@@ -39,7 +41,7 @@ ESghyp(p, object = ghyp(), ...)
                       univariate generalized hyperbolic distribution.}
   \item{rel.tol}{The relative accuracy requested from  \code{\link{integrate}}.}
   \item{abs.tol}{The absolute accuracy requested from  \code{\link{integrate}}.}
-  \item{method}{The method how quantiles are computed (see \bold{Details}) .}
+  \item{method}{The method how quantiles are computed (see \bold{Details}).}
   \item{spline.points}{The number of support points when computing the quantiles with the method
                        \dQuote{splines} instead of \dQuote{integration}.}
   \item{root.tol}{The tolerance of \code{\link{uniroot}}.}
@@ -48,8 +50,14 @@ ESghyp(p, object = ghyp(), ...)
 \details{
    \code{qghyp} and \code{ESghyp} only work for univariate generalized hyperbolic
    distributions. \cr
-   
-   \code{pghyp} just integrates the density in the univariate case. The multivariate 
+
+   The parameter \code{distr} specifies whether the ghyp-object describes a return or a loss-distribution.
+   In case of a return distribution the expected-shortfall on a confidence level \eqn{\alpha}{alpha} is defined as 
+   \eqn{\hbox{ES}_\alpha := \hbox{E}(X | X \leq F^{-1}_X(\alpha))}{ES_alpha := E(X | X <= F^-1(alpha))} while
+   in case of a loss distribution it is defined on a confidence level \eqn{\alpha}{alpha} as 
+   \eqn{\hbox{ES}_\alpha := \hbox{E}(X | X \geq F^{-1}_X(\alpha))}{ES_alpha := E(X | X >= F^-1(alpha))}. \cr
+
+   \code{pghyp} performs a numeric integration of the density in the univariate case. The multivariate 
    cumulative distribution is computed by means of monte carlo simulation. \cr
    
    \code{qghyp} computes the quantiles either by using the \dQuote{integration} method where the root of 
@@ -61,7 +69,7 @@ ESghyp(p, object = ghyp(), ...)
    parameters \code{rel.tol}, \code{abs.tol}, \code{root.tol} and \code{spline.points}.\cr
    
    \code{rghyp} uses the random generator for generalized inverse gaussian distributed
-    random variates from the S-Plus library \emph{QRMlib} 
+    random variates from the S-Plus and R library \emph{QRMlib} 
   (see \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}).
 }
 \value{
@@ -73,6 +81,8 @@ ESghyp(p, object = ghyp(), ...)
   \emph{Quantitative Risk Management: Concepts, Techniques and Tools} by Alexander J. McNeil, Rüdiger
   Frey and Paul Embrechts \cr
   Princeton Press, 2005 \cr   
+  
+  \code{ghyp}-package vignette in the \code{doc} folder or on \url{http://cran.r-project.org/web/packages/ghyp/}  
 }
 \author{David Lüthi}
 \note{

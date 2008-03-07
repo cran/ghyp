@@ -4,6 +4,7 @@
 \alias{fit.NIGuv}
 \alias{fit.VGuv}
 \alias{fit.tuv}
+\alias{fit.gaussuv}
 \title{Fitting generalized hyperbolic distributions to univariate data}
 \description{
    This function performs a maximum likelihood parameter estimation for univariate 
@@ -32,16 +33,18 @@ fit.VGuv(data, lambda = 1,
 fit.tuv(data, nu = 3.5, 
         opt.pars = c(nu = T, mu = T, sigma = T, gamma = !symmetric), 
         symmetric = F, ...)
+        
+fit.gaussuv(data, na.rm = T, save.data = T)        
 }
 \arguments{
   \item{data}{An object coercible to a \code{vector}.}
-  \item{lambda}{Shape parameter.}
-  \item{alpha.bar}{Shape parameter.}
-  \item{nu}{Shape parameter only used in case of a student-t distribution. It determines
-            the degree of freedom and is defined as \code{-2*lambda}.}
-  \item{mu}{Location parameter.}
-  \item{sigma}{Dispersion parameter.}
-  \item{gamma}{Skewness parameter.}
+  \item{lambda}{Starting value for the shape parameter \code{lambda}.}
+  \item{alpha.bar}{Starting value for the shape parameter \code{alpha.bar}.}
+  \item{nu}{Starting value for the shape parameter \code{nu} (only used in case of a student-t distribution. It determines
+            the degree of freedom and is defined as \code{-2*lambda}.)}
+  \item{mu}{Starting value for the location parameter \code{mu}.}
+  \item{sigma}{Starting value for the dispersion parameter \code{sigma}.}
+  \item{gamma}{Starting value for the skewness parameter \code{gamma}.}
   \item{opt.pars}{A named logical \code{vector} which states which parameters should be fitted.}
   \item{symmetric}{If \code{TRUE} the skewness parameter \code{gamma} keeps zero.}
   \item{standardize}{If \code{TRUE} the sample will be standardized before fitting. 
@@ -65,8 +68,11 @@ fit.tuv(data, nu = 3.5,
 \author{
   Wolfgang Breymann, David Lüthi
 }
+\references{
+  \code{ghyp}-package vignette in the \code{doc} folder or on \url{http://cran.r-project.org/web/packages/ghyp/}.
+}
 \note{
-  The variance gamma distribution becomes singular when \code{x - m = 0}. This singularity
+  The variance gamma distribution becomes singular when \eqn{x - \mu = 0}{x - mu = 0}. This singularity
   is catched and the reduced density function is computed. Because the transition is
   not smooth in the numerical implementation this can rarely result in nonsensical
   fits.

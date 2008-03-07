@@ -31,16 +31,16 @@
      }
      if(ncol(multiplier) != object@dimension){
         stop("Dimension of multiplier must be ",
-             "n x ",object@dimension,"!",sep="")
+             "n x ", object@dimension, "!", sep = "")
      }
-     summand <- rep(0,nrow(multiplier))
+     summand <- rep(0, nrow(multiplier))
   }else if(missing(multiplier)){
      if(any(!is.finite(summand))){
        stop("All elements of 'summand' must be finite!")
      }
      summand <- as.vector(summand)
-     if(length(summand)!= object@dimension){
-        stop("Dimension of summand must be ",object@dimension,"!",sep="")
+     if(length(summand) != object@dimension){
+        stop("Dimension of summand must be ", object@dimension, "!", sep = "")
      }
      multiplier <- diag(rep(1, object@dimension))  
   }else{
@@ -52,7 +52,7 @@
      }
      summand <- as.vector(summand)
      if(!is.matrix(multiplier)){
-       multiplier <- matrix(multiplier,nrow=1)
+       multiplier <- matrix(multiplier, nrow = 1)
      }
      if(ncol(multiplier) != object@dimension){
         stop("Dimension mimatch: ncol(multiplier) must be equal to the dimension of the object!")
@@ -71,7 +71,7 @@
   sigma <- multiplier %*% object@sigma %*% t(multiplier)
   if(ncol(sigma) == 1){
     sigma <- as.vector(sigma)
-    if(object@dimension == 1){
+    if(is.univariate(object)){
       sigma <- sigma * object@sigma # = multiplier^2 * sigma^2 -> univariate case
     }
   }
@@ -79,19 +79,14 @@
   if(length(summand) == 1){
     sigma <- sqrt(sigma)
   }
-  if(object@parametrization == "lambda.chi.psi"){
-    return(ghyp(lambda = object@lambda, chi = object@chi, psi = object@psi,
+  if(object@parametrization == "alpha.bar"){
+    return(ghyp(lambda = object@lambda, alpha.bar = object@alpha.bar,
                 mu = as.vector(multiplier %*% object@mu + summand),
                 sigma = sigma, gamma = as.vector(multiplier %*% object@gamma)))
   }else{
-    return(ghyp(lambda = object@lambda, alpha.bar = object@alpha.bar,
+    return(ghyp(lambda = object@lambda, chi = object@chi, psi = object@psi,
                 mu = as.vector(multiplier %*% object@mu + summand),
                 sigma = sigma, gamma = as.vector(multiplier %*% object@gamma)))
   }
 }
 setMethod("transform", signature(`_data` = "ghyp"), transform.ghyp)
-
-"lin.transf" <- function(x, ...){
-  warning("'lin.transf' is replaced by 'transform' and will be removed in the next release!") 
-  transform(x, ...)
-}

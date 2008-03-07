@@ -1,77 +1,96 @@
 "show.ghyp" <- function(object)
 {
-  cat(ghyp.name(object, abbr = FALSE, skew.attr = TRUE), "Distribution:\n", sep=" ")
+  cat(ghyp.name(object, abbr = FALSE, skew.attr = TRUE), "Distribution:\n", sep = " ")
   cat("\nParameters:\n")
-  if(object@dimension > 1){
-    if(object@parametrization == "lambda.chi.psi"){
-      param <- c(object@lambda, object@chi, object@psi)    
-      names(param) <- c("lambda", "chi", "psi")
-    }else{
-      param <- c(object@lambda, object@alpha.bar)
-      names(param) <- c("lambda", "alpha.bar")
-    }
-    if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){                   
-      # Student-t  ->  alpha.bar == 0
-      nu <- -2*object@lambda
-      param <- c(nu = unname(nu))
-    }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
-      # VG  ->  alpha.bar == 0 or chi == 0
-      if(object@parametrization == "lambda.chi.psi"){
-        param <- param[c(1, 3)]
+  if(object@dimension > 1){ # Multivariate case
+    param <- coef(object)  
+    if(object@parametrization == "alpha.delta"){
+      if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){                   
+        # Student-t  ->  alpha^2 == beta' Delta beta
+        param.uv <- unlist(param[c(1, 3)])
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
+        # VG  ->  delta == 0 
+        param.uv <- unlist(param[1:2])
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "ghyp"){
+        param.uv <- unlist(param[1:3])
       }else{
-        param <- param[1]
+        # hyp or NIG -> lambda is constant
+        param.uv <- unlist(param[2:3])  
       }
-    }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "ghyp"){
-      # ghyp
-      dummy <- NULL 
-      # identification problem when scanning for Hyperbolic
-      # since this pattern occurs in 'Gen. Hyp.' and 'Hyp.' 
+      print(param.uv)
+      cat("\nmu:\n")
+      print(param$mu)
+      cat("\nDelta:\n")
+      print(param$Delta)
+      cat("\nbeta:\n")
+      print(param$beta)  
+    }else if(is.gaussian(object)){
+      cat("\nmu:\n")
+      print(param$mu)
+      cat("\nsigma:\n")
+      print(param$sigma)
     }else{
-      # hyp or NIG -> lambda set constant
-      # hyp  ->  lambda == (dimension + 1) / 2 
-      # NIG  ->  lambda == -0.5
-      param <- param[2:length(param)]    
-    }
-    print(param)
-    cat("\nmu:\n")
-    print(object@mu)
-    cat("\nsigma:\n")
-    print(object@sigma)
-    cat("\ngamma:\n")
-    print(object@gamma)  
-  }else{
-    if(object@parametrization == "lambda.chi.psi"){
-      param <- c(object@lambda, object@chi, object@psi, 
-                 object@mu, object@sigma, object@gamma)    
-      names(param) <- c("lambda", "chi", "psi", "mu", "sigma", "gamma")
-    }else{
-      param <- c(object@lambda, object@alpha.bar, 
-                 object@mu, object@sigma, object@gamma)
-      names(param) <- c("lambda", "alpha.bar", "mu", "sigma", "gamma")
-    }
-    if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){
-      # Student-t  ->  alpha.bar == 0
-      nu <- -2*object@lambda
-      param[1] <- nu
-      names(param)[1] <- "nu"
-      param <- param[c(1, 3:5)]
-    }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
-      # VG  ->  alpha.bar == 0 or chi == 0
-      if(object@parametrization == "lambda.chi.psi"){
-        param <- param[c(1, 3:6)]
+      if(object@parametrization == "chi.psi"){
+        param.uv <- unlist(param[1:3])
       }else{
-        param <- param[c(1, 3:5)]
+        param.uv <- unlist(param[1:2])
       }
-    }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "ghyp"){
-      # ghyp
-      dummy <- NULL 
-      # identification problem when scanning for Hyperbolic
-      # since this pattern occurs in 'Gen. Hyp.' and 'Hyp.' 
-    }else{
-      # hyp or NIG -> lambda set constant
-      # hyp  ->  lambda == (dimension + 1) / 2 
-      # NIG  ->  lambda == -0.5
-      param <- param[2:length(param)]    
+      if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){                   
+        # Student-t  ->  alpha.bar == 0
+        param.uv <- c(nu = unname(-2 * param.uv["lambda"]))
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
+        # VG  ->  alpha.bar == 0 or chi == 0
+        if(object@parametrization == "chi.psi"){
+          param.uv <- param.uv[c(1, 3)]
+        }else if(object@parametrization == "alpha.bar"){
+          param.uv <- param.uv[1]
+        }
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "ghyp"){
+        #param.uv <- param.uv
+      }else{
+        # hyp or NIG -> lambda is constant
+        param.uv <- param.uv[-1]    
+      }
+      print(param.uv)
+      cat("\nmu:\n")
+      print(param$mu)
+      cat("\nsigma:\n")
+      print(param$sigma)
+      cat("\ngamma:\n")
+      print(param$gamma)  
+    }
+  }else{  # Univariate case
+    param <- unlist(coef(object))
+    if(object@parametrization == "alpha.delta"){ #  ----> alpha.delta-parametrization
+      if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){
+        # Student-t  ->  alpha^2 == beta^2
+        param <- param[-2]
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
+        # VG  ->  delta == 0
+        param <- param[-5]
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "ghyp"){
+        # param <- param
+      }else{
+        # hyp or NIG -> lambda is constant
+        param <- param[-1]    
+      }
+    }else if(is.gaussian(object)){
+      param <- c(param["mu"], param["sigma"])
+    }else{ #  ----> chi.psi or alpha.bar-parametrization
+      if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){
+        # Student-t  ->  alpha.bar == 0
+        param[1] <- -2 * param["lambda"]
+        names(param)[1] <- "nu"
+        param <- param[-2]
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
+        # VG  ->  alpha.bar == 0 or chi == 0
+        param <- param[-2]
+      }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "ghyp"){
+        # param <- param
+      }else{
+        # hyp or NIG -> lambda is constant
+        param <- param[-1]    
+      }
     }
     print(param)
   }

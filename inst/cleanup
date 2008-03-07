@@ -2,4 +2,6 @@
 for f in ./doc/*.ps; do
     rm -f $f
 done
+rm ./doc/*.bib
+rm ./doc/*.sty
 exit 0

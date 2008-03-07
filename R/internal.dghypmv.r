@@ -1,4 +1,4 @@
-"internal.dghypmv" <- function(x, lambda, chi, psi, mu, sigma , gamma ,logvalue=F)
+"internal.dghypmv" <- function(x, lambda, chi, psi, mu, sigma, gamma, logvalue = FALSE)
 {
   ## Density of a multivariate generalized hyperbolic distribution.
   ## Covers all special cases as well.
@@ -10,41 +10,50 @@
 
   if (sum(abs(gamma)) == 0){
     symm <- TRUE
-    tilt <- 0
-    Offset <- 0
+    skewness.scaled <- 0
+    skewness.norm <- 0
   } else {
     symm <- FALSE
-    tilt <- as.vector((as.matrix(x) - matrix(mu, nrow = n, ncol = d, byrow = T)) %*% 
+    skewness.scaled <- as.vector((as.matrix(x) - matrix(mu, nrow = n, ncol = d, byrow = T)) %*% 
                       (inv.sigma %*% gamma))
-    Offset <- t(gamma) %*% inv.sigma %*% gamma
+    skewness.norm <- t(gamma) %*% inv.sigma %*% gamma
   }
   out <- NA
   if (psi == 0){
-    nu <- 2 * abs(lambda)
+    lambda.min.d.2 <- lambda - d / 2
     if(symm){
-    # Symmetric student-t
-      log.const.top <- lgamma((nu + d)/2)
-      log.const.bottom <- lgamma(nu/2) + d/2 * log((nu - 2) * pi) + 0.5 * log(det.sigma)
-      log.top <- -(nu + d)/2 * log(1 + Q/(nu - 2))
+    # Symmetric Student-t
+     
+      interm <- chi + Q
+
+      log.const.top <- -lambda * log(chi) + lgamma(-lambda.min.d.2)
+      log.const.bottom <- d / 2 * log(pi) + 0.5 * log(det.sigma) + lgamma(-lambda)
+      log.top <- lambda.min.d.2 * log(interm)
+
       out <- log.const.top + log.top - log.const.bottom
+            
     }else{
-    # Asymmetric student-t
-      interm <- sqrt((nu + Q -2) * Offset)
-      log.top <- besselM3((nu + d)/2, interm, logvalue = T) + tilt
-      log.const.top <- log(2) + (nu + d)/4 * (log(Offset) - 
-                       log(Q + nu - 2)) + (nu/2) * log(nu/2 - 1)
-      log.const.bottom <- (d/2) * log(2 * pi) + 0.5 * log(det.sigma) + lgamma(nu/2)
-      out <- log.const.top + log.top - log.const.bottom
+    # Asymmetric Student-t
+      interm <- sqrt((chi + Q) * skewness.norm)
+      
+      log.const.top <- -lambda * log(chi) - lambda.min.d.2 * log(skewness.norm)
+      log.const.bottom <- d / 2 * log(2 * pi) + 0.5 * log(det.sigma) + lgamma(-lambda) - (lambda + 1) * log(2)
+
+      log.top <- besselM3(lambda.min.d.2, interm, logvalue = TRUE) + skewness.scaled
+      log.bottom <- -lambda.min.d.2 * log(interm)
+
+      out <- log.const.top + log.top - log.const.bottom - log.bottom
+
     }
   }
   else if (psi > 0){
     if (chi > 0){
     # ghyp, hyp and NIG (symmetric and asymmetric)
       log.top <-
-      besselM3((lambda - d/2), sqrt((psi + Offset) * (chi + Q)), logvalue = T) + tilt
-      log.bottom <- (d/2 - lambda) * log(sqrt((psi + Offset) * (chi + Q)))
+      besselM3((lambda - d/2), sqrt((psi + skewness.norm) * (chi + Q)), logvalue = T) + skewness.scaled
+      log.bottom <- (d/2 - lambda) * log(sqrt((psi + skewness.norm) * (chi + Q)))
       log.const.top <- -lambda/2 * log(psi * chi) + (d/2) * log(psi) +
-                        (d/2 - lambda ) * log(1 + Offset/psi)
+                        (d/2 - lambda ) * log(1 + skewness.norm/psi)
       log.const.bottom <- d/2 * log(2 * pi) +
                           besselM3(lambda, sqrt(chi * psi), logvalue = T) + 0.5 * log(det.sigma)
       out <- log.const.top + log.top - log.const.bottom - log.bottom
@@ -53,7 +62,7 @@
     # Variance gamma (symmetric and asymmetric)
       eps <- .Machine$double.eps
       # Observations that are close to mu were kept at a minimum magnitude
-      if(any(Q < eps)){
+      if(any(Q < eps, na.rm = TRUE)){
         # If lambda == 0.5 * dimension, there is another singularity.
         if(abs(lambda - 0.5 * d) < eps){
           stop("Unhandled singularity: Some standardized observations are close to 0 (< ",
@@ -65,14 +74,15 @@
                   "Observations set to ",sprintf("% .6E", eps),".\n",immediate. = TRUE)
         }                         
       }
-      log.top <- besselM3((lambda - d/2), sqrt((psi + Offset) * (chi + Q)), logvalue = T) + tilt
-      log.bottom <- (d/2 - lambda) * log(sqrt((psi + Offset) * (chi + Q)))
+      log.top <- besselM3((lambda - d/2), sqrt((psi + skewness.norm) * (chi + Q)), logvalue = T) + skewness.scaled
+      log.bottom <- (d/2 - lambda) * log(sqrt((psi + skewness.norm) * (chi + Q)))
       log.const.top <- d * log(psi)/2 + (1 - lambda) * log(2) +
-                       (d/2 - lambda) * log(1 + Offset/psi)
+                       (d/2 - lambda) * log(1 + skewness.norm/psi)
       log.const.bottom <- (d/2) * log(2 * pi) + lgamma(lambda) + 0.5 * log(det.sigma)
       out <- log.const.top + log.top - log.const.bottom - log.bottom
+    }else{
+      out <- NA
     }
-    else out <- NA
   }
   if (!logvalue){ 
     out <- exp(out)

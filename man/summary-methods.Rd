@@ -13,7 +13,7 @@
   \item{object}{An object of class \code{\link[=mle.ghyp-class]{mle.ghyp}}.}
 }
 \value{
-  Nothing
+  Nothing is returned.
 }
 \author{David Lüthi}
 \seealso{Fitting functions \code{\link{fit.ghypuv}} and \code{\link{fit.ghypmv}}, 

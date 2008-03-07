@@ -1,5 +1,5 @@
 "check.opt.pars" <- function(opt.pars, symmetric){
-  default.names <- c("lambda","alpha.bar","mu","sigma","gamma")
+  default.names <- c("lambda", "alpha.bar", "mu", "sigma", "gamma")
   ## There are 3 possibilities:
   ## (1) opt.pars are not named: They must be of length 5
   ##     and in the order of 'default.names'
@@ -21,9 +21,9 @@
     }
   }else{
       if(all(default.names %in% names(opt.pars))){
-        if(length(opt.pars)!=5){
+        if(length(opt.pars) != 5){
           warning("The following names were dropped:\n",
-          paste(names(opt.pars)[!(names(opt.pars) %in% default.names)],collapse=", "))
+          paste(names(opt.pars)[!(names(opt.pars) %in% default.names)], collapse = ", "))
         }
         new.opt.pars <- c(lambda = unname(opt.pars["lambda"]),
                           alpha.bar = unname(opt.pars["alpha.bar"]),
@@ -35,10 +35,10 @@
                    "opt.pars['gamma'] is set to FALSE!\n")  # ...at the end of "check.opt.pars"
         }
       }else if(!any(default.names %in% names(opt.pars))){
-        stop("The names '", paste(names(opt.pars),collapse="', '"),
+        stop("The names '", paste(names(opt.pars), collapse = "', '"),
              "' do not match the required names lambda, alpha.bar, mu, sigma, gamma.\n")
       }else if(!all(names(opt.pars) %in% default.names)){
-        stop("The names '", paste(names(opt.pars)[!(names(opt.pars) %in% default.names)],collapse="', '"),
+        stop("The names '", paste(names(opt.pars)[!(names(opt.pars) %in% default.names)], collapse = "', '"),
              "' do not match the required names lambda, alpha.bar, mu, sigma, gamma.\n")
       }else{
         new.opt.pars <- logical(0)

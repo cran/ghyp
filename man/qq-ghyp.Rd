@@ -9,12 +9,12 @@
 }
 
 \usage{
-qqghyp(object, data = ghyp.data(object), gaussian = T, line = T, 
+qqghyp(object, data = ghyp.data(object), gaussian = TRUE, line = TRUE, 
        main = "Generalized Hyperbolic Q-Q Plot", 
        xlab = "Theoretical Quantiles", ylab = "Sample Quantiles", 
        ghyp.pch = 1, gauss.pch = 6, ghyp.lty = "solid", 
        gauss.lty = "dashed", ghyp.col = "black", gauss.col = "black", 
-       plot.legend = T, location = "topleft", legend.cex = 0.8, 
+       plot.legend = TRUE, location = "topleft", legend.cex = 0.8, 
        spline.points = 150, root.tol = .Machine$double.eps^0.5, 
        rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
 }
@@ -22,7 +22,7 @@ qqghyp(object, data = ghyp.data(object), gaussian = T, line = T,
   \item{object}{Usually a fitted univariate generalized hyperbolic distribution
                 of class \code{\link[=mle.ghyp-class]{mle.ghyp}}. Alternatively
                 an object of class \code{\link[=ghyp-class]{ghyp}} and a data vector.}
-  \item{data}{A vector.}
+  \item{data}{An object coercible to a \code{vector}.}
   \item{gaussian}{If \code{TRUE} a qq-plot of the normal distribution is plotted as a reference.}
   \item{line}{If \code{TRUE} a line is fitted and drawn.}
   \item{main}{An overall title for the plot.}

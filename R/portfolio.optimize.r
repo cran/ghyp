@@ -34,12 +34,12 @@
      weight.1 <- 1 - sum(opt.weights) - weight.2
      tmp.weights <- c(weight.1, weight.2, opt.weights)
      tmp.portfolio <- transform(object, multiplier = t(tmp.weights))
-     objective.value <- minimize.func(tmp.portfolio, p = 1 - level)
+     objective.value <- minimize.func(1 - level, object = tmp.portfolio)
      ##cat("objective.value: ",objective.value,"\n")
-     return(-objective.value)
+     return( - objective.value )
    }
    
-   initial.weights <- rep(1/(object@dimension - 2), object@dimension - 2)
+   initial.weights <- rep(1 / (object@dimension - 2), object@dimension - 2)
    opt.ptf <- optim(initial.weights, objective, object = object,
                     minimize.func = minimize.func, ptf.mean = ptf.mean, level = level, ...)
 
@@ -49,6 +49,7 @@
    weight.1 <- 1 - sum(opt.ptf$par) - weight.2
    tmp.weights <- c(weight.1, weight.2, opt.ptf$par)
    tmp.portfolio <- transform(object, multiplier = t(tmp.weights))
+
    return(list(portfolio = tmp.portfolio, risk.measure = risk.measure, 
                value = -opt.ptf$value, opt.weights = unname(tmp.weights),
                convergence = opt.ptf$convergence, message = opt.ptf$message,

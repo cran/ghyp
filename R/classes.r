@@ -25,10 +25,9 @@ setClass("ghyp",
                     dimension = 1,
                     expected.value = numeric(0),
                     variance = matrix(0),
-                    parametrization = "lambda.chi.psi",
+                    parametrization = "alpha.bar",
                     data = matrix(0))
 )
-
 
 setClass("mle.ghyp",
          representation(n.iter = "numeric",

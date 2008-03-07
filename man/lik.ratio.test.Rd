@@ -59,7 +59,7 @@ lik.ratio.test(x, x.subclass, conf.level = 0.95)
   t.symmetric <- fit.tuv(sample, silent = TRUE, symmetric = TRUE) 
   t.asymmetric <- fit.tuv(sample, silent = TRUE)
   
-  # Test symmetric student-t against asymmetric student-t in case
+  # Test symmetric Student-t against asymmetric Student-t in case
   # of SMI log-returns
   lik.ratio.test(t.asymmetric, t.symmetric, conf.level = 0.95)
   # -> keep the null hypothesis  
@@ -70,15 +70,15 @@ lik.ratio.test(x, x.subclass, conf.level = 0.95)
   t.symmetric <- fit.tuv(sample, silent = TRUE, symmetric = TRUE) 
   t.asymmetric <- fit.tuv(sample, silent = TRUE)
   
-  # Test symmetric student-t against asymmetric student-t in case of
-  # data simulated according to a slightly skewed student-t distribution
+  # Test symmetric Student-t against asymmetric Student-t in case of
+  # data simulated according to a slightly skewed Student-t distribution
   lik.ratio.test(t.asymmetric, t.symmetric, conf.level = 0.95) 
   # -> reject the null hypothesis
 
   t.symmetric <- fit.tuv(sample, silent = TRUE, symmetric = TRUE) 
   ghyp.asymmetric <- fit.ghypuv(sample, silent = TRUE)
 
-  # Test symmetric student-t against asymmetric generalized 
+  # Test symmetric Student-t against asymmetric generalized 
   # hyperbolic using the same data as in the example above
   lik.ratio.test(ghyp.asymmetric, t.symmetric, conf.level = 0.95) 
   # -> keep the null hypothesis

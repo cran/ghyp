@@ -9,7 +9,7 @@
   extract the Log-Likelihood and the Akaike's Information Criterion from fitted
   generalized hyperbolic distribution objects.
   The Akaike information criterion is calculated according to the formula
-  \eqn{-2 \mbox{log-likelihood} + k n_{par}}{-2*log-likelihood + k*npar},
+  \eqn{-2 \cdot \mbox{log-likelihood} + k \cdot n_{par}}{-2 * log-likelihood + k * npar},
   where \eqn{n_{par}}{npar} represents the number of parameters in the
   fitted model, and \eqn{k = 2} for the usual AIC.
 }
@@ -47,6 +47,10 @@ because they are generic.
   fit.uv <- fit.tuv(smi.stocks[, "CS"], control = list(maxit = 10))
   AIC(fit.uv)
   logLik(fit.uv) 
+  
+  # Both together
+  AIC(fit.uv, fit.mv)     
+  logLik(fit.uv, fit.mv)   
 }
 \keyword{utilities}
 \keyword{methods}

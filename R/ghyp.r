@@ -1,3 +1,4 @@
+#<=================== chi.psi and alpha.bar - parametrization =================>
 "ghyp" <- function(lambda = 0.5, chi = 0.5, psi = 2, mu = 0, sigma = 1,
                    gamma = 0, alpha.bar = NULL, data = NULL)
 {
@@ -8,17 +9,21 @@
     psi  <- tmp.abar2chipsi$psi
     names(chi) <- "chi"
     names(psi) <- "psi"
-    parametrization <- "lambda.alpha.bar"  
+    parametrization <- "alpha.bar"  
   }else{
     alpha.bar <- sqrt(chi*psi)
     names(alpha.bar) <- "alpha.bar"
-    parametrization <- "lambda.chi.psi"    
+    parametrization <- "chi.psi"    
   } 
 
-  check.gig.pars(lambda,chi,psi)
+  check.gig.pars(lambda, chi, psi)
 
-  e.gig <- Egig(lambda,chi,psi,func="x")
-  var.gig <- Egig(lambda,chi,psi,func="var")
+  if(chi == Inf && psi == Inf){ # Gaussian case
+    e.gig <- 1
+    parametrization <- "Gaussian"
+  }else{
+    e.gig <- Egig(lambda, chi, psi, func = "x")  
+  }
   
   if(!is.numeric(gamma)){
     stop("Parameter 'gamma' must be numeric!\n")
@@ -41,7 +46,7 @@
     }
 
     if(!is.null(data)){
-      data <- check.data(data = data, case = "uv", na.rm = F, fit = F)
+      data <- check.data(data = data, case = "uv", na.rm = FALSE, fit = FALSE)
     }else{
       data <- numeric(0)
     }
@@ -49,7 +54,12 @@
     mu <- unname(mu)
     sigma <- unname(sigma)
         
-    variance <- unname(var.gig * gamma^2 + e.gig * sigma^2)
+    if(all(gamma) == 0){
+      variance <- unname(e.gig * sigma^2) 
+    }else{
+      var.gig <- Egig(lambda, chi, psi, func = "var")
+      variance <- unname(var.gig * gamma^2 + e.gig * sigma^2)
+    }
 
   }else if(length(mu)>1){
       #<----------   multivariate case --------------->
@@ -60,12 +70,17 @@
         stop("Dimension mismatch ( length(gamma)!=length(mu) )!\n")
       }
       if(!is.null(data)){
-        data <- check.data(data=data,case="mv",na.rm=F,fit=F)
+        data <- check.data(data = data, case = "mv", na.rm = FALSE, fit = FALSE)
       }else{
-        data <- matrix(numeric(0))
+        data <- numeric(0)
       }
-      
-      variance <- var.gig * outer(gamma, gamma) + e.gig * sigma
+
+      if(all(gamma) == 0){
+        variance <- e.gig * sigma
+      }else{
+        var.gig <- Egig(lambda, chi, psi, func = "var")
+        variance <- var.gig * outer(gamma, gamma) + e.gig * sigma
+      }
       dimnames(variance) <- dimnames(sigma)
 
   }else{
@@ -76,7 +91,6 @@
   if(length(mu) > 1){
     names(expected.value) <- names(mu)
   }
-  
   return(new("ghyp", call = call, 
              lambda = unname(lambda), 
              chi = unname(chi), 

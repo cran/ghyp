@@ -11,7 +11,7 @@
                             opt.pars = c(lambda = F, opt.pars),
                             symmetric = symmetric, ...)
 
-  ghyp.object@parametrization <- "lambda.alpha.bar"
+  ghyp.object@parametrization <- "alpha.bar"
   ghyp.object@call <- call
   return(ghyp.object) 
 }
@@ -28,7 +28,7 @@
                             opt.pars = c(lambda = F, opt.pars),
                             symmetric = symmetric, ...)
 
-  ghyp.object@parametrization <- "lambda.alpha.bar"
+  ghyp.object@parametrization <- "alpha.bar"
   ghyp.object@call <- call
   return(ghyp.object) 
 }
@@ -54,7 +54,7 @@
                             opt.pars = c(alpha.bar = F, opt.pars),
                             symmetric = symmetric, ...)
 
-  ghyp.object@parametrization <- "lambda.alpha.bar"
+  ghyp.object@parametrization <- "alpha.bar"
   ghyp.object@call <- call
   return(ghyp.object) 
 }
@@ -74,7 +74,42 @@
                             opt.pars = c(alpha.bar = F, opt.pars),
                             symmetric = symmetric, ...)
 
-  ghyp.object@parametrization <- "lambda.alpha.bar"
+  ghyp.object@parametrization <- "alpha.bar"
   ghyp.object@call <- call
   return(ghyp.object) 
+}
+
+#<--------------------------------   Gauss   ------------------------------------>
+"fit.gaussuv" <- function(data, na.rm = T, save.data = T)
+{
+  call <- match.call() 
+  data.vec <- check.data(data, case = "uv", na.rm = na.rm, fit = TRUE)
+
+  mu <- unname(mean(data.vec, na.rm = na.rm))
+  sigma <- unname(as.matrix(sd(data.vec, na.rm = na.rm)))
+  
+  if(!save.data){
+    data.vec <- NULL
+  } 
+
+  ghyp.object <- ghyp(lambda = as.numeric(NA), 
+                      chi = Inf, 
+                      psi = Inf,
+                      alpha.bar = NULL,
+                      mu = mu, 
+                      sigma = sigma, 
+                      gamma = rep(0, length(mu)),
+                      data = data.vec)
+
+  ghyp.object@parametrization <- "Gaussian"
+  ghyp.object@call <- call
+  
+  llh <- sum(dghyp(data.vec, ghyp.object, logvalue = TRUE))
+  aic <- -2 * llh + 4
+  return(fit.ghyp(ghyp.object, llh = llh, n.iter = 0,
+                  converged = TRUE,
+                  error.code = 0, error.message = "",
+                  parameter.variance = matrix(c(1/length(data.vec) * sigma^2, 0, 0, 
+                                              2 * sigma^4 / (length(data.vec) - 1)), nrow = 2),
+                  fitted.params = c(mu = TRUE, sigma = TRUE), aic = aic))
 }

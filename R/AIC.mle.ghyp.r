@@ -9,24 +9,30 @@
   }
 
   ## Internal function; extract the number of fitted parameters  
-  nbr.fitted.params <- function(z){
-    tmp <- ghyp.fit.info(z)
+  nbr.fitted.params <- function(tmp.object){
+    tmp <- ghyp.fit.info(tmp.object)
     opt.pars <- tmp$fitted.params
-    if(z@dimension==1){
+    if(is.univariate(tmp.object)){
       return(unname(sum(opt.pars)))
     }else{
-      return(unname(sum(opt.pars[c("alpha.bar","lambda")]) + 
-                              z@dimension * sum(opt.pars[c("mu","gamma")]) +
-                              z@dimension/2 * (z@dimension + 1) * 
-                              opt.pars[c("sigma")]))
+      if(is.gaussian(tmp.object)){
+        return(unname(tmp.object@dimension +
+                      tmp.object@dimension/2 * (tmp.object@dimension + 1) * 
+                      opt.pars[c("sigma")]))
+      }else{
+        return(unname(sum(opt.pars[c("alpha.bar","lambda")]) + 
+                          tmp.object@dimension * sum(opt.pars[c("mu","gamma")]) +
+                          tmp.object@dimension/2 * (tmp.object@dimension + 1) * 
+                          opt.pars[c("sigma")]))
+      }
     }
   }
 
-  sapply(ghyp.models,test.class.mle.ghyp)
+  sapply(ghyp.models, test.class.mle.ghyp)
   
-  ghyp.models <- c(object,ghyp.models)
+  ghyp.models <- c(object, ghyp.models)
   
-  nbr.fitted <- sapply(ghyp.models,nbr.fitted.params)
+  nbr.fitted <- sapply(ghyp.models, nbr.fitted.params)
 
   tmp.aic <- -2 * logLik(object,...) + k * nbr.fitted
    

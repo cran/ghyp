@@ -44,7 +44,23 @@
 
 2008-02-05 David Luethi
    ghyp V1.1.0
-  * fit.ghypuv, fit.ghypmv now with a rather reasonable error handling
+  * fit.ghypuv, fit.ghypmv now equipped with a rather reasonable error handling
   * Function 'ghyp.name' added
   * Internal function besselM3: For nu == 0.5 in besselK there is a faster expression for the bessel function which is now implemented.
   * Some minor changes in the vignette
+
+
+2008-02-05 David Luethi
+   ghyp V1.2.0
+  * Special case of a Gaussian distribution implemented (constructor 'gauss' added).
+  * Deprecated functions 'lin.transf', 'ghyp.params' and 'redim' removed and replaced with 'transform', 'coef' and '[', respectively. 
+  * ghyp constructors added for 'alpha.beta' parameters.
+  * Vignette updated and newly implemented parametrization documented.
+  * Error handling improved for qghyp, pghyp, (ESghyp), qgig, pgig, (ESgig).
+  * Constructor 'ghyp' modified such that the variance of the mixing-variable is not required for the symmetric case.
+  * Student-t density now allows "chi.psi" and "alpha.delta" parametrization.
+  * dghyp and pghyp now handle NA's, NaN's and Inf's properly.
+  * Some improvements in the manual.
+  * Internal functions 'is.gaussian', 'is.symmetric.t' and 'is.univariate' added.
+  * Internal functions 'get.stepAIC.ghyp' added.
+  * Univariate symmetric Student-t distribution now use R built-in functions.

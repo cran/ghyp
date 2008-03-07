@@ -1,4 +1,4 @@
-\documentclass[11pt,english]{article}
+\documentclass[11pt,english]{scrartcl}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
 \usepackage{a4wide}
@@ -11,7 +11,8 @@
 \usepackage{amsfonts}
 \usepackage{hyperref}
 \usepackage{graphicx}
-\usepackage{url}
+\usepackage{natbib}
+\usepackage{nicefrac}
 %%%%%%%%%%%%%%%%%%%%%%%%
 \onehalfspacing
 
@@ -22,14 +23,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\MU}{\mathbf{\mu}}
 \newcommand{\GAMMA}{\mathbf{\gamma}}
+\newcommand{\BETA}{\mathbf{\beta}}
 \newcommand{\X}{\mathbf{X}}
 \newcommand{\x}{\mathbf{x}}
 \newcommand{\Y}{\mathbf{Y}}
 \newcommand{\Z}{\mathbf{Z}}
+\newcommand{\inReal}{\in \mathbb{R}}
+\newcommand{\inRealSigma}{\in \mathbb{R}^{\Sigma}}
+\newcommand{\inRealDelta}{\in \mathbb{R}^{\Delta}}
 \newcommand{\EXP}[1]{\hbox{E}(#1)}
 \newcommand{\VAR}[1]{\hbox{var}(#1)}
 \newcommand{\COV}[1]{\hbox{cov}(#1)}
 \newcommand{\QX}{\hbox{Q}(\x)}
+\newcommand{\Qdelta}{(\x - \MU)' \Delta^{-1} (\x - \MU)}
 \newcommand{\GammaSigGamma}{\GAMMA' \Sigma^{-1} \GAMMA}
 \newcommand{\etaIK}{\eta_i^{[k]}}
 \newcommand{\sumN}{\sum_{i=1}^n}
@@ -51,6 +57,8 @@
 \newcommand{\MuSigGamma}{\MU,\Sigma,\GAMMA}
 \newcommand{\LambdaChiPsi}{\lambda,\chi,\psi,\MuSigGamma}
 \newcommand{\LambdaAbar}{\lambda,\abar,\MU,\Sigma,\GAMMA}
+\newcommand{\KAPPA}{\alpha^2 - \BETA ' \Delta \BETA}
+\newcommand{\BarndorffParam}{\lambda,\alpha, \MU, \Delta, \delta, \BETA}
 \newcommand{\GH}{\hbox{GH}_d(\LambdaChiPsi)}
 \newcommand{\GHk}{\hbox{GH}_d(\lambda,\chi/k,k \psi,\MU,k \Sigma,k \GAMMA)}
 \newcommand{\GHtransf}{\hbox{GH}_k(\lambda,\chi,\psi,
@@ -97,7 +105,7 @@
 
 \newcommand{\R}{\texttt{R}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\addtolength{\textheight}{-2.4cm}
+%\addtolength{\textheight}{-2.4cm}
 
 \lhead{\thepage}
 \cfoot{\empty}
@@ -115,11 +123,11 @@
 \definecolor{darkblue}{rgb}{0,0,.5}
 \hypersetup{
   pdftitle = {ghyp: A package on generalized hyperbolic distributions},
-  pdfsubject = {package vignette},
+  pdfsubject = {R ghyp package vignette},
   pdfauthor = {Wolfgang Breymann and David L\"uthi},
   colorlinks = {true},
-  linkcolor = {darkblue},
-  citecolor = {darkblue},
+  linkcolor = {black},
+  citecolor = {black},
   urlcolor = {darkblue},
   linktocpage = {true},
 }
@@ -135,14 +143,14 @@ Wolfgang Breymann\\
 David L\"uthi\\[3ex]
 Institute of Data Analysis and Process Design\\
 www.idp.zhaw.ch \\[3ex]
-Email: david.luethi@zhaw.ch
+E-mail: david.luethi@zhaw.ch
 }
 \maketitle
 \vspace{1cm}
 \begin{abstract}
 In this document the~\R~package~\ghyp~is described in detail. Basically, the density functions of the
 generalized hyperbolic distribution
-and its special cases and the fitting procedure.
+and its special cases and fitting procedures.
 Some code chunks indicate how the package~\ghyp~can be used.
 \end{abstract}
 \thispagestyle{empty}
@@ -157,17 +165,17 @@ The origin of this package goes back to the first authors' years at
 RiskLab, when he worked together with Alexander McNeil to develop an
 algorithm for fitting multivariate generalized hyperbolic
 distributions. Accordingly, the functionality of this package
-largely overlaps McNeil's library QRMlib \cite{QRMlib}.
+partly overlaps McNeil's library QRMlib \citep{QRMlib}.
 However, there are quite some differences in the implementation.
 From the user's point of view, one of the most important may be that
 one can choose between different parametrizations. In addition, with
 the present library it is possible to fit multivariate as well as univariate generalized
-hypberbolic distributions and not only the special cases.
+hypberbolic distributions.
 %-------------------------------------------------------------------------
 %-------------------------- Definition --------------------------------------
 \section{Definition}
 Facts about generalized hyperbolic (GH) distributions are cited according to
-\cite{mcneil} chapter $3.2$.\\[1ex]
+\citet*{QRMmcneil05} chapter $3.2$.\\[1ex]
 %-------------------------------------------------------------------------
 The random vector $\X$ is said to have a multivariate
 GH distribution if
@@ -177,39 +185,31 @@ GH distribution if
 where
 \begin{enumerate}
   \item $\Z \sim N_k(\mathbf{0},I_k)$
-  \item $A \in \mathbb{R}^{d \times k}$
-  \item $ \MU, \GAMMA \in \mathbb{R}^{d}$
+  \item $A \inReal^{d \times k}$
+  \item $ \MU, \GAMMA \inReal^{d}$
   \item $W \geq 0$ is a scalar-valued random variable which is independent
-   of $\Z$ and has a Generalized Inverse Gauss distribution (see appendix \ref{GIG}).
+   of $\Z$ and has a Generalized Inverse Gaussian distribution, written $GIG(\lambda, \chi, \psi)$ (see appendix \ref{sec:gig}).
 \end{enumerate}
+Note that the conditional distribution of $\X | W = w$ is normal,
+\begin{equation}\label{eq:mixture}
+  \X | W = w \sim N_d(\MU + w \, \GAMMA, w \Sigma).
+\end{equation}
 %-------------------------------------------------------------------------
 %-------------------------- Expected value & Variance --------------------
 \subsection{Expected value and variance}
 The expected value and the variance are given by
 \begin{eqnarray}
   \EXP{\X}  &=& \MU + \EXP{W} \GAMMA \\
-  \COV{\X}  &=& \EXP{\COV{\X | W}} + \COV{\EXP{\X | W}} \\ \nonumber
+  \VAR{\X}  &=& \EXP{\COV{\X | W}} + \COV{\EXP{\X | W}} \\ \nonumber
             &=& \VAR{W} \GAMMA \GAMMA'  + \EXP{W} \Sigma
 \end{eqnarray}
 where $\Sigma = A A'$.
 %-------------------------------------------------------------------------
-%-------------------------- Lin transf. ------------------------------
-\newpage
-\subsection{Linear transformations}
-The GH class is closed under linear operations: \\
-If
-$\X \sim \GH$ and $\Y = B \X + \mathbf{b}$,
-where
-$B \in \mathbb{R}^{k \times d}$
-and
-$\mathbf{b} \in \mathbb{R}^k$ ,
-then
-$Y \sim \GHtransf$.
 %-------------------------- Density ------------------------------
 \subsection{Density}
-Since the conditional distribution of $\X$ given $W$ is gaussian
+Since the conditional distribution of $\X$ given $W$ is Gaussian
 with mean $\MU + W \GAMMA$ and variance $ W \Sigma$ the GH density
-can be found in the following way.
+can be found by mixing $\X | W$ with respect to $W$.
 %-----------------------------------------------------
 \begin{eqnarray}\label{eq:fghyp}
   f_\X(\x) &=& \int_0^\infty f_{\X|W}(\x|w) \, f_W(w) \, \dd w \\ \nonumber
@@ -225,38 +225,116 @@ can be found in the following way.
             \frac{\Bessel{\lambda - \dDivTwo}(
             \sqrt{(\chi + \QX)(\psi + \GammaSigGamma)})\,\,\,
             e^{(\x - \MU)'\InvSigma \GAMMA}}
-            {(\sqrt{(\chi + \QX)(\psi + \GammaSigGamma)})^{\dDivTwo - \lambda}}
+            {(\sqrt{(\chi + \QX)(\psi + \GammaSigGamma)})^{\dDivTwo - \lambda}},
 \end{eqnarray}
 where the relation (\ref{eq:besselrelation})
-of the modified bessel function of the third kind $\BesselLambda(\cdot)$ (\ref{eq:bessel})
+for the modified Bessel function of the third kind $\BesselLambda(\cdot)$ (\ref{eq:bessel})
 is used and $\QX$ denotes the mahalanobis distance $\QX = (\x - \MU)' \InvSigma (\x - \MU)$.
 The domain of variation of the parameters $\lambda, \chi$ and $\psi$ is
-given in appendix \ref{eq:gigconstraints}.
+given in appendix \ref{eq:gigconstraints}.   
 %-------------------------------------------------------------------------
+%-------------------------- Lin transf. ------------------------------
+\subsection{Linear transformations}
+The GH class is closed under linear operations: \\
+If
+$\X \sim \GH$ and $\Y = B \X + \mathbf{b}$,
+where
+$B \in \mathbb{R}^{k \times d}$
+and
+$\mathbf{b} \in \mathbb{R}^k$ ,
+then
+$Y \sim \GHtransf$.
+%-------------------------------------------------------------------------
+%-------------------------- Special cases ------------------------------
+\section{Special cases of the generalized hyperbolic distribution}\label{sec:specialcases}
+The GH distribution contains several special cases
+known under special names. 
+\begin{itemize}
+  \item{If $\lambda = \frac{d+1}{2}$ the name generalized is dropped and
+        we have a multivariate hyperbolic (hyp) distribution. The univariate
+        margins are still GH distributed. Inversely,
+        when $\lambda = 1$ we get a multivariate GH
+        distribution with hyperbolic margins.}
+  \item{If $\lambda = -\frac{1}{2}$ the distribution is called Normal Inverse
+       Gauss (NIG).}
+  \item{If $\chi = 0$ and $\lambda > 0$ one gets a limiting case which is known
+        amongst others as Variance Gamma (VG) distribution.}
+  \item{If $\psi = 0$ and $\lambda < -1$ one gets a limiting case which is known
+        as a skewed Student-t distribution.}
+\end{itemize}
+Further information about the special cases and the necessary formulas to fit these distributions to data 
+can be found in the appendixes \ref{sec:gig} and \ref{sec:dens_special_cases}. The parameter constraints for the special cases
+in different parametrizations are described in the following chapter.
 %-------------------------- Parametrization ------------------------------
 \section{Parametrization}
 There are several alternative parametrizations for the GH
 distribution.
-In this package the user can choose between two of them, the
-($\LambdaChiPsi$)-parametrization
-and the ($\LambdaAbar$)-parametrization. Have a look at appendix \ref{sec:exampledistobj}
-to see how both of these parametrizations can be used.
+In this package the user can choose between three of them.
+Appendix \ref{sec:exampledistobj} explains how to use. \\
+The following table
+describes the parameter ranges for each parametrization and each special case. Clearly, the dispersion matrices 
+$\Sigma$ and $\Delta$ have
+to fulfill the usual conditions for covariance matrices, i.e., symmetry and positive definiteness.  We denote the set
+of all feasible covariance matrices in $\mathbb{R}^{d \times d}$ with $\mathbb{R}^\Sigma$. 
+Furthermore, let $\mathbb{R}^\Delta = \{A \inRealSigma : \dete{A} = 1\}$. \\
+\begin{small}
+\begin{tabular}{l | c c c c c c}
+  & \multicolumn{6}{c}{$(\LambdaChiPsi)$-Parametrization} \\
+  &  $\lambda$ & $\chi$ & $\psi$ & $\MU$ & $\Sigma$ & $\GAMMA$\\
+  \hline
+  ghyp & $\lambda \inReal$ & $\chi > 0$ & $\psi > 0$ & $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  hyp & $\lambda = \frac{d + 1}{2} $ & $\chi > 0$ & $\psi > 0$ & $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  NIG & $\lambda = - \OneDivTwo$ & $\chi > 0$ & $\psi > 0$ & $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  t & $\lambda < 0$ & $\chi > 0$ & $\psi = 0$ & $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  VG & $\lambda > 0$ & $\chi = 0$ & $\psi > 0$ & $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  \hline
+  \\
+%-------------------------------------------------------------------------
+  & \multicolumn{6}{c}{$(\LambdaAbar)$-Parametrization} \\
+  &  $\lambda$ & $\abar$ & $\MU$ & $\Sigma$ & $\GAMMA$\\
+  \hline
+  ghyp & $\lambda \inReal$ & $\abar > 0$ & $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  hyp & $\lambda = \frac{d + 1}{2} $ & $\abar > 0$  & $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  NIG & $\lambda = \OneDivTwo$ & $\abar > 0$ &  $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  t & $\lambda = - \frac{\nu}{2} < -1$ & $\abar = 0$ &   $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  VG & $\lambda > 0$ & $\abar = 0$ &  $\MU \inReal^d$ & $\Sigma \inRealSigma$ & $\GAMMA \inReal^d$\\
+  \hline
+  \\
+%-------------------------------------------------------------------------    
+  & \multicolumn{6}{c}{$(\BarndorffParam)$-Parametrization} \\
+  &  $\lambda$ & $\alpha$ & $\delta$ & $\MU$ & $\Delta$ & $\BETA$\\
+  \hline
+  ghyp & $\lambda \inReal$ & $\alpha > 0$ & $\delta > 0$ & $\MU \inReal^d$ & $\Delta \inRealDelta$ & $\BETA \in \{\x \inReal^d : \alpha^2 - \x' \Delta \x > 0\}$ \\
+  hyp & $\lambda = \frac{d + 1}{2} $ & $\alpha > 0$ & $\delta > 0$ & $\MU \inReal^d$ & $\Delta \inRealDelta$  & $\BETA \in \{\x \inReal^d : \alpha^2 - \x' \Delta \x > 0\}$ \\
+  NIG & $\lambda = - \OneDivTwo$ & $\alpha > 0$ & $\delta > 0$ & $\MU \inReal^d$ & $\Delta \inRealDelta$  & $\BETA \in \{\x \inReal^d : \alpha^2 - \x' \Delta \x > 0\}$\\
+  t & $\lambda < 0$ & $\alpha = \sqrt{\BETA' \Delta \BETA}$ & $\delta > 0$ & $\MU \inReal^d$ & $\Delta \inRealDelta$  & $\BETA \inReal^d$ \\
+  VG & $\lambda > 0$ & $\alpha > 0$ & $\delta = 0$ & $\MU \inReal^d$ & $\Delta \inRealDelta$  & $\BETA \in \{\x \inReal^d : \alpha^2 - \x' \Delta \x > 0\}$\\
+  \hline  
+\end{tabular} 
+\end{small}\\
+\vspace{1cm}\\
+Internally, he package \ghyp~uses the $(\LambdaChiPsi)$-parametrization. However, fitting is done in the 
+($\LambdaAbar$)-parametrization since this parametrization does not necessitate 
+additional constraints to eliminate the redundant degree of freedom. 
+Consequently, what cannot be represented by the ($\LambdaAbar$)-parametrization cannot be fitted 
+(see section \ref{sec:lambdaabarparam}). 
 %-------------------------------------------------------------------------
 \subsection{$(\LambdaChiPsi)$-Parametrization}
-The ($\LambdaChiPsi$)-parametrization is straight forward but
-has a drawback of an identification problem. Indeed,
+The ($\LambdaChiPsi$)-parametrization is obtained as the normal mean-variance mixture distribution 
+when $W \sim GIG(\lambda, \chi, \psi)$. 
+This parametrization has a drawback of an identification problem. Indeed,
 the distributions $\GH$ and $\GHk$ are identical
 for any $k > 0$. Therefore, an identifying problem occurs when we start
-to fit the parameters of a GH distribution. This problem can be
+to fit the parameters of a GH distribution. This problem could be
 solved by introducing a suitable contraint. One possibility is to
-require the determinant of the covariance matrix to be $1$.
+require the determinant of the dispersion matrix $\Sigma$ to be $1$.
 %-------------------------------------------------------------------------
-\subsection{($\LambdaAbar$)-Parametrization}
+\subsection{($\LambdaAbar$)-Parametrization}\label{sec:lambdaabarparam}
 There is a more elegant way to eliminate the degree of
 freedom. We simply constrain the expected value of the mixing variable $W$
 to be $1$. This makes the interpretation of the skewness parameters $\gamma$
 easier and in addition, the fitting procedure becomes faster (see \ref{sec:EM}). \\
-We define \cite{brw}
+We define 
 \begin{equation}
   \EXP{W}  =  \sqrt{\frac{\chi}{\psi}}\frac{\BesselLambdaPlusOne(\SqrtChiPsi)}
               {\BesselLambda{(\SqrtChiPsi)}} = 1.
@@ -274,10 +352,43 @@ It follows that
 \end{equation}
 The drawback of the ($\LambdaAbar$)-parametrization is that it does not exist
 in the case $\abar = 0$ and $\lambda \in [-1,0]$. This is the case
-of a student-t distribution with non-existing variance. Note that the
+of a Student-t distribution with non-existing variance. Note that the
 ($\LambdaAbar$)-parametrization yields to a slightly different parametrization
-for the special case of a student-t distribution. See section
-(\ref{sec:studentt}) for details.
+for the special case of a Student-t distribution (see section
+\ref{sec:studentt} for details). The limit of the equations (\ref{eq:abartochipsi}) 
+as $\abar \downarrow 0$ can be found in (\ref{eq:abartochipsiinvgamma}) and (\ref{eq:abartochipsigamma}). 
+%-------------------------------------------------------------------------
+\subsection{$(\BarndorffParam)$-Parametrization}
+When the GH distribution was introduced in \citet{Barndorffnielsen77}, the following
+parametrization for the multivariate case was used.
+\begin{equation}
+        f_\X(\x)  = \frac{ (\KAPPA)^{\lambda /2}}{(2\pi)^{\dDivTwo} \sqrt{\dete{\Delta}} \, \delta^\lambda \, 
+                         \BesselLambda(\delta \sqrt{\KAPPA})}\times
+            \frac{\Bessel{\lambda - \dDivTwo}(\alpha \sqrt{\delta^2 + \Qdelta}) \,\,\,
+            e^{\BETA' (\x - \MU)}}{(\alpha \sqrt{\delta^2 + \Qdelta})^{\dDivTwo - \lambda}},
+\end{equation}
+where the determinant of $\Delta$ is constrained to be $1$.  In the univariate case the above expression
+reduces to 
+\begin{equation}
+        f_\X(\x)  = \frac{ (\alpha^2 - \beta^2)^{\lambda /2}}{\sqrt{2\pi} \, \alpha^{\lambda - \OneDivTwo} \, \delta^\lambda \, 
+                         \BesselLambda(\delta \sqrt{\alpha^2 - \beta^2})}\times
+            \Bessel{\lambda - \OneDivTwo}(\alpha \sqrt{\delta^2 + (x - \mu)^2}) \,\,\,
+            e^{\beta (x - \mu)},
+\end{equation}
+which is the most widely used parametrization of the GH distribution in literature.
+%-------------------------------------------------------------------------
+\subsection{Switching between different parametrizations}
+The following formulas can be used to switch from the $(\LambdaChiPsi)$-parametrization
+to the $(\BarndorffParam)$-parametrization and vice versa: 
+\begin{eqnarray}
+\Delta = \dete{\Sigma}^{-\frac{1}{d}} \Sigma &,& \BETA = \Sigma^{-1} \GAMMA \nonumber \\ 
+\delta = \sqrt{\chi \dete{\Sigma}^{\frac{1}{d}}} &,& \alpha = \sqrt{\dete{\Sigma}^{-\frac{1}{d}} (\psi + \GammaSigGamma)}
+\end{eqnarray}
+\begin{equation}
+\Sigma = \Delta , \hspace{5mm} \GAMMA = \Delta \BETA , \hspace{5mm} \chi = \delta^2 , \hspace{5mm} \psi = \alpha^2 - \BETA' \Delta \BETA .
+\end{equation}
+To switch from the ($\LambdaAbar$)-parametrization to the $(\LambdaChiPsi)$-parametrization
+formulas (\ref{eq:abartochipsi}) can be used. 
 %-------------------------------------------------------------------------
 %-------------------------- Fitting  ------------------------------
 \section{Fitting generalized hyperbolic distributions to data}
@@ -286,6 +397,7 @@ distributions to data by means of maximum likelihood estimation.
 Multivariate GH distributions
 can be fitted with
 algorithms based on the expectation-maximazion (EM) scheme.
+%-------------------------------------------------------------------------
 \subsection{EM-Scheme}\label{sec:EM}
 Assume we have iid data $\x_1,\ldots,\x_n$ and parameters represented by
 $\Theta = (\LambdaAbar)$. The problem is to maximize
@@ -301,7 +413,7 @@ We can proceed by introducing an augmented likelihood function
   \sum_{i=1}^n \ln f_W(w_i;\lambda,\abar)
 \end{equation}
 and spend the effort on the estimation of the latent mixing variables
-$w_i$ coming from the mixture representation of (\ref{eq:ghd}).
+$w_i$ coming from the mixture representation (\ref{eq:mixture}).
 This is where the EM algorithm comes into play.
 \begin{description}
   \item[\textbf{E-step:}]{Calculate the conditional expectation of the
@@ -330,7 +442,7 @@ When using the ($\lambda,\abar$)-parametrization this problem is of dimension tw
 instead of three as it is in the ($\lambda, \chi, \psi$)-parametrization
 As a consequence the performance increases.\\
 Since the $w_i$'s are latent one has to replace $w$, $1/w$ and $\ln w$
-with expected values in order to maximize the log likelihood function.
+with the respective expected values in order to maximize the log likelihood function.
 Let
 \begin{equation} \label{eq:etadeltaxi}
   \etaIK := \EXP{w_i \, | \, \x_i;\ThetaK},\,\,\,
@@ -341,9 +453,9 @@ We have to find the conditional density of $w_i$ given $\x_i$ to
 be able to calculate these quantities (see (\ref{eq:conddistGIG})).
 %-------------------------------------------------------------------------
 \subsection{MCECM estimation}
-In the \texttt{R} implementation we employ a modified EM scheme which is
+In the \texttt{R} implementation a modified EM scheme is used, which is
 called multi-cycle, expectation, conditional estimation (MCECM) algorithm
-(\cite{mcneil},  \cite{QRMlib}).
+\citep*{QRMmcneil05, QRMlib}.
 The different steps of the MCECM algorithm are sketched as follows:
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 \begin{enumerate}
@@ -388,29 +500,10 @@ The different steps of the MCECM algorithm are sketched as follows:
         (\ref{eq:abartochipsi}).
        }
 \end{enumerate}
-
-%-------------------------------------------------------------------------
-%-------------------------- Special cases ------------------------------
-\section{Special cases of the generalized hyperbolic distribution}\label{sec:specialcases}
-The GH distribution contains several special cases
-known under special names \cite{mcneil}.
-\begin{itemize}
-  \item{If $\lambda = \frac{d+1}{2}$ the name generalized is dropped and
-        we have a multivariate hyperbolic distribution. The univariate
-        margins are still GH distributed. Inversely,
-        when $\lambda = 1$ we get a multivariate GH
-        distribution with hyperbolic margins.}
-  \item{If $\lambda = -\frac{1}{2}$ the distribution is called Normal Inverse
-       Gauss (NIG).}
-  \item{If $\abar = 0$ and $\lambda > 0$ one gets a limiting case which is known
-        amongst others as Variance Gamma (VG) distribution.}
-  \item{If $\abar = 0$ and $\lambda < -2$ one gets a limiting case which is known
-        as a skewed student-t distribution.}
-\end{itemize}
-All the necessary formulas to fit the special cases can be found in the appendix.
 %-------------------------------------------------------------------------
 \begin{appendix}
 %-------------------------- Shape ------------------------------
+\clearpage
 %-------------------------------------------------------------------------
 \section{Shape of the univariate generalized hyperbolic distribution}
 \begin{figure}[!h]
@@ -501,15 +594,16 @@ All the necessary formulas to fit the special cases can be found in the appendix
 %-------------------------- Bessel ------------------------------
 %-------------------------------------------------------------------------
 \section{Modified Bessel function of the third kind}
-The modified bessel function of the
+The modified Bessel function of the
 third kind appears in the GH as well as in the GIG density (\ref{eq:fghyp}, \ref{eq:densgig}).
-This function is defined as
+This function has the integral representation
 \begin{equation}\label{eq:bessel}
-  K_\lambda(x) := \OneDivTwo \int_0^\infty w^{\lambda -1}
+  K_\lambda(x) = \OneDivTwo \int_0^\infty w^{\lambda -1}
   \exp\left\{-\frac{1}{2}x\sek{w+w^{-1}}\right\}\dd w \hspace{1mm}, \hspace{0.5cm} x > 0.
 \end{equation}
-By means of the following relation the GH
-density (\ref{eq:ghd}) can be written in the closed form.
+The substitution $w = x \sqrt{\chi / \psi}$ can be used to obtain the 
+following relation, which allows one to bring the GH
+density (\ref{eq:fghyp}) into a closed-form expression.
 \begin{equation}\label{eq:besselrelation}
   \int_{0}^{\infty}w^{\lambda-1}\exp\left\{
     -\frac{1}{2}\left(\frac{\chi}{w}+w\psi\right)
@@ -518,38 +612,44 @@ density (\ref{eq:ghd}) can be written in the closed form.
   K_\lambda(\sqrt{\chi\psi})
 \end{equation}
 When calculating the densities of the special cases of the GH
-density we can use the asymtotic relations
+density we can use the asymtotic relations for small arguments $x$
 \begin{equation}\label{eq:bessellimit1}
   \BesselLambda(x) \sim \Gamma(\lambda)\, 2^{\lambda - 1} x^{-\lambda}
-  \,\,\,\, \hbox{as} \,\,\,\, x \rightarrow 0+
+  \,\,\,\, \hbox{as} \,\,\,\, x \downarrow 0
   \,\,\,\, \hbox{and} \,\,\,\, \lambda > 0
 \end{equation}
 and
 \begin{equation}\label{eq:bessellimit2}
   \BesselLambda(x) \sim \Gamma(-\lambda)\, 2^{-\lambda - 1} x^{\lambda}
-  \,\,\,\, \hbox{as} \,\,\,\, x \rightarrow 0+
+  \,\,\,\, \hbox{as} \,\,\,\, x \downarrow 0
   \,\,\,\, \hbox{and} \,\,\,\, \lambda < 0.
 \end{equation}
 (\ref{eq:bessellimit2}) follows from (\ref{eq:bessellimit1}) and the observation
 that the Bessel function is symmetric with respect to the index $\lambda$.
+An asymptotic relation for large arguments $x$ is given by
+\begin{equation}\label{eq:bessellimit3}
+  \BesselLambda(x) \sim \sqrt{\frac{\pi}{2}} \, x^{- \OneDivTwo} \, e^{-x}
+  \,\,\,\, \hbox{as} \,\,\,\, x \rightarrow \infty.
+\end{equation}
+We refer to \citet*{Abramowitz1972} for further information on Bessel functions.
 %--------------------------R command -------------------------------
 \begin{figure}[!h]
 \begin{center}
-\setkeys{Gin}{width=0.45\textwidth}
+\setkeys{Gin}{width=0.7\textwidth}
 <<fig=TRUE,echo=FALSE>>=
-  lambda <- seq(0.0,8,length=5)
-  x <- seq(0,20,length=1000)
-  line.type = c("solid","dotted","dashed","dotdash","longdash")
-  par(mfrow=c(1,2))
-  plot(x,besselK(x,lambda[1]),xlab="x",ylab=expression(K[lambda]),type="l",lty=line.type[1],log="")
+  lambda <- seq(0.0, 8, length = 5)
+  x <- seq(0, 20, length = 1000)
+  line.type = c("solid", "dotted", "dashed", "dotdash", "longdash")
+  par(mfrow = c(1, 2))
+  plot(x, besselK(x, lambda[1]), xlab = "x", ylab = expression(K[lambda]), type = "l", lty = line.type[1], log = "")
   for(i in 2:length(lambda)){
-    lines(x,besselK(x,lambda[i]),lty=line.type[i])
+    lines(x, besselK(x, lambda[i]), lty = line.type[i])
   }
-  legend("topright",legend=lambda,lty=line.type,lwd=2,title=expression(paste(lambda,"=")))
+  legend("topright", legend = lambda, lty = line.type, lwd = 2, title = expression(paste(lambda, "=")))
   
-  plot(x,besselK(x,lambda[1]),xlab="x",ylab=expression(log(K[lambda])),type="l",lty=line.type[1],log="y")
+  plot(x, besselK(x, lambda[1]), xlab = "x", ylab = expression(log(K[lambda])), type = "l", lty = line.type[1], log = "y")
   for(i in 2:length(lambda)){
-    lines(x,besselK(x,lambda[i]),lty=line.type[i])
+    lines(x, besselK(x, lambda[i]), lty = line.type[i])
   }
   ##  x <- seq(0.1,1,length=30)
   ##  lambda <- rev(seq(0,2,length=30))
@@ -568,7 +668,7 @@ that the Bessel function is symmetric with respect to the index $\lambda$.
 \clearpage
 %-------------------------------------------------------------------------
 %-------------------------- GIG ------------------------------
-\section{Generalized Inverse Gaussian distribution}\label{GIG}
+\section{Generalized Inverse Gaussian distribution}\label{sec:gig}
 The density of a Generalized Inverse Gaussian (GIG) distribution is given as
   \begin{equation}\label{eq:densgig}
     f_{GIG}(w) = \left(\frac{\psi}{\chi}\right)^{\frac{\lambda}{2}}
@@ -604,8 +704,12 @@ defined as
   f_{W}(w) = \frac{\beta^\alpha}{\Gamma(\alpha)}
              w^{\alpha-1}\exp\set{-\beta w}.
 \end{equation}
-The expected value and the variance are $\EXP{X} = \beta/\alpha$
-and $\VAR{X} = \alpha/\beta^2$, respectively. The expected value of the
+The expected value and the variance are 
+\begin{equation}
+\EXP{X} = \frac{\beta}{\alpha} \hspace{5mm} \hbox{and} \hspace{5mm}
+\VAR{X} = \frac{\alpha}{\beta^2},
+\end{equation}
+respectively. The expected value of the
 logarithm is $\EXP{\ln X} = \psi(\alpha) - \ln(\beta)$
 where $\psi(\cdot)$ is the digamma function. We will see
 that this value is not needed to fit a
@@ -619,52 +723,55 @@ distribution defined as
   f_{W}(w) = \frac{\beta^\alpha}{\Gamma(\alpha)}
             w^{-\alpha-1}\exp\set{-\frac{\beta}{w}}.
 \end{equation}
-The expected value and the variance are $\EXP{X} = \beta/(\alpha - 1)$ and
-$\VAR{X} = \beta^2/((\alpha - 1)^2(\alpha - 2))$, and exist provided that
+The expected value and the variance are 
+\begin{equation}\label{eq:einvgamma}
+\EXP{X} = \frac{\beta}{\alpha - 1} \hspace{5mm} \hbox{and} \hspace{5mm}
+\VAR{X} = \frac{\beta^2}{(\alpha - 1)^2(\alpha - 2)},
+\end{equation} and exist provided that
 $\alpha > 1$ and $\alpha > 2$, respectively. The expected value
 of the logarithm is $\EXP{\ln X} = \ln(\beta) - \psi(\alpha)$.
 This value is required in order to fit a symmetric multivariate
-student-t distribution by means of the MCECM algorithm (see \ref{eq:conddistinversegamma}). \\[4ex]
+Student-t distribution by means of the MCECM algorithm (see \ref{eq:conddistinversegamma}). \\[4ex]
 %--------------------------R command -------------------------------
 \begin{figure}[!h]
 \begin{center}
 \setkeys{Gin}{width=0.6\textwidth}
 <<fig=TRUE,echo=FALSE>>=
-  lambda <- -2:2+1e-5
+  lambda <- -2:2 + 1e-5
   alpha.bar <- 0.5 * 0:3 + 0.01
   x.range <- 0.25
   y.range <- 0.4
-  x.seq <- seq(0,4,length=250)+1e-5
+  x.seq <- seq(0, 4, length = 250) + 1e-5
   x.seq.range <- x.range / diff(range(x.seq)) * x.seq
-  par(mfrow=c(1,2), omi=0.5*c(0,0.0,0.8,0))
+  par(mfrow = c(1, 2), omi = 0.5 * c(0, 0.0, 0.8, 0))
   
   par(mai=c(1,0.8,0,0))
-  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,0.5),xlim=c(-0.1,max(alpha.bar)+0.5),
-       xlab=expression(bar(alpha)),ylab=expression(lambda))
+  plot(0, 0, type = "n", ylim = range(lambda) + c(-0.5, 0.5), xlim = c(-0.1, max(alpha.bar) + 0.5),
+       xlab = expression(bar(alpha)), ylab = expression(lambda))
   for(i in 1:length(alpha.bar)){
     for(j in 1:length(lambda)){
-      tmp <- ghyp:::abar2chipsi(lambda=lambda[j],alpha.bar=alpha.bar[i] )
-      gig.dens <- dgig(x.seq,lambda[i],tmp$chi,tmp$psi)
-      gig.dens <- y.range/diff(range(gig.dens))*gig.dens
-      lines(x.seq.range+alpha.bar[i],gig.dens+lambda[j])
-      points(alpha.bar[i],lambda[j])
+      tmp <- ghyp:::abar2chipsi(lambda = lambda[j], alpha.bar = alpha.bar[i])
+      gig.dens <- dgig(x.seq, lambda[i], tmp$chi, tmp$psi)
+      gig.dens <- y.range/diff(range(gig.dens)) * gig.dens
+      lines(x.seq.range + alpha.bar[i], gig.dens + lambda[j])
+      points(alpha.bar[i], lambda[j])
     }
   }
   
-  par(mai=c(1,0,0,0.8))
-  plot(0,0,type="n",ylim=range(lambda)+c(-0.5,0.5),xlim=c(-0.1,max(alpha.bar)+0.5),
-       xlab=expression(bar(alpha)),yaxt="n",ylab="")
+  par(mai = c(1, 0, 0, 0.8))
+  plot(0, 0, type = "n", ylim = range(lambda) + c(-0.5, 0.5), xlim = c(-0.1, max(alpha.bar) + 0.5),
+       xlab = expression(bar(alpha)), yaxt = "n", ylab = "")
   for(i in 1:length(alpha.bar)){
     for(j in 1:length(lambda)){
-      tmp <- ghyp:::abar2chipsi(lambda=lambda[j],alpha.bar=alpha.bar[i] )
+      tmp <- ghyp:::abar2chipsi(lambda = lambda[j], alpha.bar = alpha.bar[i])
       gig.dens <- log(dgig(x.seq,lambda[i],tmp$chi,tmp$psi))
       gig.dens <- y.range/diff(range(gig.dens[is.finite(gig.dens)]))*gig.dens
-      lines(x.seq.range+alpha.bar[i],gig.dens+lambda[j])
-      points(alpha.bar[i],lambda[j])
+      lines(x.seq.range + alpha.bar[i], gig.dens + lambda[j])
+      points(alpha.bar[i], lambda[j])
     }
   }
-  title(main =  "Density and log-density of the generalized inverse gaussian distribution",
-        outer = T,cex.main=0.8)
+  title(main = "Density and log-density of the generalized inverse gaussian distribution",
+        outer = TRUE, cex.main = 0.8)
 @
 \caption{The density and the log-density of the generalized inverse gaussian distribution
          drawn with different shape parameters $(\lambda,\abar)$. 
@@ -675,7 +782,7 @@ student-t distribution by means of the MCECM algorithm (see \ref{eq:conddistinve
 \clearpage
 %-------------------------------------------------------------------------
 %------------------- Density of the special cases -----------------------
-\section{Densities of the special cases of the GH distribution}
+\section{Densities of the special cases of the GH distribution}\label{sec:dens_special_cases}
 As mentioned in section \ref{sec:specialcases} the GH
 distribution contains several special cases. In what follows the densities
 of the special cases are derived.
@@ -692,18 +799,25 @@ when $\psi \rightarrow 0$ and $\lambda < 0$ the density of a GH distribution res
             {(2\pi)^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(-\lambda) 2^{-\lambda - 1}}\times
             \frac{\Bessel{\lambda - \dDivTwo}(
-            \sqrt{(\chi + \QX)\GammaSigGamma}
+            \sqrt{(\chi + \QX)\GammaSigGamma})
             e^{(\x - \MU)'\InvSigma \GAMMA}}
             {(\sqrt{(\chi + \QX)\GammaSigGamma})^{\dDivTwo - \lambda}}.
 \end{equation}
-We switch to the student-t parametrization and set the degree
+As $\GAMMA \rightarrow 0$ we obtain again with relation (\ref{eq:bessellimit2}) the symmetric multivariate Student-t density  
+\begin{equation}
+  f_\X(\x) = \frac{\chi^{-\lambda} \Gamma(-\lambda + \dDivTwo)}
+            {\pi^{\dDivTwo}\dete{\Sigma}^\OneDivTwo \Gamma(-\lambda)}
+            \times
+            (\chi + \QX)^{\lambda - \dDivTwo}.
+\end{equation}
+We switch to the Student-t parametrization and set the degree
 of freedom $\nu = -2\lambda$
 \footnote{Note that the ($\LambdaAbar$)
-parametrization yields to a slightly different student-t parametrization:
+parametrization yields to a slightly different Student-t parametrization:
 In this package the parameter $\Sigma$ denotes the variance in the multivariate case and
 the standard deviation in the univariate case. Thus,
 set $\sigma = \sqrt{\nu/(\nu-2)}$ in the univariate case to get the same results as
-with the standard~\R~implementation of the student-t distribution.
+with the standard~\R~implementation of the Student-t distribution.
 }.
 Because $\psi = 0$ the transformation of $\abar$ to $\chi$ and $\psi$
 (see \ref{eq:abartochipsi}) reduces to
@@ -714,22 +828,36 @@ Because $\psi = 0$ the transformation of $\abar$ to $\chi$ and $\psi$
         2 \,\, (-\lambda - 1)
        = \nu - 2.
 \end{equation}
-Putting it all together the density is calculated to be
-\begin{equation}
+Plugging in the values for $\lambda$ and $\nu$, the densities take the form
+\begin{equation}\label{eq:skewtnu}
   f_\X(\x) = \frac{(\nu - 2)^\NuDivTwo (\GammaSigGamma)^{\NuPlusDdivTwo}}
             {(2\pi)^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(\NuDivTwo) 2^{\NuDivTwo - 1}}\times
             \frac{\Bessel{\NuPlusDdivTwo}(
             \sqrt{(\nu - 2 + \QX)\GammaSigGamma)}
             \,\, e^{(\x - \MU)'\InvSigma \GAMMA}}
-            {(\sqrt{(\nu - 2 + \QX)\GammaSigGamma})^{\NuPlusDdivTwo}}.
+            {(\sqrt{(\nu - 2 + \QX)\GammaSigGamma})^{\NuPlusDdivTwo}}
 \end{equation}
-When $\GAMMA \rightarrow 0$ we observe the symmetric multivariate t distribution
+and for the symmetric case as $\GAMMA \rightarrow 0$
 \begin{equation}
   f_\X(\x) = \frac{(\nu - 2)^\NuDivTwo \Gamma(\NuPlusDdivTwo)}
             {\pi^{\dDivTwo}\dete{\Sigma}^\OneDivTwo
             \Gamma(\NuDivTwo) (\nu - 2 + \QX)^{\NuPlusDdivTwo}}.
 \end{equation}
+It is important to note that the variance does not exist in the symmetric case for $\nu \leq 2$ while
+for the asymmetric case the variance does not exist for $\nu \leq 4$. This is because the variance of an 
+asymmetric GH distribution involves the variance of the mixing distribution. 
+In case of a Student-t distribution, the mixing variable $w$ is inverse gamma distributed and has 
+finite variance only if $\beta > 2$ which corresponds to $\lambda < -2$, i.e. $\nu > 4$ (see \ref{eq:einvgamma}).\\
+Alternatively, in the univariate case, this can be seen by the fact that 
+the Student-t density has regularly varying tails. For $x \rightarrow \infty$, one obtains
+\begin{eqnarray}
+  f_X(x) &=& L(x)\,x^{-\nu - 1}, \hspace{5mm} \hbox{for} \, \gamma = 0 \\
+  f_X(x) &=& L(x)\,x^{-\frac{\nu}{2} - 1}, \hspace{5mm} \hbox{for} \, \gamma > 0, \label{eq:skewttail}
+\end{eqnarray}
+where $L(x)$ denotes a slowly varying function at $\infty$. 
+The asymptotic relation for the modified Bessel function
+of the third kind (\ref{eq:bessellimit3}) was applied to (\ref{eq:skewtnu}) to arrive at (\ref{eq:skewttail}).
 %-------------------------------------------------------------------------
 %----------------------- Variance gamma distribution -------------------
 \subsection{Variance gamma distribution}
@@ -873,15 +1001,16 @@ This section provides examples of distribution objects and the object-oriented
 approach as well as fitting to data and
 portfolio optimization.
 %-------------------------------------------------------------------------
-\subsection{Initializing distribution object}\label{sec:exampledistobj}
+\subsection{Initializing distribution objects}\label{sec:exampledistobj}
 This example shows how GH distribution objects can be initialized by either using
-the $(\LambdaChiPsi)$ or the $(\LambdaAbar)$-parametrization.
+the $(\LambdaChiPsi)$, the $(\LambdaAbar)$ or the $(\BarndorffParam)$-parametrization.
 <<>>=
   ## Load the package "ghyp" and the data "smi.stocks" first
   library(ghyp)
   ## Initialized a univariate GH distribution object with 
   ## the lambda/alpha.bar parametrization
   ghyp(lambda=-2, alpha.bar=0.5, mu=10, sigma=5, gamma=1)
+  ghyp.ad(lambda=-2, alpha=1, beta = 0.5, mu=10, delta=1)
   ## Initialized a multivariate GH distribution object with 
   ## the lambda/chi/psi parametrization
   ghyp(lambda=-2, chi=5, psi=0.1, mu=10:11, sigma=diag(5:6), gamma=-1:0)
@@ -890,8 +1019,8 @@ the $(\LambdaChiPsi)$ or the $(\LambdaAbar)$-parametrization.
 \subsection{Object-oriented approach}\label{sec:exampleobjoriented}
 First of all a GH distribution object is initialized and a consistency check takes place.
 The second command shows how the initialized distribution object is passed to the
-density function. Then a student-t distribution is fitted to the daily log-returns
-of the company Novartis. The fitted distribution object is passed to the quantile
+density function. Then a Student-t distribution is fitted to the daily log-returns
+of the Novartis stock. The fitted distribution object is passed to the quantile
 function. Since the fitted distribution object inherits from the distribution object
 this constitutes no problem. The generic methods \emph{hist}, \emph{mean} and
 \emph{vcov} are defined for distribution objects inheriting from classes
@@ -901,17 +1030,18 @@ this constitutes no problem. The generic methods \emph{hist}, \emph{mean} and
 \begin{Sinput}
   ## Consistency check when initializing a GH distribution object.
   ## Valid input:
-  univariate.ghyp.object <- ghyp(lambda=-2, alpha.bar=0.5, mu=10, sigma=5, gamma=1)
+  univariate.ghyp.object <- ghyp(lambda = -2, alpha.bar = 0.5, 
+                                 mu = 10, sigma = 5, gamma = 1)
   
   ## Passing a distribution object to the density function
   dghyp(10:14,univariate.ghyp.object)
   
   ## Passing a fitted distribution object to the quantile function
   fitted.ghyp.object <- fit.tuv(smi.stocks[,"Novartis"], silent = T)
-  qghyp(c(0.01,0.05), fitted.ghyp.object)
+  qghyp(c(0.01,0.05),fitted.ghyp.object)
   
   ## Generic method dispatching: the histogram method
-  hist(fitted.ghyp.object,legend.cex=0.7)
+  hist(fitted.ghyp.object, legend.cex = 0.7)
   
   ## Generic programming:
   mean(fitted.ghyp.object)     ## fitted.ghyp.object extends "ghypuv" 
@@ -932,7 +1062,7 @@ do some graphical diagnostics of the accuracy of the fit.
  data(smi.stocks)
  fitted.returns.mv <- fit.ghypmv(data=smi.stocks[1:500,c("CS","Nestle","Novartis")],
                                  silent=TRUE)
- pairs(fitted.returns.mv, cex=0.5, legend.cex=0.8, nbins=50)
+ pairs(fitted.returns.mv, cex=0.5, legend.cex=0.8, nbins=30)
 @
 \\[3ex]
 In the following part daily log-returns of the SMI are fitted to the
@@ -950,14 +1080,6 @@ accuracy of the fit.
 %-------------------------------------------------------------------------
 \end{appendix}
 %-------------------------------------------------------------------------
-\begin{thebibliography}{1}\label{Biblio}
-\bibitem{mcneil} \emph{Quantitative Risk Management: Concepts, Techniques and Tools} 
-                  by Alexander J. McNeil, R\"udiger Frey and Paul Embrechts \\
-                  Princeton Press, 2005
-\bibitem{QRMlib} \emph{S-Plus and~\R~Library for Quantitative Risk Management QRMlib} 
-                 by Alexander J. McNeil (2005) and Scott Ulman (\R-port) (2007)\\
-                 \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}
-\bibitem{brw}    \emph{One-dimensional hyperbolic distributions}, Wolfgang Breymann, 
-                 unpublished, 2006 
-\end{thebibliography}
+\bibliography{ghyp}
+\bibliographystyle{chicago}
 \end{document}

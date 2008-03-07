@@ -97,6 +97,7 @@
   if(!save.data){
     data <- NULL
   }
+
   ghyp.object <- ghyp(lambda = tmp.fit$par.ests["lambda"],
                       alpha.bar = tmp.fit$par.ests["alpha.bar"],
                       mu = tmp.fit$par.ests["mu"],

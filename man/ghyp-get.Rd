@@ -37,9 +37,26 @@ ghyp.name(object, abbr = FALSE, skew.attr = TRUE)
 
   \code{ghyp.data} returns \code{NULL} if no data is stored within the
   object, a \code{vector} if it is an univariate generalized hyperbolic distribution
-  and \code{matrix} if it is an multivariate generalized hyperbolic distribution.
+  and \code{matrix} if it is an multivariate generalized hyperbolic distribution.\cr
   
   \code{ghyp.name} returns the name of the \code{ghyp} distribution which can be the name of a special case.
+  Depending on the arguments \code{abbr} and \code{skew.attr} one of the following is returned.
+  \tabular{ll}{
+  \code{abbr == FALSE & skew.attr == TRUE} \tab  \code{abbr == TRUE & skew.attr == TRUE} \cr
+  (A)symmetric Generalized Hyperbolic \tab   (A)symm ghyp \cr
+  (A)symmetric Hyperbolic \tab   (A)symm hyp \cr
+  (A)symmetric Normal Inverse Gaussian \tab   (A)symm NIG \cr      
+  (A)symmetric Variance Gamma \tab   (A)symm VG \cr
+  (A)symmetric Student-t \tab   (A)symm t \cr
+  Gaussian \tab   Gauss \cr 
+  \code{abbr == FALSE & skew.attr == FALSE} \tab  \code{abbr == TRUE & skew.attr == FALSE} \cr
+  Generalized Hyperbolic \tab ghyp  \cr
+  Hyperbolic \tab   hyp \cr
+  Normal Inverse Gaussian \tab   NIG \cr      
+  Variance Gamma \tab   VG \cr
+  Student-t \tab   t \cr
+  Gaussian \tab   Gauss \cr      
+  }  
 }
 \author{David Lüthi}
 \note{

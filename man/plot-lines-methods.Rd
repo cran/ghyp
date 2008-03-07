@@ -16,7 +16,7 @@
 }
 \arguments{
   \item{x}{An univariate \code{\link[=ghyp-class]{ghyp}} object.}
-  \item{range}{The range where the density will be computed. The default is the range from
+  \item{range}{The range over which the density will be plotted. The default is the range from
                the 0.1 \% quantile to the 99.9 \% quantile. When \code{range} has a length
                greater than 2 it is assumed to be the vector of quantiles and the density
                is computed on \code{range}.}

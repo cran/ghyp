@@ -3,7 +3,7 @@
   if(!is(object, "mle.ghyp")){
     stop("Object is not of class 'mle.ghyp'!")
   }
-  if(object@dimension == 1){
+  if(is.univariate(object)){
     return(list(logLikelihood = object@llh,
                 aic = object@aic,
                 fitted.params = object@fitted.params,    

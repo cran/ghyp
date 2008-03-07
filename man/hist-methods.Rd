@@ -5,7 +5,7 @@
 \title{Histogram for univariate generalized hyperbolic distributions}
 \description{
   The function \code{hist} computes a histogram of the given data values
-  and the univariate generalized hyperbolic density.
+  and the univariate generalized hyperbolic distribution.
 }
 \usage{
 \S4method{hist}{ghyp}(x, data = ghyp.data(x), gaussian = TRUE, 
@@ -17,10 +17,10 @@
   \item{x}{Usually a fitted univariate generalized hyperbolic distribution
            of class \code{\link[=mle.ghyp-class]{mle.ghyp}}. Alternatively
            an object of class \code{\link[=ghyp-class]{ghyp}} and a data vector.}
-  \item{data}{A vector.}
+  \item{data}{An object coercible to a \code{vector}.}
   \item{gaussian}{If \code{TRUE} the probability density of the normal distribution is plotted as a reference.}
   \item{log.hist}{If \code{TRUE} the logarithm of the histogramm is plotted.}
-  \item{ylim}{The y limits of the plot.}
+  \item{ylim}{The \dQuote{y} limits of the plot.}
   \item{ghyp.col}{The color of the density of the generalized
                   hyperbolic distribution.}
   \item{ghyp.lwd}{The line width of the density of the generalized
@@ -36,7 +36,7 @@
 
 }
 \value{
-  No value returned
+  No value is returned.
 }
 \author{David Lüthi}
 \seealso{\code{\link{qqghyp}}, \code{\link{fit.ghypuv}}, 

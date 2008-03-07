@@ -24,9 +24,3 @@
 }
 setMethod("[", signature(x = "ghyp", i = "numeric", j = "missing", drop = "missing"), `[.ghyp`)
 
-"redim" <- function(x, i = c(1, 2))
-{
-  warning("'redim' is replaced by '[' and will be removed in the next release!") 
-  return(x[i])
-
-}

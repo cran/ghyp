@@ -4,6 +4,7 @@
 \alias{fit.NIGmv}
 \alias{fit.VGmv}
 \alias{fit.tmv}
+\alias{fit.gaussmv}
 \title{Fitting generalized hyperbolic distributions to multivariate data}
 \description{
    Perform a maximum 
@@ -14,8 +15,8 @@
 fit.ghypmv(data, lambda = 1, alpha.bar = 1, mu = NULL, sigma = NULL, 
            gamma = NULL, opt.pars = c(lambda = T, alpha.bar = T, mu = T, 
                                       sigma = T, gamma = !symmetric), 
-           symmetric = F, standardize = F, nit = 2000, reltol = 1e-8, abstol = reltol * 10, 
-           na.rm = F, silent = FALSE, save.data = T, ...)   
+           symmetric = F, standardize = F, nit = 2000, reltol = 1e-8, 
+           abstol = reltol * 10, na.rm = F, silent = FALSE, save.data = T, ...)   
            
 fit.hypmv(data, 
           opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
@@ -32,16 +33,18 @@ fit.VGmv(data, lambda = 1,
 fit.tmv(data, nu = 3.5, 
         opt.pars = c(lambda = T, mu = T, sigma = T, gamma = !symmetric), 
         symmetric = F, ...)
+        
+fit.gaussmv(data, na.rm = T, save.data = T)        
 }
 \arguments{
   \item{data}{An object coercible to a \code{matrix}.}
-  \item{lambda}{Shape parameter.}
-  \item{alpha.bar}{Shape parameter.}
-  \item{nu}{Shape parameter only used in case of a student-t distribution. It determines
-            the degree of freedom and is defined as \code{-2*lambda}.}
-  \item{mu}{Location parameter.}
-  \item{sigma}{Dispersion parameter.}
-  \item{gamma}{Skewness parameter.}
+  \item{lambda}{Starting value for the shape parameter \code{lambda}.}
+  \item{alpha.bar}{Starting value for the shape parameter \code{alpha.bar}.}
+  \item{nu}{Starting value for the shape parameter \code{nu} (only used in case of a student-t distribution. It determines
+            the degree of freedom and is defined as \code{-2*lambda}.)}
+  \item{mu}{Starting value for the location parameter \code{mu}.}
+  \item{sigma}{Starting value for the dispersion matrix \code{sigma}.}
+  \item{gamma}{Starting value for the skewness vecotr \code{gamma}.}
   \item{opt.pars}{A named logical \code{vector} which states which parameters should be fitted.}
   \item{symmetric}{If \code{TRUE} the skewness parameter \code{gamma} keeps zero.}
   \item{standardize}{If \code{TRUE} the sample will be standardized before fitting. 
@@ -76,14 +79,16 @@ fit.tmv(data, nu = 3.5,
 \references{
   Alexander J. McNeil, Rüdiger Frey, Paul Embrechts (2005) \emph{Quantitative
   Risk Management, Concepts, Techniques and Tools}  \cr
+
+  \code{ghyp}-package vignette in the \code{doc} folder or on \url{http://cran.r-project.org/web/packages/ghyp/}.\cr
   
-  S-Plus library \emph{QRMlib} (see \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}).
+  S-Plus and R library \emph{QRMlib} (see \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}) 
 }
 \author{
   Wolfgang Breymann, David Lüthi
 }
 \note{
-  The variance gamma distribution becomes singular when \code{x - m = 0}. This singularity
+  The variance gamma distribution becomes singular when \eqn{\mathbf{x} - \mathbf{\mu} = 0}{x - mu = 0}. This singularity
   is catched and the reduced density function is computed. Because the transition is
   not smooth in the numerical implementation this can rarely result in nonsensical
   fits.

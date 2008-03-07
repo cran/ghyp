@@ -14,7 +14,6 @@
   ## Sort opt.pars according to vars (-> both vectors must be named)
   opt.pars <- opt.pars[match(names(vars),names(opt.pars))]
 
-
   ## Theta contains the parameters intended to be fitted
   theta = vars[opt.pars]
 
@@ -22,14 +21,14 @@
   theta.backup <- theta
 
   ##<------------   Negative log-Likelihood function adapter ----------->
-  negloglik <- function(theta, pdf, data, transf, const.pars, silent)
+  negloglik <- function(theta, pdf, tmp.data, transf, const.pars, silent)
   {
     theta.backup <<- theta
     ## Transformation of the parameters
     for(nam in intersect(names(theta), names(transf))) {
       theta[nam] = do.call(transf[nam], list(theta[nam]))
     }
-    pdf.args = c(list(x = data, logvalue = T), as.list(theta), as.list(const.pars))
+    pdf.args = c(list(x = tmp.data, logvalue = T), as.list(theta), as.list(const.pars))
     llh <- -sum(do.call(pdf, pdf.args))
     if(!silent){
       print(paste("Llh: ",sprintf("% .14E", -llh), "; Pars: ",
@@ -41,12 +40,14 @@
   ##<------------------------------------------------------------------->
   
   fit = try(optim(theta, negloglik, hessian = se, pdf = pdf,
-                  data = data, transf = transform, const.pars = vars[!opt.pars], 
+                  tmp.data = data, transf = transform, const.pars = vars[!opt.pars], 
                   silent = silent, ...))
-  ##1  indicates that the iteration limit maxit had been reached.
-  ##10 indicates degeneracy of the Nelder–Mead simplex.
-  ##51 indicates a warning from the "L-BFGS-B" method; see component message for further details.
-  ##52 indicates an error from the "L-BFGS-B" method; see component message for further details.
+
+  ## 1  indicates that the iteration limit maxit had been reached.
+  ## 10 indicates degeneracy of the Nelder–Mead simplex.
+  ## 51 indicates a warning from the "L-BFGS-B" method; see component message for further details.
+  ## 52 indicates an error from the "L-BFGS-B" method; see component message for further details.
+  
   if(class(fit) == "try-error") {
     warning("An error occured during the fitting procedure!")
     convergence = 100
@@ -84,6 +85,7 @@
     }else{
        par.ses <- NA
        hess <- NA
+       inv.hess <- NA
     }
   }
   list(convergence = convergence, par.ests = vars, 

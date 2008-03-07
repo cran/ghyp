@@ -12,7 +12,7 @@
   for the generalized inverse gaussian distribution.
 }
 \usage{
-dgig(x, lambda = 1, chi = 1, psi = 1, logvalue = F)
+dgig(x, lambda = 1, chi = 1, psi = 1, logvalue = FALSE)
 
 pgig(q, lambda = 1, chi = 1, psi = 1, ...)
 
@@ -21,20 +21,23 @@ qgig(p, lambda = 1, chi = 1, psi = 1, method = c("integration", "splines"),
      root.tol = .Machine$double.eps^0.5, 
      rel.tol = root.tol^1.5, abs.tol = rel.tol, ...)
      
-rgig(n = 10, lambda = 1, chi = 1, psi = 1, envplot = F, messages = F)
+rgig(n = 10, lambda = 1, chi = 1, psi = 1, envplot = FALSE, messages = FALSE)
 
-ESgig(p, lambda = 1, chi = 1, psi = 1, ...)
+ESgig(alpha, lambda = 1, chi = 1, psi = 1, distr = c("return", "loss"), ...)
 
-Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = T)
+Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = TRUE)
+
 }
 \arguments{
   \item{x}{A vector of quantiles.}
   \item{q}{A vector of quantiles.}
   \item{p}{A vector of probabilities.}
+  \item{alpha}{A vector of confidence levels.}  
   \item{n}{Number of observations.}  
   \item{lambda}{A shape and scale and parameter.}
   \item{chi, psi}{Shape and scale parameters. Must be positive.}
   \item{logvalue}{If \code{TRUE} the logarithm of the density will be returned.}  
+  \item{distr}{Whether the ghyp-object specifies a return or a loss-distribution (see \bold{Details}).}  
   \item{subdivisions}{The number of subdivisions passed to \code{\link{integrate}} when computing
                       the the distribution function \code{pgig}.}
   \item{rel.tol}{The relative accuracy requested from  \code{\link{integrate}}.}
@@ -62,7 +65,7 @@ Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = T)
    The accuracy can be controlled with an adequate setting of the
    parameters \code{rel.tol}, \code{abs.tol}, \code{root.tol} and \code{spline.points}. \cr
    
-   \code{rgig} uses the random generator from the S-Plus library \emph{QRMlib} 
+   \code{rgig} uses the random generator from the S-Plus library \emph{QRMlib}\cr 
    (see \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}).
 }
 \value{
@@ -85,6 +88,10 @@ Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = T)
 \examples{
 dgig(1:40, lambda = 10, chi = 1, psi = 1)
 qgig(1e-5, lambda = 10, chi = 1, psi = 1)
+
+ESgig(c(0.19,0.3), lambda = 10, chi = 1, psi = 1, distr = "loss")
+ESgig(alpha=c(0.19,0.3), lambda = 10, chi = 1, psi = 1, distr = "ret")
+
 Egig(lambda = 10, chi = 1, psi = 1, func = "x")
 Egig(lambda = 10, chi = 1, psi = 1, func = "var")
 Egig(lambda = 10, chi = 1, psi = 1, func = "1/x")

@@ -1,15 +1,17 @@
-"check.data" <- function(data, case=c("uv", "mv"), na.rm = TRUE, 
+"check.data" <- function(data, case = c("uv", "mv"), na.rm = TRUE, 
                          fit = TRUE, dim = NULL)
 {
   case <- match.arg(case)
   #<------------------ MULTIVARIATE -------------------->
-  if(case=="mv"){
+  if(case == "mv"){
     data <- as.matrix(data)
-    if(ncol(data)<2){
-      stop("'data' must have more than one column. Try the univariate case!")
-    }
-    
-    na.idx <- apply(is.na(data),1,any)
+##    if(ncol(data) < 2){
+##      stop("'data' must have more than one column. Try the univariate case!")
+##    }
+    if(any(dim(data) == 1)){
+      data <- matrix(data, nrow = 1)
+    }    
+    na.idx <- apply(is.na(data), 1, any)
     if(na.rm){
       if(any(na.idx)){
         if(all(na.idx)){
@@ -17,7 +19,7 @@
         }else{
           warning(sum(na.idx)," NA observations removed")
         }
-        data <- data[!na.idx,]
+        data <- data[!na.idx, ]
       }
     }else{
       if(all(na.idx)){
@@ -31,7 +33,7 @@
   #<------------------ UNIVARIATE -------------------->
     if(!is.vector(data)){
       data <- as.matrix(data)
-      if(ncol(data)>1){
+      if(ncol(data) > 1){
         stop("'data' must have only one column!")
       }
       data <- as.vector(data)
@@ -43,7 +45,7 @@
         if(all(na.idx)){
           stop("Sample contains only NA's!")
         }else{
-          warning(sum(na.idx)," NA observations removed")
+          warning(sum(na.idx), " NA observations removed")
         }
       }
       data <- data[!na.idx]

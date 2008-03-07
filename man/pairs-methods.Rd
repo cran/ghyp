@@ -13,7 +13,7 @@
 }
 \usage{
 \S4method{pairs}{ghyp}(x, data = ghyp.data(x), main = "'ghyp' pairwise plot", 
-      nbins = 30, qq = T, gaussian = T,
+      nbins = 30, qq = TRUE, gaussian = TRUE,
       hist.col = c("white", topo.colors(40)), 
       spline.points = 150, root.tol = .Machine$double.eps^0.5, 
       rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
@@ -22,7 +22,7 @@
   \item{x}{Usually a fitted multivariate generalized hyperbolic distribution
            of class \code{\link[=mle.ghyp-class]{mle.ghyp}}. Alternatively
            an object of class \code{\link[=ghyp-class]{ghyp}} and a data matrix.}
-  \item{data}{A matirx.}
+  \item{data}{An object coercible to a \code{matrix}.}
   \item{main}{The title of the plot.}
   \item{nbins}{The number of bins passed to \code{\link[pkg:gplots]{hist2d}}.}
   \item{qq}{If \code{TRUE} qq-plots are drawn.}

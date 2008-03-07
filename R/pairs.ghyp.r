@@ -1,5 +1,5 @@
 "pairs.ghyp" <- function(x, data = ghyp.data(x), main = "'ghyp' pairwise plot",
-                           nbins = 30, qq = T, gaussian = T, 
+                           nbins = 30, qq = TRUE, gaussian = TRUE, 
                            hist.col = c("white", topo.colors(40)),
                            spline.points = 150, root.tol = .Machine$double.eps^0.5,
                            rel.tol = root.tol, abs.tol = root.tol^1.5, ...)

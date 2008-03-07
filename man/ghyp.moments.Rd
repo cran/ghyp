@@ -24,9 +24,11 @@ ghyp.moment(object, order = 3:4, absolute = FALSE, central = TRUE, ...)
 \seealso{\code{\link[=mean.ghyp]{mean}}, \code{\link[=vcov.ghyp]{vcov}},
          \code{\link{Egig}}}
 \examples{
-  nig.uv <- NIG(alpha.bar=0.1, mu=1.1, sigma=3, gamma=-2)
+  nig.uv <- NIG(alpha.bar = 0.1, mu = 1.1, sigma = 3, gamma = -2)
+
   # Moments of integer order
   ghyp.moment(nig.uv, order = 1:6)
+
   # Moments of fractional order  
   ghyp.moment(nig.uv, order = 0.2 * 1:20, absolute = TRUE)
 }

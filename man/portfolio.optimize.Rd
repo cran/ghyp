@@ -4,7 +4,7 @@
 \description{
   This function performs a optimization of a portfolio with respect to one
   of the risk measures \dQuote{variance}, \dQuote{quantile} or \dQuote{expected-shortfall}, 
-  a level of risk and the requested portfolio return
+  a level of risk and the requested portfolio return,
   given a multivariate generalized hyperbolic distribution.
 }
 \usage{
@@ -36,10 +36,16 @@ portfolio.optimize(object, ptf.mean = 0.01,
 }
 \author{David Lüthi}
 \note{
-  The setting of constraints (e.g. avoid short-selling) is not supported yet. \cr
+  The ghyp-object must define a return (not a loss) distribution. 
+  That is, the left tail of the distribution is optimized.\cr
   
+  Setting of constraints like avoid short-selling is not supported yet. \cr
+  
+  If the ghyp-object defines a symmetric distribution the \code{risk.measure} does not 
+  matter since the distribution is then elliptical. \cr
+
   If the risk measure is \dQuote{variance} the returned portfolio is simply an
-  efficient frontier.
+  efficient frontier. \cr
 }
 \seealso{\code{\link[=transform.ghyp]{transform}}, \code{\link{fit.ghypmv}}}
 \examples{
@@ -53,9 +59,10 @@ portfolio.optimize(object, ptf.mean = 0.01,
                                           level = 0.99)
 
   plot(optimal.portfolio$portfolio, type = "l" , col = "red")
-  \dontrun{
+\dontrun{
   lines(density(smi.stocks[, 2:6] %*% optimal.portfolio$opt.weights))
-  }
+}
+
 }
 \keyword{optimize}
 \keyword{multivariate}
