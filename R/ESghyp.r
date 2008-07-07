@@ -13,8 +13,8 @@
       return(object@mu + as.vector(object@sigma) * dnorm(qnorm(alpha)) / (1 - alpha)) # For losses
     }
 
-  }else if(is.symmetric.t(object)){
-    nu <- -2 * coef(object)$lambda
+  }else if(is.student.t(object, symmetric = TRUE)){
+    nu <- coef(object)$nu
     sigma.t <- sqrt((nu - 2) / nu) * as.vector(object@sigma)
     if(distr == "return"){
       alpha <- 1 - alpha

@@ -3,7 +3,6 @@
 \alias{pghyp}
 \alias{rghyp}
 \alias{qghyp}
-\alias{ESghyp}
 \title{The Generalized Hyperbolic Distribution}
 \description{
   Density, distribution function, quantile function, expected-shortfall and
@@ -14,7 +13,8 @@
 dghyp(x, object = ghyp(), logvalue = FALSE)
 
 pghyp(q, object = ghyp(), n.sim = 10000, subdivisions = 200, 
-      rel.tol = .Machine$double.eps^0.5, abs.tol = rel.tol)
+      rel.tol = .Machine$double.eps^0.5, abs.tol = rel.tol,
+      lower.tail = TRUE)
 
 qghyp(p, object = ghyp(), method = c("integration", "splines"), 
       spline.points = 200, subdivisions = 200, 
@@ -22,18 +22,14 @@ qghyp(p, object = ghyp(), method = c("integration", "splines"),
       rel.tol = root.tol^1.5, abs.tol = rel.tol)
 
 rghyp(n, object = ghyp())
-
-ESghyp(alpha, object = ghyp(), distr = c("return", "loss"), ...)
 }
 \arguments{
   \item{p}{A vector of probabilities.}
   \item{x}{A vector, matrix or data.frame of quantiles.}
   \item{q}{A vector, matrix or data.frame of quantiles.}
-  \item{alpha}{A vector of confidence levels.}
   \item{n}{Number of observations.}
   \item{object}{An object inheriting from class \code{\link[=ghyp-class]{ghyp}}.}
   \item{logvalue}{If \code{TRUE} the logarithm of the density will be returned.}
-  \item{distr}{Whether the ghyp-object specifies a return or a loss-distribution (see \bold{Details}).}
   \item{n.sim}{The number of simulations when computing \code{pghyp} of a multivariate
                generalized hyperbolic distribution.}
   \item{subdivisions}{The number of subdivisions passed to \code{\link{integrate}} when
@@ -41,21 +37,16 @@ ESghyp(alpha, object = ghyp(), distr = c("return", "loss"), ...)
                       univariate generalized hyperbolic distribution.}
   \item{rel.tol}{The relative accuracy requested from  \code{\link{integrate}}.}
   \item{abs.tol}{The absolute accuracy requested from  \code{\link{integrate}}.}
+  \item{lower.tail}{If TRUE (default), probabilities are
+                    \eqn{P[X \le x]}{P[X <= x]}, otherwise, \eqn{P[X > x]}{P[X > x]}.}
   \item{method}{The method how quantiles are computed (see \bold{Details}).}
   \item{spline.points}{The number of support points when computing the quantiles with the method
                        \dQuote{splines} instead of \dQuote{integration}.}
   \item{root.tol}{The tolerance of \code{\link{uniroot}}.}
-  \item{\dots}{Arguments passed from \code{ESghyp} to \code{qghyp}.}  
 }
 \details{
-   \code{qghyp} and \code{ESghyp} only work for univariate generalized hyperbolic
+   \code{qghyp} only works for univariate generalized hyperbolic
    distributions. \cr
-
-   The parameter \code{distr} specifies whether the ghyp-object describes a return or a loss-distribution.
-   In case of a return distribution the expected-shortfall on a confidence level \eqn{\alpha}{alpha} is defined as 
-   \eqn{\hbox{ES}_\alpha := \hbox{E}(X | X \leq F^{-1}_X(\alpha))}{ES_alpha := E(X | X <= F^-1(alpha))} while
-   in case of a loss distribution it is defined on a confidence level \eqn{\alpha}{alpha} as 
-   \eqn{\hbox{ES}_\alpha := \hbox{E}(X | X \geq F^{-1}_X(\alpha))}{ES_alpha := E(X | X >= F^-1(alpha))}. \cr
 
    \code{pghyp} performs a numeric integration of the density in the univariate case. The multivariate 
    cumulative distribution is computed by means of monte carlo simulation. \cr
@@ -74,7 +65,7 @@ ESghyp(alpha, object = ghyp(), distr = c("return", "loss"), ...)
 }
 \value{
   \code{dghyp} gives the density, \cr \code{pghyp} gives the distribution function, \cr
-  \code{qghyp} gives the quantile function, \cr \code{ESghyp} gives the expected shortfall and  \cr
+  \code{qghyp} gives the quantile function, \cr
   \code{rghyp} generates random deviates.
 }
 \references{
@@ -91,7 +82,7 @@ ESghyp(alpha, object = ghyp(), distr = c("return", "loss"), ...)
   to use \code{Xghyp} as well. E.g. \code{dNIG(0, NIG())} does not work but \code{dghyp(0, NIG())}.\cr
   
   When the skewness becomes very large the functions using \code{qghyp} may fail. 
-  The functions \code{\link{ESghyp}}, \code{\link{qqghyp}}, \code{\link[=pairs.ghyp]{pairs}} 
+  The functions \code{\link{qqghyp}}, \code{\link[=pairs.ghyp]{pairs}} 
   and \code{\link{portfolio.optimize}} are based on \code{qghyp}. 
 }
 \seealso{\code{\link{ghyp-class}} definition, \code{\link{ghyp}} constructors, 
@@ -109,7 +100,6 @@ ESghyp(alpha, object = ghyp(), distr = c("return", "loss"), ...)
   
   probabilities <- seq(1e-4, 1-1e-4, length = 500)
   plot(probabilities, qghyp(probabilities, univariate.ghyp, method = "splines"))
-  plot(probabilities, ESghyp(probabilities, univariate.ghyp, method = "splines"))
   
   hist(rghyp(n=10000,univariate.ghyp),nclass=100)
   

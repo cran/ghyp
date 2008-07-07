@@ -33,6 +33,7 @@ ghyp.name(object, abbr = FALSE, skew.attr = TRUE)
   \code{error.code} \tab Error code from \code{\link{optim}}.\cr
   \code{error.message} \tab Error message from \code{\link{optim}}.\cr  
   \code{parameter.variance} \tab Parameter variance (only for univariate fits).\cr
+  \code{trace.pars} \tab Trace values of the parameters during the fitting procedure.\cr
   }
 
   \code{ghyp.data} returns \code{NULL} if no data is stored within the

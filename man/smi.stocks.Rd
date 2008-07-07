@@ -10,7 +10,7 @@
 \format{
   \describe{
     \item{\code{SMI}}{Swiss Market Index.}
-    \item{\code{Novarits}}{Novartis pharma.}
+    \item{\code{Novartis}}{Novartis pharma.}
     \item{\code{CS}}{Credit Suisse.}
     \item{\code{Nestle}}{Nestle.}
     \item{\code{Swisscom}}{Swiss telecom company.}

@@ -9,7 +9,7 @@
 ghyp.moment(object, order = 3:4, absolute = FALSE, central = TRUE, ...)
 }
 \arguments{
-  \item{object}{An univarite generalized hyperbolic object inheriting from class 
+  \item{object}{A univarite generalized hyperbolic object inheriting from class 
                \code{\link[=ghyp-class]{ghyp}}.}
   \item{order}{A vector containing the order of the moments.}
   \item{absolute}{Indicate whether the absolute value is taken or not. Must be \code{TRUE}

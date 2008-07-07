@@ -50,7 +50,7 @@
   * Some minor changes in the vignette
 
 
-2008-02-05 David Luethi
+2008-03-07 David Luethi
    ghyp V1.2.0
   * Special case of a Gaussian distribution implemented (constructor 'gauss' added).
   * Deprecated functions 'lin.transf', 'ghyp.params' and 'redim' removed and replaced with 'transform', 'coef' and '[', respectively. 
@@ -64,3 +64,25 @@
   * Internal functions 'is.gaussian', 'is.symmetric.t' and 'is.univariate' added.
   * Internal functions 'get.stepAIC.ghyp' added.
   * Univariate symmetric Student-t distribution now use R built-in functions.
+  
+2008-07-07 David Luethi
+   ghyp V1.3.0
+  * Option lower.tail added in pghyp 
+  * fit.ghypuv: Initial values of mu and sigma are now median and mad, respectively (instead of mean and sd).
+  * ghyp-constructors: Default parameter values changed for skewness parameters gamma and beta to rep(0, length(mu)).
+                       For dispersion matrices sigma and Delta to diag(rep(1, length(mu))).
+  * The function 'qqghyp' now has an argument 'add' which determines whether the points should be added to an existing 
+    plot window.
+  * Constructor function "ghyp": all(gamma) == 0 changed to all(gamma == 0).  
+  * Internal function 'is.symmetric.t' changed to 'is.student.t(object, symmetric = NULL)'.
+  * 'coef' applied to a Student-t distribution now also returns the degree-of-freedom 'nu',
+    which is nu = -2 * lambda. Function 'show.ghyp' adapted accordingly.
+  * It is now possible to switch from the 'chi.psi' parametrization to the 'alpha.bar' parametrization.
+  * Package vignette enhanced
+  * Slot 'trace.pars' added to class 'mle.ghyp'. This slot contains a list (optionally in case of a multivariate fit) which
+    stores the parameter values during the fitting procedure.
+  * 'fit.ghypmv' is equipped with a boolean 'trace' as a consequence of the above modification. In the univariate case 
+    'trace' is always true, meaning that the parameters will be stored in the slot 'trace.pars' in any case.
+  * 'ghyp.fit.info' returns a formatted version of the data in the slot 'trace.pars'.
+  * Initial value of 'alpha.bar' changed to 0.5 instead of 0.1 in 'fit.ghypuv'.
+  * Function 'ghyp.omega' added. 'ESghyp' and 'ghyp.omega' are now described in the .Rd file 'ghyp-risk-performance'.

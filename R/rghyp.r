@@ -4,8 +4,8 @@
   if(is.univariate(object)){
     if(is.gaussian(object)){
       return(rnorm(n, mean = object@mu, sd = object@sigma))
-    }else if(is.symmetric.t(object)){
-      nu <- -2 * coef(object)$lambda
+    }else if(is.student.t(object, symmetric = TRUE)){
+      nu <- coef(object)$nu
       return(rt(n, df = nu) * sqrt((nu - 2) / nu) * object@sigma + object@mu)    
     }else{
       W <- rgig(n, object@lambda, object@chi, object@psi)

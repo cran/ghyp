@@ -16,35 +16,41 @@
   and their special cases in one of the parametrizations \dQuote{chi/psi}, \dQuote{alpha.bar} and \dQuote{alpha/delta}.
 }
 \usage{
-ghyp(lambda = 0.5, chi = 0.5, psi = 2, mu = 0, sigma = 1, gamma = 0, 
-     alpha.bar = NULL, data = NULL)
+ghyp(lambda = 0.5, chi = 0.5, psi = 2, mu = 0, sigma = diag(rep(1, length(mu))), 
+     gamma = rep(0, length(mu)), alpha.bar = NULL, data = NULL)
      
-ghyp.ad(lambda = 0.5, alpha = 1.5, delta = 1, 
-        beta = 0, mu = 0, Delta = 1, data = NULL)     
+ghyp.ad(lambda = 0.5, alpha = 1.5, delta = 1, beta = rep(0, length(mu)), 
+        mu = 0, Delta = diag(rep(1, length(mu))), data = NULL)     
 
 
-hyp(chi = 0.5, psi = 2, mu = 0, sigma = 1, gamma = 0, alpha.bar = NULL, 
-    data = NULL) 
+hyp(chi = 0.5, psi = 2, mu = 0, sigma = diag(rep(1, length(mu))), 
+    gamma = rep(0, length(mu)), alpha.bar = NULL, data = NULL) 
 
-hyp.ad(alpha = 1.5, delta = 1, beta = 0, mu = 0, Delta = 1, data = NULL)    
-
-
-NIG(chi = 2, psi = 2, mu = 0, sigma = 1, gamma = 0, alpha.bar = NULL, 
-    data = NULL) 
-
-NIG.ad(alpha = 1.5, delta = 1, beta = 0, mu = 0, Delta = 1, data = NULL)
+hyp.ad(alpha = 1.5, delta = 1, beta = rep(0, length(mu)), mu = 0, 
+       Delta = diag(rep(1, length(mu))), data = NULL)    
 
 
-student.t(nu = 3.5, mu = 0, sigma = 1, gamma = 0, data = NULL)  
+NIG(chi = 2, psi = 2, mu = 0, sigma = diag(rep(1, length(mu))), 
+    gamma = rep(0, length(mu)), alpha.bar = NULL, data = NULL) 
 
-student.t.ad(lambda = -2, delta = 1, beta = 0, mu = 0, Delta = 1, data = NULL)
+NIG.ad(alpha = 1.5, delta = 1, beta = rep(0, length(mu)), mu = 0, 
+       Delta = diag(rep(1, length(mu))), data = NULL)
 
 
-VG(lambda = 1, psi = 2*lambda, mu = 0, sigma = 1, gamma = 0, data = NULL)
+student.t(nu = 3.5, mu = 0, sigma = diag(rep(1, length(mu))), 
+          gamma = rep(0, length(mu)), data = NULL)  
 
-VG.ad(lambda = 2, alpha = 1.5, beta = 0, mu = 0, Delta = 1, data = NULL)
+student.t.ad(lambda = -2, delta = 1, beta = rep(0, length(mu)), mu = 0, 
+             Delta = diag(rep(1, length(mu))), data = NULL)
 
-gauss(mu = 0, sigma = 1, data = NULL)
+
+VG(lambda = 1, psi = 2*lambda, mu = 0, sigma = diag(rep(1, length(mu))), 
+   gamma = rep(0, length(mu)), data = NULL)
+
+VG.ad(lambda = 2, alpha = 1.5, beta = rep(0, length(mu)), mu = 0, 
+      Delta = diag(rep(1, length(mu))), data = NULL)
+
+gauss(mu = 0, sigma = diag(rep(1, length(mu))), data = NULL)
 }
 \arguments{
   \item{lambda}{Shape parameter. Common for all parametrizations.}
@@ -75,7 +81,8 @@ gauss(mu = 0, sigma = 1, data = NULL)
   Whenever \code{alpha.bar} is not \code{NULL} it is assumed that the \dQuote{alpha.bar} 
   parametrization is used and the parameters \dQuote{chi} and \dQuote{psi} become redundant. \cr
   \code{ghyp.ad}, \code{hyp.ad}, \code{NIG.ad}, \code{student.t.ad} and \code{VG.ad} use the \dQuote{alpha/delta} parametrization.
-  Have a look on the vignette of this package in the \code{doc} folder for further information.
+  Have a look on the vignette of this package in the \code{doc} folder for further information
+  regarding the parametrization and for the domains of variation of the parameters.
 }
 \value{
  An object of class \code{\link[=ghyp-class]{ghyp}}.
@@ -90,7 +97,7 @@ gauss(mu = 0, sigma = 1, data = NULL)
   deviation in the univariate case and the variance in the multivariate case.
   Thus, set \eqn{\sigma = \sqrt{\nu /(\nu - 2)}}{sigma = sqrt(nu /(nu - 2)} in the univariate case to get the same results as 
   with the standard \R implementation of the Student-t distribution (see \bold{Examples}). 
-  Have a look on the vignette of this package in the \code{doc} folder. \cr
+  Have a look on the vignette of this package in the \code{doc} folder for further information. \cr
   
   Once an object of class \code{\link[=ghyp-class]{ghyp}} is created the methods
   \code{Xghyp} have to be used even when the distribution is a special case of
@@ -101,6 +108,7 @@ gauss(mu = 0, sigma = 1, data = NULL)
 \seealso{
   \code{\link{ghyp-class}} for a summary of generic methods assigned to \code{ghyp} objects, 
   \code{\link[=coef.ghyp]{coef}} for switching between different parametrizations,
+  \code{\link[=dghyp]{d/p/q/r/ES/gyhp}} for density, distribution function et cetera,
   \code{\link{fit.ghypuv}} and \code{\link{fit.ghypmv}} for fitting routines.
 }
 \examples{

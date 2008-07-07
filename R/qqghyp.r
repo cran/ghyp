@@ -7,7 +7,7 @@
                      gauss.col = "black",
                      plot.legend = TRUE, location = "topleft", legend.cex = 0.8,
                      spline.points = 150, root.tol = .Machine$double.eps^0.5,
-                     rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
+                     rel.tol = root.tol, abs.tol = root.tol^1.5, add = FALSE, ...)
 {
   test.ghyp(object, case = "univariate")
   
@@ -19,8 +19,12 @@
                   rel.tol = rel.tol, abs.tol = abs.tol)[order(order(data))]
 
   ## plot ghyp quantiles
-  plot(ghyp.q, data, xlab = xlab, ylab = ylab, pch = ghyp.pch, 
-       col = ghyp.col, main = main, ...)
+  if(add){
+    points(ghyp.q, data, pch = ghyp.pch, col = ghyp.col, ...)
+  }else{
+    plot(ghyp.q, data, xlab = xlab, ylab = ylab, pch = ghyp.pch, 
+         col = ghyp.col, main = main, ...)
+  }
 
   if(gaussian){
     gauss.q <- qnorm(ppoints(length(data)), mean = mean(data), sd = sd(data))[order(order(data))]
@@ -34,7 +38,7 @@
     }
   }
 
- if(plot.legend){
+ if(plot.legend && !add){
   if(gaussian){
     legend(location, legend = c(ghyp.name(object, abbr = TRUE, skew.attr = TRUE), "Gaussian"), 
            col = c(ghyp.col, gauss.col), lty = c(ghyp.lty, gauss.lty), 

@@ -7,7 +7,7 @@
     if(object@parametrization == "alpha.delta"){
       if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){                   
         # Student-t  ->  alpha^2 == beta' Delta beta
-        param.uv <- unlist(param[c(1, 3)])
+        param.uv <- unlist(param[c(1, 3)])       
       }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
         # VG  ->  delta == 0 
         param.uv <- unlist(param[1:2])
@@ -37,7 +37,11 @@
       }
       if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){                   
         # Student-t  ->  alpha.bar == 0
-        param.uv <- c(nu = unname(-2 * param.uv["lambda"]))
+        if(object@parametrization == "chi.psi"){
+          param.uv <- param.uv[c("lambda", "chi")]
+        }else{
+          param.uv <- param.uv["nu"]
+        }
       }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
         # VG  ->  alpha.bar == 0 or chi == 0
         if(object@parametrization == "chi.psi"){
@@ -79,9 +83,11 @@
     }else{ #  ----> chi.psi or alpha.bar-parametrization
       if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "t"){
         # Student-t  ->  alpha.bar == 0
-        param[1] <- -2 * param["lambda"]
-        names(param)[1] <- "nu"
-        param <- param[-2]
+        if(object@parametrization == "chi.psi"){
+          param <- param[-3]
+        }else{
+          param <- param[-c(1, 3)]
+        }
       }else if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) == "VG"){
         # VG  ->  alpha.bar == 0 or chi == 0
         param <- param[-2]

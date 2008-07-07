@@ -2,7 +2,7 @@
                          mu = NULL, sigma = NULL, gamma = NULL,
                          opt.pars = c(lambda = T, alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
                          symmetric = F, standardize = F, nit = 2000, reltol = 1e-8, abstol = reltol * 10, 
-                         na.rm = F, silent = FALSE, save.data = T,...)
+                         na.rm = F, silent = FALSE, save.data = T, trace = TRUE, ...)
 {
   call <- match.call(expand.dots = TRUE) 
 
@@ -34,13 +34,10 @@
   check.norm.pars(mu, sigma, gamma, d)
 
   i.backup <- 1
-  mu.backup <- mu
-  sigma.backup <- sigma
-  gamma.backup <- gamma
-  lambda.backup <- lambda
-  alpha.bar.backup <- alpha.bar
-
-
+ 
+  trace.pars <- list(alpha.bar = alpha.bar, lambda = lambda, mu = matrix(mu, ncol = d), 
+                     sigma = list(sigma), gamma = matrix(gamma, ncol = d))
+  
     # Internal function .fit.ghypmv allows reasonable error handling
     .fit.ghypmv <- function(data, lambda, alpha.bar, mu, sigma, gamma, opt.pars,
                             standardize, nit, reltol, abstol, silent, save.data, ...)
@@ -109,6 +106,10 @@
       abs.closeness <- 100
       tmp.fit <- list(convergence = 0, message = NULL)
       
+      tmp.abar2chipsi <- abar2chipsi(alpha.bar, lambda)
+      chi <- tmp.abar2chipsi$chi
+      psi <- tmp.abar2chipsi$psi
+      
       ll <-  sum(internal.dghypmv(data, lambda = lambda, chi = chi, psi = psi,
                                   mu = mu, sigma = sigma, gamma = gamma, logvalue = TRUE))  
       #<------------------------- Start interations ------------------------------->
@@ -124,7 +125,7 @@
         delta.bar <- mean(delta)
         eta <- Egig(lambda-d/2, Q+chi, psi+Offset, func = "x", check.pars = FALSE)
         eta.bar <- mean(eta)
-        delta.matrix <- matrix(delta,nrow=n,ncol=d,byrow=F)
+        delta.matrix <- matrix(delta, nrow = n, ncol = d, byrow = FALSE)
         if (opt.pars["gamma"]) {
           Xbar.matrix <- matrix(apply(data, 2, mean), nrow = n, ncol = d, byrow = TRUE)
           Xbar.matrix <- Xbar.matrix - data
@@ -135,11 +136,11 @@
         }
         mu.matrix <- matrix(mu, nrow = n, ncol = d, byrow = TRUE)
         standardised <- data - mu.matrix
-        tmp <- delta.matrix*standardised
+        tmp <- delta.matrix * standardised
         if (opt.pars["sigma"]) {
           sigma <- (t(tmp) %*% standardised)/n - outer(gamma, gamma) * eta.bar
         }
-    
+
         #<------------------------ M-Step: EM update ------------------------------>
         # Maximise the conditional likelihood function and estimate lambda, chi, psi
         inv.sigma <- solve(sigma)
@@ -167,11 +168,11 @@
           lambda <- t.transform(tmp.fit$par)    
         }else if(opt.pars["lambda"] | opt.pars["alpha.bar"]){  
           #<------  ghyp, hyp, NIG case  ------>
-          delta.sum <- sum(Egig(lambda-d/2,Q+chi,psi+Offset,func="1/x", check.pars = FALSE))
-          eta.sum <- sum(Egig(lambda-d/2,Q+chi,psi+Offset,func="x", check.pars = FALSE))
+          delta.sum <- sum(Egig(lambda-d/2, Q+chi, psi+Offset, func="1/x", check.pars = FALSE))
+          eta.sum <- sum(Egig(lambda-d/2, Q+chi, psi+Offset, func="x", check.pars = FALSE))
           
-          mix.pars <- c(lambda=unname(lambda),alpha.bar=log(unname(alpha.bar)))
-          opt.pars.mix <- opt.pars[c("lambda","alpha.bar")]
+          mix.pars <- c(lambda = unname(lambda), alpha.bar = log(unname(alpha.bar)))
+          opt.pars.mix <- opt.pars[c("lambda", "alpha.bar")]
           thepars <- mix.pars[opt.pars.mix]
           
           tmp.fit <- suppressWarnings(optim(thepars, gig.optfunc, 
@@ -205,11 +206,11 @@
           print(message)
         }
         # assign current values of optimization parameters to backups of the nesting environment
-        alpha.bar.backup <<- alpha.bar
-        lambda.backup <<- lambda
-        mu.backup <<- mu
-        sigma.backup <<- sigma
-        gamma.backup <<- gamma
+        trace.pars$lambda <<- c(trace.pars$lambda, lambda)  
+        trace.pars$alpha.bar <<- c(trace.pars$alpha.bar, alpha.bar)    
+        trace.pars$mu <<- rbind(trace.pars$mu, mu)
+        trace.pars$sigma <<- c(trace.pars$sigma, list(sigma))
+        trace.pars$gamma <<- rbind(trace.pars$gamma, gamma)    
       }      
       # END OF WHILE LOOP
     
@@ -221,9 +222,9 @@
         conv.type <- paste("Message from 'optim':", tmp.fit$message)
       }
     
-      converged <- F
+      converged <- FALSE
       if(i < nit & is.finite(rel.closeness) & is.finite(abs.closeness)){
-        converged <- T
+        converged <- TRUE
       }
     
       if(standardize){
@@ -252,11 +253,11 @@
 
 
   if(class(save.fit) == "try-error"){
-    lambda <- lambda.backup
-    alpha.bar <- alpha.bar.backup
-    mu <- mu.backup
-    sigma <- sigma.backup
-    gamma <- gamma.backup
+    lambda <- trace.pars$lambda[length(trace.pars$lambda)]
+    alpha.bar <- trace.pars$alpha.bar[length(trace.pars$alpha.bar)]
+    mu <- trace.pars$mu[nrow(trace.pars$mu), ]
+    sigma <- trace.pars$sigma[[length(trace.pars$sigma)]]
+    gamma <- trace.pars$gamma[nrow(trace.pars$gamma), ]
     llh <- as.numeric(NA)
     converged <- FALSE
     error.code <- 100
@@ -278,6 +279,10 @@
   if(!save.data){
     data <- NULL
   }
+  
+  if(!trace){
+    trace.pars <- list()
+  }
 
   nbr.fitted.params <- unname(sum(opt.pars[c("alpha.bar","lambda")]) + 
                               d * sum(opt.pars[c("mu","gamma")]) +
@@ -292,7 +297,7 @@
   
   return(fit.ghyp(ghyp.object, llh = llh, n.iter = n.iter, converged = converged,
                   error.code = error.code, error.message = error.message,
-                  fitted.params = opt.pars, aic = aic))
+                  fitted.params = opt.pars, aic = aic, trace.pars = trace.pars))
 }
 
 

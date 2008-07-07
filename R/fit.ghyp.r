@@ -1,5 +1,6 @@
 "fit.ghyp" <- function(object, llh = 0, n.iter = 0, converged = FALSE, error.code = 0,
-                       error.message = "", parameter.variance, fitted.params, aic)                                         
+                       error.message = "", parameter.variance, fitted.params, aic, 
+                       trace.pars = list())                                         
 {
   if(missing(parameter.variance)){
     parameter.variance <- matrix(0)
@@ -14,5 +15,6 @@
              n.iter = n.iter, converged = converged, error.code = error.code,
              error.message = error.message, 
              parameter.variance = parameter.variance,
-             fitted.params = fitted.params, aic = aic))
+             fitted.params = fitted.params, aic = aic, 
+             trace.pars = trace.pars))
 }

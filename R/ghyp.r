@@ -1,6 +1,6 @@
 #<=================== chi.psi and alpha.bar - parametrization =================>
-"ghyp" <- function(lambda = 0.5, chi = 0.5, psi = 2, mu = 0, sigma = 1,
-                   gamma = 0, alpha.bar = NULL, data = NULL)
+"ghyp" <- function(lambda = 0.5, chi = 0.5, psi = 2, mu = 0, sigma = diag(rep(1, length(mu))),
+                   gamma = rep(0, length(mu)), alpha.bar = NULL, data = NULL)
 {
   call <- match.call()
   if(!is.null(alpha.bar)){
@@ -54,7 +54,7 @@
     mu <- unname(mu)
     sigma <- unname(sigma)
         
-    if(all(gamma) == 0){
+    if(all(gamma == 0)){
       variance <- unname(e.gig * sigma^2) 
     }else{
       var.gig <- Egig(lambda, chi, psi, func = "var")
@@ -75,7 +75,7 @@
         data <- numeric(0)
       }
 
-      if(all(gamma) == 0){
+      if(all(gamma == 0)){
         variance <- e.gig * sigma
       }else{
         var.gig <- Egig(lambda, chi, psi, func = "var")

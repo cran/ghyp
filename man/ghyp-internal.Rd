@@ -17,7 +17,8 @@ check.norm.pars(mu, sigma, gamma, dimension)
 check.opt.pars(opt.pars, symmetric)
 
 fit.ghyp(object, llh = 0, n.iter = 0, converged = FALSE, error.code = 0, 
-         error.message = "", parameter.variance, fitted.params, aic)
+         error.message = "", parameter.variance, fitted.params, aic, 
+         trace.pars = list())
          
 ghyp.model(lambda, chi, psi, gamma) 
 
@@ -48,7 +49,7 @@ is.gaussian(object)
 
 is.univariate(object)
 
-is.symmetric.t(object)
+is.student.t(object, symmetric = NULL)
 
 get.stepAIC.ghyp(stepAIC.obj, dist = c("ghyp", "hyp", "NIG", "VG", "t", "gauss"), 
                  symmetric = FALSE)
@@ -140,8 +141,8 @@ This function simply checks if the dimensions match.
 \code{is.gaussian} \cr
   Tests whether the object is of a gaussian type.
 
-\code{is.symmetric.t} \cr
-  Tests whether the object is of a symmetric Student-t distribution.
+\code{is.student.t} \cr
+  Tests whether the object describes a Student-t distribution.
 
 \code{is.univariate} \cr
   Tests whether the object is a univariate ghyp-distribution.

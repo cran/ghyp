@@ -75,6 +75,8 @@
                                       of the fisher information matrix. This slot is filled only in the case of 
                                       an univariate fit.
                                       This slot is of class \code{matrix}.}    
+    \item{\code{trace.pars}:}{Containes the parameter value evolution during the fitting procedure. 
+                              \code{trace.pars} of class \code{list}.}    
   }
 }
 \section{Extends}{
@@ -102,7 +104,8 @@ Class \dQuote{mle.ghyp} extends class \code{"\linkS4class{ghyp}"}, directly.
 \seealso{
   \code{\link{optim}} for an interpretation of \code{error.code}, \code{error.message} and \code{parameter.variance}. \cr
   \code{\link{ghyp}}, \code{\link{hyp}}, \code{\link{NIG}}, \code{\link{VG}}, \code{\link{student.t}} and 
-  \code{\link{gauss}} for constructors of the class \code{ghyp}. 
+  \code{\link{gauss}} for constructors of the class \code{ghyp} in the \dQuote{alpha.bar} and \dQuote{chi/psi} parametrization. 
+  \code{\link[=ghyp.ad]{xxx.ad}} for all the constructors in the \dQuote{alpha/delta} parametrization.
   \code{\link{fit.ghypuv}}, \code{\link{fit.ghypmv}} et cetera for the fitting routies and constructors of the class
   \code{mle.ghyp}.
 }

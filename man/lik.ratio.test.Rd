@@ -44,6 +44,10 @@ lik.ratio.test(x, x.subclass, conf.level = 0.95)
   \code{conf.level}-quantile of the chi-squared distribution with \eqn{\nu}
   degrees of freedom.
 }
+\references{
+  \emph{Linear Statistical Inference and Its Applications} by C. R. Rao\cr
+  Wiley, New York, 1973   
+}
 \author{
   David Lüthi
 }

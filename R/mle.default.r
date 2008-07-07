@@ -12,24 +12,31 @@
     }
   }
   ## Sort opt.pars according to vars (-> both vectors must be named)
-  opt.pars <- opt.pars[match(names(vars),names(opt.pars))]
+  opt.pars <- opt.pars[match(names(vars), names(opt.pars))]
 
   ## Theta contains the parameters intended to be fitted
-  theta = vars[opt.pars]
+  theta <- vars[opt.pars]
 
   ## Theta backup (track parameter difference from optim)
   theta.backup <- theta
-
+  trace.pars <- NULL
+  
   ##<------------   Negative log-Likelihood function adapter ----------->
-  negloglik <- function(theta, pdf, tmp.data, transf, const.pars, silent)
+  negloglik <- function(theta, pdf, tmp.data, transf, const.pars, silent, par.names)
   {
     theta.backup <<- theta
     ## Transformation of the parameters
     for(nam in intersect(names(theta), names(transf))) {
       theta[nam] = do.call(transf[nam], list(theta[nam]))
     }
-    pdf.args = c(list(x = tmp.data, logvalue = T), as.list(theta), as.list(const.pars))
+    pars <- c(theta, const.pars)
+    
+    trace.pars <<- rbind(trace.pars, pars[match(par.names, names(pars))])
+        
+    pdf.args = c(list(x = tmp.data, logvalue = TRUE), as.list(pars))
+    
     llh <- -sum(do.call(pdf, pdf.args))
+    
     if(!silent){
       print(paste("Llh: ",sprintf("% .14E", -llh), "; Pars: ",
                   paste(sprintf("% .6E", theta), collapse = ", "),
@@ -38,10 +45,10 @@
     return(llh)
   }
   ##<------------------------------------------------------------------->
-  
-  fit = try(optim(theta, negloglik, hessian = se, pdf = pdf,
-                  tmp.data = data, transf = transform, const.pars = vars[!opt.pars], 
-                  silent = silent, ...))
+
+  fit <- try(optim(theta, negloglik, hessian = se, pdf = pdf,
+                   tmp.data = data, transf = transform, const.pars = vars[!opt.pars], 
+                   silent = silent, par.names = names(vars), ...))
 
   ## 1  indicates that the iteration limit maxit had been reached.
   ## 10 indicates degeneracy of the Nelder–Mead simplex.
@@ -49,31 +56,33 @@
   ## 52 indicates an error from the "L-BFGS-B" method; see component message for further details.
   
   if(class(fit) == "try-error") {
-    warning("An error occured during the fitting procedure!")
-    convergence = 100
-    hess = as.numeric(NA)
-    ll.max = as.numeric(NA)
-    n.iter = as.numeric(NA)
-    message = fit 
+    convergence <- 100
+    hess <- as.numeric(NA)
+    n.iter <- as.numeric(NA)
     inv.hess <- matrix(NA)
+    
+    message <- fit 
     par.ests <- theta.backup
     for(nam in intersect(names(par.ests), names(transform))) {
-      par.ests[nam] = do.call(transform[nam], list(par.ests[nam]))
+      par.ests[nam] <- do.call(transform[nam], list(par.ests[nam]))
     }
-    vars[opt.pars] = par.ests
+    vars[opt.pars] <- par.ests
+
+    pdf.args <- c(list(x = data, logvalue = TRUE), as.list(vars))
+    ll.max <- -sum(do.call("internal.dghyp", pdf.args))
   }else{
     par.ests <- fit$par
-    names(par.ests) = names(theta)
+    names(par.ests) <- names(theta)
     for(nam in intersect(names(par.ests), names(transform))) {
-      par.ests[nam] = do.call(transform[nam], list(par.ests[nam]))
+      par.ests[nam] <- do.call(transform[nam], list(par.ests[nam]))
     }
-    vars[opt.pars] = par.ests
-    convergence = fit$convergence
-    n.iter = fit$counts[1]
-    ll.max = - fit$value
-    message = NULL
+    vars[opt.pars] <- par.ests
+    convergence <- fit$convergence
+    n.iter <- fit$counts[1]
+    ll.max <- - fit$value
+    message <- NULL
     if(se) {
-       hess = fit$hessian
+       hess <- fit$hessian
        par.ses <- suppressWarnings(sqrt(diag(hess)))
        inv.hess <- try(solve(hess))
        if(class(inv.hess) == "try-error") {
@@ -89,6 +98,6 @@
     }
   }
   list(convergence = convergence, par.ests = vars, 
-      parameter.variance = inv.hess, ll.max = ll.max, n.iter = n.iter,
-      message=message)
+       parameter.variance = inv.hess, ll.max = ll.max, n.iter = n.iter,
+       message = message, trace.pars = trace.pars)
 }

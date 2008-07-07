@@ -9,8 +9,8 @@
 
   if(is.gaussian(object)){
     return(qnorm(p, mean = object@mu, sd = object@sigma))
-  }else if(is.symmetric.t(object)){
-     nu <- -2 * coef(object)$lambda
+  }else if(is.student.t(object, symmetric = TRUE)){
+     nu <- coef(object)$nu
      return(qt(p, df = nu) * sqrt((nu - 2) / nu) * object@sigma + object@mu)  
   }
 
@@ -89,7 +89,7 @@
   if(length(p) == 1){
     ## If a single quantile is requested use the newton method anyway
     value <- internal.bisection(object, p, root.tol, rel.tol, abs.tol, subdivisions)
-    p.raw[is.finite(p.raw)] <- value
+    p.raw[is.finite(p.raw)] <- as.numeric(value)
     return(p.raw)
   }else if(length(p) == 2){
     ## If two quantiles are requested use the newton method anyway

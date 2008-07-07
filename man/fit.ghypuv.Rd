@@ -11,8 +11,8 @@
    generalized hyperbolic distributions.
 }
 \usage{
-fit.ghypuv(data, lambda = 1, alpha.bar = 0.1, mu = mean(data), 
-           sigma = sd(data), gamma = 0, 
+fit.ghypuv(data, lambda = 1, alpha.bar = 0.5, mu = median(data), 
+           sigma = mad(data), gamma = 0, 
            opt.pars = c(lambda = T, alpha.bar = T, mu = T, 
                         sigma = T, gamma = !symmetric), 
            symmetric = F, standardize = F, save.data = T, 
@@ -87,8 +87,14 @@ fit.gaussuv(data, na.rm = T, save.data = T)
 }
 \examples{
   data(smi.stocks)
-  fit.NIGuv(data = smi.stocks[,"SMI"], opt.pars = c(alpha.bar = FALSE),
-            alpha.bar = 1, control = list(abs.tol = 1e-5, maxit = 100))
+  
+  nig.fit <- fit.NIGuv(smi.stocks[,"SMI"], opt.pars = c(alpha.bar = FALSE),
+                       alpha.bar = 1, control = list(abs.tol = 1e-8))
+  nig.fit 
+  
+  summary(nig.fit)
+  
+  hist(nig.fit)
 }
 \keyword{iteration}
 \keyword{optimize}

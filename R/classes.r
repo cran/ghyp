@@ -37,7 +37,8 @@ setClass("mle.ghyp",
                         error.message = "character",
                         fitted.params = "logical",
                         aic = "numeric",
-                        parameter.variance = "matrix"),
+                        parameter.variance = "matrix",
+                        trace.pars = "list"),
 
          prototype(n.iter = numeric(0),
                    llh = numeric(0),
@@ -46,8 +47,9 @@ setClass("mle.ghyp",
                    error.message = character(0),
                    fitted.params = logical(0),
                    aic = numeric(0),
-                   parameter.variance=matrix(0)),
+                   parameter.variance = matrix(0),
+                   trace.pars = list()),
 
-         contains="ghyp"
+         contains = "ghyp"
 )
 

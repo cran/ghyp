@@ -17,7 +17,7 @@ In addition, it contains the Generalized Inverse Gaussian distribution.
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 1.2.0; svn-revision 293\cr
+Version: \tab 1.3.0; svn-revision 318\cr
 Date: \tab 2008-03-07\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
@@ -32,13 +32,12 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link{gauss}} \tab            Initialize a Gaussian distribution.\cr  
 }
 
-\strong{Density, distribution function, quantile function, expected shortfall and
+\strong{Density, distribution function, quantile function and
   random generation:}
 \tabular{ll}{
   \code{\link{dghyp}} \tab         Density of a generalized hyperbolic distribution.\cr
   \code{\link{pghyp}} \tab         Distribution function of a generalized hyperbolic distribution.\cr
   \code{\link{qghyp}} \tab         Quantile of a univariate generalized hyperbolic distribution.\cr
-  \code{\link{ESghyp}} \tab        Expected shortfall of a univariate generalized hyperbolic distribution.\cr
   \code{\link{rghyp}} \tab         Random generation of a generalized hyperbolic distribution.\cr
 }
 
@@ -57,6 +56,12 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link{fit.tmv}} \tab        Fit a skewed Student-t distribution to multivariate data.\cr      
   \code{\link{fit.gaussmv}} \tab    Fit a Gaussian distribution to multivariate data.\cr      
   \code{\link{stepAIC.ghyp}} \tab   Perform a model selection based on the AIC.\cr     
+}
+
+\strong{Risk and Performance:}
+\tabular{ll}{
+  \code{\link{ESghyp}} \tab        Expected shortfall of a univariate generalized hyperbolic distribution.\cr    
+  \code{\link{ghyp.omega}} \tab    Performance measure \emph{Omega} based on a univariate \code{ghyp} distribution.\cr     
 }
 
 \strong{Portfolio optimization and utilities:}
@@ -149,13 +154,15 @@ Maintainer: David Lüthi <david.luethi@zhaw.ch>
 \references{
 \emph{Quantitative Risk Management: Concepts, Techniques and Tools} by Alexander J. McNeil, Rüdiger
 Frey and Paul Embrechts \cr
-Princeton Press, 2005 \cr   
+Princeton Press, 2005 \cr  
+
+\emph{Intermediate probability:  A computational approach} by Marc Paolella \cr
+Wiley, 2007 \cr   
 
 \emph{S-Plus and \R Library for Quantitative Risk Management QRMlib} 
 by Alexander J. McNeil (2005) and Scott Ulman (\R-port) (2007)\cr
 \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html} and \code{QRMlib}\cr
 }
-
 \keyword{package}
 \keyword{hplot}
 \keyword{multivariate}
@@ -164,4 +171,3 @@ by Alexander J. McNeil (2005) and Scott Ulman (\R-port) (2007)\cr
 \keyword{distribution}
 \keyword{models}
 \keyword{datagen}
-

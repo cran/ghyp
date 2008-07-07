@@ -16,7 +16,8 @@ fit.ghypmv(data, lambda = 1, alpha.bar = 1, mu = NULL, sigma = NULL,
            gamma = NULL, opt.pars = c(lambda = T, alpha.bar = T, mu = T, 
                                       sigma = T, gamma = !symmetric), 
            symmetric = F, standardize = F, nit = 2000, reltol = 1e-8, 
-           abstol = reltol * 10, na.rm = F, silent = FALSE, save.data = T, ...)   
+           abstol = reltol * 10, na.rm = F, silent = FALSE, save.data = T, 
+           trace = TRUE, ...)   
            
 fit.hypmv(data, 
           opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
@@ -50,7 +51,9 @@ fit.gaussmv(data, na.rm = T, save.data = T)
   \item{standardize}{If \code{TRUE} the sample will be standardized before fitting. 
                      Afterwards, the parameters and log-likelihood et cetera will be back-transformed.}
   \item{save.data}{If \code{TRUE} \code{data} will be stored within the 
-                   \code{\link[=mle.ghyp-class]{mle.ghyp}} object.}
+                   \code{\link[=mle.ghyp-class]{mle.ghyp}} object (cf. \code{\link{ghyp.data}}).}
+  \item{trace}{If \code{TRUE} the evolution of the parameter values during the fitting procedure 
+               will be traced and stored (cf. \code{\link{ghyp.fit.info}}).}
   \item{na.rm}{If \code{TRUE} missing values will be removed from \code{data}.}
   \item{silent}{If \code{TRUE} no prompts will appear in the console.}
   \item{nit}{Maximal number of iterations of the expectation maximation algorithm.}

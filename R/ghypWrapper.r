@@ -1,6 +1,7 @@
 #<=================== chi.psi and alpha.bar - parametrization =================>
 #<--------------------------------   HYP   ------------------------------------>
-"hyp" <- function(chi = 0.5, psi = 2, mu = 0, sigma = 1, gamma = 0, alpha.bar = NULL, data = NULL)
+"hyp" <- function(chi = 0.5, psi = 2, mu = 0, sigma = diag(rep(1, length(mu))),
+                   gamma = rep(0, length(mu)), alpha.bar = NULL, data = NULL)
 {
   call <- match.call()
 
@@ -16,7 +17,8 @@
   return(ghyp.object)
 }
 #<--------------------------------   NIG   ------------------------------------>
-"NIG" <- function(chi = 2, psi = 2, mu = 0, sigma = 1, gamma = 0, alpha.bar = NULL, data = NULL)
+"NIG" <- function(chi = 2, psi = 2, mu = 0, sigma = diag(rep(1, length(mu))),
+                   gamma = rep(0, length(mu)), alpha.bar = NULL, data = NULL)
 {
   call <- match.call()
 
@@ -32,7 +34,8 @@
   return(ghyp.object)
 }
 #<--------------------------------   Student-t   ------------------------------------>
-"student.t" <- function(nu = 3.5, mu = 0, sigma = 1, gamma = 0, data = NULL)
+"student.t" <- function(nu = 3.5, mu = 0, sigma = diag(rep(1, length(mu))),
+                   gamma = rep(0, length(mu)), data = NULL)
 {
   call <- match.call()
 
@@ -44,7 +47,8 @@
   return(ghyp.object)
 }
 #<--------------------------------   VG   ------------------------------------>
-"VG" <- function(lambda = 1, psi = 2*lambda, mu = 0, sigma = 1, gamma = 0, data = NULL)
+"VG" <- function(lambda = 1, psi = 2*lambda, mu = 0, sigma = diag(rep(1, length(mu))),
+                   gamma = rep(0, length(mu)), data = NULL)
 {
   call <- match.call()
 
@@ -61,7 +65,8 @@
 }
 
 #<====================== alpha.delta - parametrization =========================>
-"ghyp.ad" <- function(lambda = 0.5, alpha = 1.5, delta = 1, beta = 0, mu = 0, Delta = 1, data = NULL)
+"ghyp.ad" <- function(lambda = 0.5, alpha = 1.5, delta = 1, beta = rep(0, length(mu)), 
+                      mu = 0, Delta = diag(rep(1, length(mu))), data = NULL)
 {
   call <- match.call()
 
@@ -124,7 +129,8 @@
 }
 
 #<--------------------------------   HYP   ------------------------------------>
-"hyp.ad" <- function(alpha = 1.5, delta = 1, beta = 0, mu = 0, Delta = 1, data = NULL)
+"hyp.ad" <- function(alpha = 1.5, delta = 1, beta = rep(0, length(mu)), mu = 0, 
+                     Delta = diag(rep(1, length(mu))), data = NULL)
 {
   call <- match.call()
   if(length(beta) == 1 && length(mu) == 1){   # Univariate case
@@ -143,7 +149,8 @@
 }
 
 #<--------------------------------   NIG   ------------------------------------>
-"NIG.ad" <- function(alpha = 1.5, delta = 1, beta = 0, mu = 0, Delta = 1, data = NULL)
+"NIG.ad" <- function(alpha = 1.5, delta = 1, beta = rep(0, length(mu)), mu = 0, 
+                     Delta = diag(rep(1, length(mu))), data = NULL)
 {
   call <- match.call()
   if(length(beta) == 1 && length(mu) == 1){   # Univariate case
@@ -161,7 +168,8 @@
 }
 
 #<--------------------------------   Student-t   ------------------------------------>
-"student.t.ad" <- function(lambda = -2, delta = 1, beta = 0, mu = 0, Delta = 1, data = NULL)
+"student.t.ad" <- function(lambda = -2, delta = 1, beta = rep(0, length(mu)), mu = 0, 
+                           Delta = diag(rep(1, length(mu))), data = NULL)
 {
   call <- match.call()
   if(length(beta) == 1 && length(mu) == 1){   # Univariate case
@@ -180,7 +188,8 @@
 }
 
 #<--------------------------------   VG   ------------------------------------>
-"VG.ad" <- function(lambda = 2, alpha = 1.5, beta = 0, mu = 0, Delta = 1, data = NULL)
+"VG.ad" <- function(lambda = 2, alpha = 1.5, beta = rep(0, length(mu)), mu = 0, 
+                    Delta = diag(rep(1, length(mu))), data = NULL)
 {
   call <- match.call()
   if(length(beta) == 1 && length(mu) == 1){   # Univariate case
@@ -198,7 +207,7 @@
 
 }
 #<--------------------------------   NIG   ------------------------------------>
-"gauss" <- function(mu = 0, sigma = 1, data = NULL)
+"gauss" <- function(mu = 0, sigma = diag(rep(1, length(mu))), data = NULL)
 {
   call <- match.call()
     ghyp.object <- ghyp(chi = Inf, psi = Inf, lambda = as.numeric(NA), 

@@ -16,7 +16,7 @@ qqghyp(object, data = ghyp.data(object), gaussian = TRUE, line = TRUE,
        gauss.lty = "dashed", ghyp.col = "black", gauss.col = "black", 
        plot.legend = TRUE, location = "topleft", legend.cex = 0.8, 
        spline.points = 150, root.tol = .Machine$double.eps^0.5, 
-       rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
+       rel.tol = root.tol, abs.tol = root.tol^1.5, add = FALSE, ...)
 }
 \arguments{
   \item{object}{Usually a fitted univariate generalized hyperbolic distribution
@@ -46,6 +46,7 @@ qqghyp(object, data = ghyp.data(object), gaussian = TRUE, line = TRUE,
   \item{root.tol}{The tolerance of the quantiles. Passed to \code{\link{uniroot}}.}
   \item{rel.tol}{The tolerance of the quantiles. Passed to \code{\link{integrate}}.}
   \item{abs.tol}{The tolerance of the quantiles. Passed to \code{\link{integrate}}.}
+  \item{add}{If \code{TRUE} the points are added to an existing plot window. The \code{legend} argument then becomes deactivated.}
   \item{\dots}{Arguments passed to \code{\link{plot}}.}
 }
 \author{David Lüthi}
@@ -54,8 +55,13 @@ qqghyp(object, data = ghyp.data(object), gaussian = TRUE, line = TRUE,
          \code{\link[=lines.ghyp]{lines}}}
 \examples{
   data(smi.stocks)
+  
   smi <- fit.ghypuv(data = smi.stocks[, "Swiss.Re"])
+  
   qqghyp(smi, spline.points = 100)
+  
+  qqghyp(fit.tuv(smi.stocks[, "Swiss.Re"], symmetric = TRUE), 
+         add = TRUE, ghyp.col = "red", line = FALSE)
 }
 \keyword{models}
 \keyword{hplot}

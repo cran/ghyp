@@ -1,6 +1,6 @@
 "coef.ghyp" <- function(object, type = c("chi.psi", "alpha.bar", "alpha.delta"))
 {
-  test.ghyp(object, case = "ghyp")
+  ## test.ghyp(object, case = "ghyp")
 
   if(is.univariate(object)){
     sigma <- as.vector(object@sigma)
@@ -17,6 +17,7 @@
   }else{
     type <- match.arg(type)
   }
+  
   if(type == "chi.psi"){
     param.list <- list(lambda = object@lambda,
                        chi = object@chi,
@@ -25,17 +26,30 @@
                        sigma = sigma,
                        gamma = object@gamma)
   }else if(type == "alpha.bar"){
-    if(object@parametrization == "chi.psi"){
-      stop("Transformation from 'chi.psi' to 'alpha.bar' parametrization not implemented!")
+    if(is.student.t(object) & object@parametrization == "alpha.bar"){
+      param.list <- list(lambda = object@lambda,
+                         nu = -2 * object@lambda, 
+                         alpha.bar = object@alpha.bar,
+                         mu = object@mu,
+                         sigma = sigma,
+                         gamma = object@gamma)
+    }else{  
+      if(is.student.t(object) & object@lambda >= -1){
+        stop("Transformation to 'alpha.bar' parametrization not possible in case of Student-t distribution with",
+             " a degree of freedom <= 2!")
+      }      
+      k <- Egig(object@lambda, object@chi, object@psi, func = "x")
+      if(is.univariate(object)){
+        transf.sigma <- sqrt(k) * sigma
+      }else{
+        transf.sigma <- k * sigma      
+      }
+      param.list <- list(lambda = object@lambda,
+                         alpha.bar = sqrt(object@chi * object@psi),
+                         mu = object@mu,
+                         sigma = transf.sigma,
+                         gamma = k * object@gamma)
     }
-    if(object@parametrization == "alpha.beta"){
-      stop("Transformation from 'alpha.delta' to 'alpha.bar' parametrization not implemented!")
-    }
-    param.list <- list(lambda = object@lambda,
-                       alpha.bar = object@alpha.bar,
-                       mu = object@mu,
-                       sigma = sigma,
-                       gamma = object@gamma)                      
   }else if(type == "alpha.delta"){
     if(is.univariate(object)){   #Univariate
       sigma <- as.numeric(object@sigma)

@@ -1,5 +1,5 @@
-"fit.ghypuv" <- function(data, lambda = 1, alpha.bar = 0.1, mu = mean(data), 
-                         sigma = sd(data), gamma = 0, 
+"fit.ghypuv" <- function(data, lambda = 1, alpha.bar = 0.5, mu = median(data), 
+                         sigma = mad(data), gamma = 0, 
                          opt.pars = c(lambda = T, alpha.bar = T, mu = T, sigma = T, gamma = !symmetric), 
                          symmetric = F, standardize = F, save.data = T, na.rm = T, silent = FALSE, ...)
 {
@@ -8,7 +8,6 @@
   #<------------ Check input ---------------->
   opt.pars <- check.opt.pars(opt.pars, symmetric)
   data <- check.data(data = data, case = "uv", na.rm = na.rm)
-
   if(standardize){
     # data will be standardized and initial values will be adapted
     tmp.mean <- mean(data)
@@ -52,7 +51,7 @@
 
   ## Inverse transformation of the initial parameter values
   for(nam in intersect(names(opt.pars[opt.pars]), names(transform))) {
-    vars[nam] = do.call(inv.transform[nam], list(vars[nam]))
+    vars[nam] <- do.call(inv.transform[nam], list(vars[nam]))
   }
   tmp.fit <- mle.default(data = data, pdf = "internal.dghyp",
                          vars = vars, opt.pars = opt.pars,
@@ -110,5 +109,5 @@
                   converged = converged,
                   error.code = tmp.fit$convergence, error.message = conv.type,
                   parameter.variance = tmp.fit$parameter.variance,
-                  fitted.params = opt.pars, aic = aic))
+                  fitted.params = opt.pars, aic = aic, trace.pars = as.list(as.data.frame(tmp.fit$trace.pars))))
 }
