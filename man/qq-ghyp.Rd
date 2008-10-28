@@ -1,23 +1,27 @@
 \name{qq-ghyp}
 \alias{qqghyp}
+% <---------------------------------------------------------------------->
 \title{Quantile-Quantile Plot}
+% <---------------------------------------------------------------------->
 \description{
-  This function is intended to be used as a graphical diagnostic
-  tool for fitted univariate generalized hyperbolic
-  distributions. Optionally a qq-plot of the normal distribution
-  can be added.
-}
 
+  This function is intended to be used as a graphical diagnostic tool
+  for fitted univariate generalized hyperbolic distributions. Optionally
+  a qq-plot of the normal distribution can be added.
+
+}
+% <---------------------------------------------------------------------->
 \usage{
-qqghyp(object, data = ghyp.data(object), gaussian = TRUE, line = TRUE, 
-       main = "Generalized Hyperbolic Q-Q Plot", 
-       xlab = "Theoretical Quantiles", ylab = "Sample Quantiles", 
-       ghyp.pch = 1, gauss.pch = 6, ghyp.lty = "solid", 
-       gauss.lty = "dashed", ghyp.col = "black", gauss.col = "black", 
-       plot.legend = TRUE, location = "topleft", legend.cex = 0.8, 
-       spline.points = 150, root.tol = .Machine$double.eps^0.5, 
+qqghyp(object, data = ghyp.data(object), gaussian = TRUE, line = TRUE,
+       main = "Generalized Hyperbolic Q-Q Plot",
+       xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+       ghyp.pch = 1, gauss.pch = 6, ghyp.lty = "solid",
+       gauss.lty = "dashed", ghyp.col = "black", gauss.col = "black",
+       plot.legend = TRUE, location = "topleft", legend.cex = 0.8,
+       spline.points = 150, root.tol = .Machine$double.eps^0.5,
        rel.tol = root.tol, abs.tol = root.tol^1.5, add = FALSE, ...)
 }
+% <---------------------------------------------------------------------->
 \arguments{
   \item{object}{Usually a fitted univariate generalized hyperbolic distribution
                 of class \code{\link[=mle.ghyp-class]{mle.ghyp}}. Alternatively
@@ -49,19 +53,23 @@ qqghyp(object, data = ghyp.data(object), gaussian = TRUE, line = TRUE,
   \item{add}{If \code{TRUE} the points are added to an existing plot window. The \code{legend} argument then becomes deactivated.}
   \item{\dots}{Arguments passed to \code{\link{plot}}.}
 }
-\author{David Lüthi}
-\seealso{\code{\link[=hist.ghyp]{hist}}, \code{\link{fit.ghypuv}}, \code{\link{qghyp}}, 
-         \code{\link[=plot.ghyp]{plot}}, 
+% <---------------------------------------------------------------------->
+\author{David Luethi}
+% <---------------------------------------------------------------------->
+\seealso{\code{\link[=hist.ghyp]{hist}}, \code{\link{fit.ghypuv}}, \code{\link{qghyp}},
+         \code{\link[=plot.ghyp]{plot}},
          \code{\link[=lines.ghyp]{lines}}}
+% <---------------------------------------------------------------------->
 \examples{
   data(smi.stocks)
-  
+
   smi <- fit.ghypuv(data = smi.stocks[, "Swiss.Re"])
-  
+
   qqghyp(smi, spline.points = 100)
-  
-  qqghyp(fit.tuv(smi.stocks[, "Swiss.Re"], symmetric = TRUE), 
+
+  qqghyp(fit.tuv(smi.stocks[, "Swiss.Re"], symmetric = TRUE),
          add = TRUE, ghyp.col = "red", line = FALSE)
 }
+% <---------------------------------------------------------------------->
 \keyword{models}
 \keyword{hplot}
