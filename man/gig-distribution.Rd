@@ -26,7 +26,7 @@ qgig(p, lambda = 1, chi = 1, psi = 1, method = c("integration", "splines"),
      root.tol = .Machine$double.eps^0.5,
      rel.tol = root.tol^1.5, abs.tol = rel.tol, ...)
 
-rgig(n = 10, lambda = 1, chi = 1, psi = 1, envplot = FALSE, messages = FALSE)
+rgig(n = 10, lambda = 1, chi = 1, psi = 1)
 
 ESgig(alpha, lambda = 1, chi = 1, psi = 1, distr = c("return", "loss"), ...)
 
@@ -52,8 +52,6 @@ Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = TRUE)
   \item{spline.points}{The number of support points when computing the quantiles with the method
                        \dQuote{splines} instead of \dQuote{integration}.}
   \item{root.tol}{The tolerance of \code{\link{uniroot}}.}
-  \item{messages}{If \code{TRUE} error messages from \code{rgig} are printed.}
-  \item{envplot}{If \code{TRUE} an plot of the envelope is shown.}
   \item{func}{The transformation function when computing the expected value.
              \code{x} is the expected value (default), \code{log x} returns the
              expected value of the logarithm of \code{x}, \code{1/x} returns the
@@ -76,9 +74,8 @@ Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = TRUE)
    parameters \code{rel.tol}, \code{abs.tol}, \code{root.tol} and
    \code{spline.points}. \cr
 
-   \code{rgig} uses the random generator from the S-Plus library
-   \emph{QRMlib}\cr (see
-   \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}).
+   \code{rgig} uses the random number generator from the \R package
+   \emph{fBasics}.
 
 }
 % <---------------------------------------------------------------------->
@@ -95,11 +92,14 @@ Egig(lambda, chi, psi, func = c("x", "logx", "1/x", "var"), check.pars = TRUE)
 \references{
 
   The algorithm for simulating generalized inverse gaussian variates is
-            copied from the S-Plus and \R library \emph{QRMlib} from
-            Alexander J. McNeil (2005) designed to accompany the book
-            \emph{Quantitative Risk Management, Concepts, Techniques and
-            Tools}.
-            \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html}.
+  copied from the \R package \emph{fBasics} from Diethelm Wuertz.
+
+  Dagpunar, J.S. (1989). \emph{An easily implemented generalised inverse
+  Gaussian generator.} Commun. Statist. -Simula., \bold{18}, 703--710.
+
+  Raible S. (2000).
+  \emph{Levy Processes in Finance: Theory, Numerics and Empirical Facts},
+  PhD Thesis, University of Freiburg, Germany, 161 pages.
 
 }
 % <---------------------------------------------------------------------->

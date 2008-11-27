@@ -23,8 +23,8 @@ contains the Generalized Inverse Gaussian distribution.
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 1.4.0\cr
-Date: \tab 2008-10-28\cr
+Version: \tab 1.5.0\cr
+Date: \tab 2008-11-27\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
 
@@ -81,6 +81,7 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
   \code{\link[=AIC.mle.ghyp]{AIC}} \tab     Returns the Akaike's Information Criterion  of fitted ghyp objects.\cr
   \code{\link{lik.ratio.test}} \tab         Performs a likelihood-ratio test on fitted \code{ghyp} distributions.\cr
   \code{\link[=[.ghyp]{[}} \tab             Extract certain dimensions of a multivariate \code{ghyp} distribution.\cr
+  \code{\link[=scale.ghyp]{scale}} \tab Scale \code{ghyp} distribution objects to zero expectation and/or unit variance.\cr
   \code{\link[=transform.ghyp]{transform}} \tab Transform a multivariate generalized hyperbolic distribution.\cr
   \code{\link{ghyp.moment}} \tab            Moments of the univariate \code{ghyp} distribution.\cr
   \code{\link[=coef.ghyp]{coef}} \tab       Parameters of a generalized hyperbolic distribution.\cr

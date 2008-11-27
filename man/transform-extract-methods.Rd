@@ -10,9 +10,9 @@ distributions}
 \description{
 
 The \code{transform} function can be used to linearly transform
-generalized hyperbolic distribution objects.  The extraction operator
-\code{[} extracts some margins of a multivariate generalized hyperbolic
-distribution object.
+generalized hyperbolic distribution objects (see \bold{Details}). The
+extraction operator \code{[} extracts some margins of a multivariate
+generalized hyperbolic distribution object.
 
 }
 % <---------------------------------------------------------------------->
@@ -35,10 +35,25 @@ distribution object.
   An object of class \code{\link[=ghyp-class]{ghyp}}.
 }
 % <---------------------------------------------------------------------->
+\details{
+
+   If \eqn{X \sim GH}{X is GH distributed}, \code{transform} gives the
+   distribution object of \dQuote{multiplier * X + summand}, where X is
+   the argument named \code{_data}. \cr
+
+If the object is of class \code{\link[=mle.ghyp-class]{mle.ghyp}},
+iformation concerning the fitting procedure
+(cf. \code{\link{ghyp.fit.info}}) will be lost as the return value is an
+object of class \code{\link[=ghyp-class]{ghyp}}.
+
+}
+% <---------------------------------------------------------------------->
 \author{David Luethi}
 % <---------------------------------------------------------------------->
-\seealso{\code{\link{ghyp}}, \code{\link{fit.ghypuv}} and \code{\link{fit.ghypmv}}
-         for constructors of \code{\link[=ghyp-class]{ghyp}} objects.}
+
+\seealso{\code{\link[=scale.ghyp]{scale}}, \code{\link{ghyp}},
+\code{\link{fit.ghypuv}} and \code{\link{fit.ghypmv}} for constructors
+of \code{\link[=ghyp-class]{ghyp}} objects.}
 % <---------------------------------------------------------------------->
 \examples{
   ## Mutivariate generalized hyperbolic distribution
