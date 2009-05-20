@@ -42,7 +42,7 @@ NIG.ad(alpha = 1.5, delta = 1, beta = rep(0, length(mu)), mu = 0,
        Delta = diag(rep(1, length(mu))), data = NULL)
 
 
-student.t(nu = 3.5, mu = 0, sigma = diag(rep(1, length(mu))),
+student.t(nu = 3.5, chi = nu - 2, mu = 0, sigma = diag(rep(1, length(mu))),
           gamma = rep(0, length(mu)), data = NULL)
 
 student.t.ad(lambda = -2, delta = 1, beta = rep(0, length(mu)), mu = 0,
@@ -82,22 +82,39 @@ gauss(mu = 0, sigma = diag(rep(1, length(mu))), data = NULL)
 \details{
 
   These functions serve as constructors for univariate and multivariate
-  generalized hyperbolic distribution objects and the special cases of
-  the generalized hyperbolic distribution. \cr
+  objects. \cr
 
+  \code{ghyp}, \code{hyp} and \code{NIG} are constructor functions
+  for both the \dQuote{chi/psi} and the \dQuote{alpha.bar}
+  parametrization.  Whenever \code{alpha.bar} is not \code{NULL} it is
+  assumed that the \dQuote{alpha.bar} parametrization is used and the
+  parameters \dQuote{chi} and \dQuote{psi} become redundant. \cr
 
-  \code{ghyp}, \code{hyp} and \code{NIG} can be called either with the
-  \dQuote{chi/psi} or the \dQuote{alpha.bar} parametrization.  Whenever
-  \code{alpha.bar} is not \code{NULL} it is assumed that the
-  \dQuote{alpha.bar} parametrization is used and the parameters
-  \dQuote{chi} and \dQuote{psi} become redundant. \cr
-
+  Similarly, the variance gamma (VG) and the Student-t distribution
+  share the same constructor function for both the \code{chi/psi} and
+  \code{alpha.bar} parametrization. To initialize them in the
+  \code{alpha.bar} parametrization simply omit the argument \code{psi}
+  and \code{chi}, respectively. If \code{psi} or \code{chi} are
+  submitted, the \dQuote{chi/psi} parametrization will be used.\cr
 
   \code{ghyp.ad}, \code{hyp.ad}, \code{NIG.ad}, \code{student.t.ad} and
-  \code{VG.ad} use the \dQuote{alpha/delta} parametrization.  Have a
-  look on the vignette of this package in the \code{doc} folder for
-  further information regarding the parametrization and for the domains
-  of variation of the parameters.
+  \code{VG.ad} use the \dQuote{alpha/delta} parametrization.  \cr
+
+  The following table gives the constructors for each combination of
+  distribution and parametrization.
+  \tabular{cccc}{
+      \tab   \tab  \bold{Parametrization}  \tab  \cr
+      \bold{Distribution}  \tab \dQuote{chi/psi} \tab \dQuote{alpha.bar} \tab \dQuote{alpha/delta} \cr
+    GH \tab \code{ghyp(...)} \tab \code{ghyp(..., alpha.bar=x)} \tab \code{ghyp.ad(...)} \cr
+    hyp \tab \code{hyp(...)} \tab \code{hyp(..., alpha.bar=x)} \tab \code{hyp.ad(...)} \cr
+    NIG \tab \code{NIG(...)} \tab \code{NIG(..., alpha.bar=x)} \tab \code{NIG.ad(...)} \cr
+    Student-t \tab \code{student.t(..., chi=x)} \tab \code{student.t(...)} \tab \code{student.t.ad(...)} \cr
+    VG \tab \code{VG(..., psi=x)} \tab \code{VG(...)} \tab   \code{VG.ad(...)} \cr
+  }
+
+  Have a look on the vignette of this package in the \code{doc} folder
+  for further information regarding the parametrization and for the
+  domains of variation of the parameters.
 
 }
 % <---------------------------------------------------------------------->
@@ -119,15 +136,23 @@ gauss(mu = 0, sigma = diag(rep(1, length(mu))), data = NULL)
   deviation in the univariate case and the variance in the multivariate
   case.  Thus, set \eqn{\sigma = \sqrt{\nu /(\nu - 2)}}{sigma = sqrt(nu
   /(nu - 2)} in the univariate case to get the same results as with the
-  standard \R implementation of the Student-t distribution (see
-  \bold{Examples}).  Have a look on the vignette of this package in the
+  standard \R implementation of the Student-t distribution. \cr
+
+  In case of non-finite variance, the \dQuote{alpha.bar} parametrization
+  does not work because \code{sigma} is defined to be the standard
+  deviation. In this case the \dQuote{chi/psi} parametrization can be
+  used by submitting the parameter \code{chi}. To obtain equal results
+  as the standard \R implmentation use \code{student.t(nu = nu, chi =
+  nu)} (see \bold{Examples}).\cr
+
+  Have a look on the vignette of this package in the
   \code{doc} folder for further information. \cr
 
   Once an object of class \code{\link[=ghyp-class]{ghyp}} is created the
   methods \code{Xghyp} have to be used even when the distribution is a
-  special case of the generalized hyperbolic distribution.  E.g. do not
-  use \code{dVG}.  Use \code{\link{dghyp}} and submit a variance gamma
-  distribution created with \code{VG()}.
+  special case of the GH distribution.  E.g. do not use \code{dVG}.  Use
+  \code{\link{dghyp}} and submit a variance gamma distribution created
+  with \code{VG()}.
 
 }
 % <---------------------------------------------------------------------->
@@ -139,18 +164,18 @@ gauss(mu = 0, sigma = diag(rep(1, length(mu))), data = NULL)
 }
 % <---------------------------------------------------------------------->
 \examples{
-  ## alpha.bar parametrization of a univariate generalized hyperbolic distribution
+  ## alpha.bar parametrization of a univariate GH distribution
   ghyp(lambda=2, alpha.bar=0.1, mu=0, sigma=1, gamma=0)
-  ## lambda/chi parametrization of a univariate generalized hyperbolic distribution
+  ## lambda/chi parametrization of a univariate GH distribution
   ghyp(lambda=2, chi=1, psi=0.5, mu=0, sigma=1, gamma=0)
-  ## alpha/delta parametrization of a univariate generalized hyperbolic distribution
+  ## alpha/delta parametrization of a univariate GH distribution
   ghyp.ad(lambda=2, alpha=0.5, delta=1, mu=0, beta=0)
 
-  ## alpha.bar parametrization of a multivariate generalized hyperbolic distribution
+  ## alpha.bar parametrization of a multivariate GH distribution
   ghyp(lambda=1, alpha.bar=0.1, mu=2:3, sigma=diag(1:2), gamma=0:1)
-  ## lambda/chi parametrization of a multivariate generalized hyperbolic distribution
+  ## lambda/chi parametrization of a multivariate GH distribution
   ghyp(lambda=1, chi=1, psi=0.5, mu=2:3, sigma=diag(1:2), gamma=0:1)
-  ## alpha/delta parametrization of a multivariate generalized hyperbolic distribution
+  ## alpha/delta parametrization of a multivariate GH distribution
   ghyp.ad(lambda=1, alpha=2.5, delta=1, mu=2:3, Delta=diag(c(1,1)), beta=0:1)
 
   ## alpha.bar parametrization of a univariate hyperbolic distribution
@@ -160,31 +185,50 @@ gauss(mu = 0, sigma = diag(rep(1, length(mu))), data = NULL)
   ## alpha/delta parametrization of a univariate hyperbolic distribution
   hyp.ad(alpha=0.5, delta=1, mu=0, beta=0)
 
-  ## alpha.bar parametrization of a univariate normal inverse gaussian distribution
+  ## alpha.bar parametrization of a univariate NIG distribution
   NIG(alpha.bar=0.3, mu=1, sigma=0.1, gamma=0)
-  ## lambda/chi parametrization of a univariate normal inverse gaussian distribution
+  ## lambda/chi parametrization of a univariate NIG distribution
   NIG(chi=1, psi=2, mu=1, sigma=0.1, gamma=0)
-  ## alpha/delta parametrization of a univariate normal inverse gaussian distribution
+  ## alpha/delta parametrization of a univariate NIG distribution
   NIG.ad(alpha=0.5, delta=1, mu=0, beta=0)
 
-  ## alpha.bar parametrization of a univariate variance gamma distribution
+  ## alpha.bar parametrization of a univariate VG distribution
   VG(lambda=2, mu=1, sigma=0.1, gamma=0)
-  ## alpha/delta parametrization of a univariate variance gamma distribution
+  ## alpha/delta parametrization of a univariate VG distribution
   VG.ad(lambda=2, alpha=0.5, mu=0, beta=0)
 
-  ## alpha.bar parametrization of a univariate Student-t distribution
+  ## alpha.bar parametrization of a univariate t distribution
   student.t(nu = 3, mu=1, sigma=0.1, gamma=0)
-  ## alpha/delta parametrization of a univariate Student-t distribution
+  ## alpha/delta parametrization of a univariate t distribution
   student.t.ad(lambda=-2, delta=1, mu=0, beta=1)
 
-  ## Obtain equal results as in the R-core parametrization of the Student-t distribution
-  nu <- 2.1
-  t.obj <- student.t(nu = nu, sigma = sqrt(nu / (nu - 2)))
-  dat <- 0.1 * 1:9
-  dt(dat, nu)
-  dghyp(dat, t.obj)
-  pt(dat, nu)
-  pghyp(dat, t.obj)
+  ## Obtain equal results as with the R-core parametrization
+  ## of the t distribution:
+  nu <- 4
+  standard.R.chi.psi <- student.t(nu = nu, chi = nu)
+  standard.R.alpha.bar <- student.t(nu = nu, sigma = sqrt(nu  /(nu - 2)))
+
+  random.sample <- rnorm(3)
+  dt(random.sample, nu)
+  dghyp(random.sample, standard.R.chi.psi)   # all implementations yield...
+  dghyp(random.sample, standard.R.alpha.bar) # ...the same values
+
+  random.quantiles <- runif(4)
+  qt(random.quantiles, nu)
+  qghyp(random.quantiles, standard.R.chi.psi)   # all implementations yield...
+  qghyp(random.quantiles, standard.R.alpha.bar) # ...the same values
+
+  ## If nu <= 2 the "alpha.bar" parametrization does not exist, but the
+  ## "chi/psi" parametrization. The case of a Cauchy distribution:
+  nu <- 1
+  standard.R.chi.psi <- student.t(nu = nu, chi = nu)
+
+  dt(random.sample, nu)
+  dghyp(random.sample, standard.R.chi.psi)   # both give the same result
+
+  pt(random.sample, nu)
+  pghyp(random.sample, standard.R.chi.psi) # both give the same result
+
 }
 % <---------------------------------------------------------------------->
 \keyword{distribution}

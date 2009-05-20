@@ -26,8 +26,8 @@
     }else{
         if(.is.gaussian(object)){
             d <- object@dimension
-            log.const.bottom <- d / 2 * log(2 * pi) + 0.5 * log(det(object@sigma))
-            log.top <- -0.5 * mahalanobis(x, center = object@mu, cov = object@sigma)
+            log.const.bottom <- d / 2 * log(2 * pi) + 0.5 * log(det(vcov(object)))
+            log.top <- -0.5 * mahalanobis(x, center = mean(object), cov = vcov(object))
             if(logvalue){
                 return(log.top - log.const.bottom)
             }else{
@@ -35,9 +35,9 @@
             }
         }else{
             return(unname(as.vector(.dghypmv(x, lambda = object@lambda,
-                                               chi = object@chi, psi = object@psi,
-                                               mu = object@mu, sigma = object@sigma,
-                                               gamma = object@gamma, logvalue = logvalue))))
+                                             chi = object@chi, psi = object@psi,
+                                             mu = object@mu, sigma = object@sigma,
+                                             gamma = object@gamma, logvalue = logvalue))))
         }
 
     }
@@ -57,12 +57,12 @@
 
     if(.is.gaussian(object)){
         if(distr == "return"){
-            return(object@mu - as.vector(object@sigma) * dnorm(qnorm(1 - alpha)) / (alpha))
+            return(mean(object) - sqrt(vcov(object)) * dnorm(qnorm(1 - alpha)) / (alpha))
         }else{                          # For losses
-            return(object@mu + as.vector(object@sigma) * dnorm(qnorm(alpha)) / (1 - alpha))
+            return(mean(object) + sqrt(vcov(object)) * dnorm(qnorm(alpha)) / (1 - alpha))
         }
 
-    }else if(.is.student.t(object, symmetric = TRUE)){
+    }else if(.is.student.t(object, symmetric = TRUE) & object@parametrization == "alpha.bar"){
         nu <- coef(object)$nu
         sigma.t <- sqrt((nu - 2) / nu) * as.vector(object@sigma)
         if(distr == "return"){
@@ -186,16 +186,16 @@
 {
     .test.ghyp(object, case = "univariate")
 
-    if(.is.gaussian(object)){
-        stop("'ghyp.moment' does not work for gaussian objects!")
-    }
+    ##     if(.is.gaussian(object)){
+    ##         stop("'ghyp.moment' does not work for gaussian objects!")
+    ##     }
 
     if(!is.vector(order)){
         stop("Argument 'order' must be a vector!")
     }
 
     if(!all(is.finite(order))){
-        stop("Argument 'order' must not contain non-numerical values!")
+        stop("Argument 'order' must not contain non-finite values!")
     }
 
     if(any(order %% 1 != 0) & !absolute){
@@ -246,43 +246,75 @@
         return(tmp.moment)
     }
 
-
     internal.moment <- function(x, lambda, chi, psi, mu, sigma, gamma,
-                                tmp.order, location.offset){
-        .dghypuv(x,lambda = lambda, chi = chi, psi = psi, mu = mu,
-                       sigma = sigma, gamma = gamma) * (x - location.offset)^tmp.order
+                                tmp.order, location.offset, transf.fun){
+        return(.dghypuv(x,lambda = lambda, chi = chi, psi = psi, mu = mu,
+                        sigma = sigma, gamma = gamma) * transf.fun(x - location.offset)^tmp.order)
 
     }
-    abs.internal.moment <- function(x, lambda, chi, psi, mu, sigma, gamma,
-                                    tmp.order, location.offset){
 
-        .dghypuv(x, lambda = lambda, chi = chi, psi = psi, mu = mu,
-                       sigma = sigma, gamma = gamma) * abs(x - location.offset)^tmp.order
+    internal.moment.gaussian <- function(x, tmp.order, mu, sigma, location.offset, transf.fun){
+        return(transf.fun(x - location.offset)^tmp.order * dnorm(x, mu, sigma))
+    }
+
+    if(central){
+        location.offset <- mean(object)
+    }else{
+        location.offset <- 0
+    }
+
+    if(absolute){
+        transf.fun <- abs
+    }else{
+        transf.fun <- identity
     }
 
     result <- numeric(length(order))
-    if(absolute){
-        int.function <- abs.internal.moment
-    }else{
-        int.function <- internal.moment
-    }
 
     for (i in 1:length(order))
     {
-        if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) %in%
-           c("ghyp", "hyp", "NIG") & (order[i] %% 1 == 0) & !absolute & !central)
-        {
-            result[i] <- moment.scott(object, order[i])
+        if(.is.gaussian(object)){
+            if(absolute | !central){
+                tmp.result <- try(integrate(internal.moment.gaussian, lower = -Inf, upper = Inf,
+                                            tmp.order = order[i], mu = mean(object), sigma = sqrt(vcov(object)),
+                                            transf.fun = transf.fun, location.offset = location.offset, ...)$value)
+                if(class(tmp.result) == "try-error"){
+                    result[i] <- NA
+                }else{
+                    result[i] <- tmp.result
+                }
+            }else{    # non-absolute central moments of integer order:
+                if(order[i] == 0){
+                    ## 'order[i] %% 1 == 0' implies that non-absolute
+                    ## moments are requested
+                    result[i] <- 1
+                }else if(central){
+                    if(order[i] %% 2 == 0){ # even moments
+                        k <- order[i] / 2
+                        result[i] <- factorial(order[i]) / (2^k * factorial(k))
+                    }else{              # odd moments
+                        result[i] <- 0
+                    }
+                }
+            }
         }else{
-            tmp.result <- try(integrate(int.function, -Inf, Inf, tmp.order = order[i],
-                                        lambda = object@lambda, chi = object@chi,
-                                        psi = object@psi, mu = object@mu,
-                                        sigma = object@sigma, gamma = object@gamma,
-                                        location.offset = ifelse(central, object@expected.value, 0), ...)$value)
-            if(class(tmp.result) == "try-error"){
-                result[i] <- NA
+            if(ghyp.name(object, abbr = TRUE, skew.attr = FALSE) %in%
+               c("ghyp", "hyp", "NIG") & (order[i] %% 1 == 0) & !absolute & !central)
+            {                           # analytical formulas exist
+                result[i] <- moment.scott(object, order[i])
             }else{
-                result[i] <- tmp.result
+                                        # do it numerically
+                tmp.result <- try(integrate(internal.moment, -Inf, Inf, tmp.order = order[i],
+                                            lambda = object@lambda, chi = object@chi,
+                                            psi = object@psi, mu = object@mu,
+                                            sigma = object@sigma, gamma = object@gamma,
+                                            transf.fun = transf.fun,
+                                            location.offset = location.offset, ...)$value)
+                if(class(tmp.result) == "try-error"){
+                    result[i] <- NA
+                }else{
+                    result[i] <- tmp.result
+                }
             }
         }
     }
@@ -424,7 +456,7 @@
         if(.is.gaussian(object)){
             return(pnorm(q, mean = object@mu, sd = as.vector(object@sigma),
                          lower.tail = lower.tail))
-        }else if(.is.student.t(object, symmetric = TRUE)){
+        }else if(.is.student.t(object, symmetric = TRUE) & object@parametrization == "alpha.bar"){
             nu <- coef(object)$nu
             return(pt((q - object@mu) / (sqrt((nu - 2) / nu) * as.vector(object@sigma)),
                       df = nu, lower.tail = lower.tail))
@@ -740,7 +772,7 @@
 
     if(.is.gaussian(object)){
         return(qnorm(p, mean = object@mu, sd = object@sigma))
-    }else if(.is.student.t(object, symmetric = TRUE)){
+    }else if(.is.student.t(object, symmetric = TRUE) & object@parametrization == "alpha.bar"){
         nu <- coef(object)$nu
         return(qt(p, df = nu) * sqrt((nu - 2) / nu) * object@sigma + object@mu)
     }
@@ -764,17 +796,22 @@
     {
         iter <- 0
         range.found <- FALSE
-        step.size <- sqrt(vcov(object))
 
+        step.size <- sqrt(vcov(object))
         if(!is.finite(step.size)){
             step.size <- coef(object, type = "chi.psi")$sigma / 2
         }
 
         q.0 <- mean(object)
+        if(!is.finite(q.0)){
+            q.0 <- coef(object, type = "chi.psi")$mu
+        }
+
         q.range <- c(q.0 - step.size, q.0 + step.size)
 
         while(!range.found & iter < 100){
             iter <- iter + 1
+
             p.range <- pghyp(q = q.range, object, rel.tol = rel.tol, abs.tol = abs.tol,
                              subdivisions = subdivisions) - p
 
@@ -946,7 +983,7 @@
     if(.is.univariate(object)){
         if(.is.gaussian(object)){
             return(rnorm(n, mean = object@mu, sd = object@sigma))
-        }else if(.is.student.t(object, symmetric = TRUE)){
+        }else if(.is.student.t(object, symmetric = TRUE) & object@parametrization == "alpha.bar"){
             nu <- coef(object)$nu
             return(rt(n, df = nu) * sqrt((nu - 2) / nu) * object@sigma + object@mu)
         }else{
