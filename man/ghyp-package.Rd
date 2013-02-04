@@ -23,8 +23,8 @@ contains the Generalized Inverse Gaussian distribution.
 \tabular{ll}{
 Package: \tab ghyp\cr
 Type: \tab Package\cr
-Version: \tab 1.5.5\cr
-Date: \tab 2011-03-30\cr
+Version: \tab 1.5.6\cr
+Date: \tab 2013-02-04\cr
 License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 }
 
@@ -116,8 +116,9 @@ A document about generalized hyperbolic distributions can be found in the
 }
 % <---------------------------------------------------------------------->
 \section{Existing solutions}{
-  There are already two packages \code{HyperbolicDist} and \code{fBasics} which cover the
-  univariate generalized hyperbolic distribution and some of its special cases. However, the univariate case is contained
+  There are packages like \code{GeneralizedHyperbolic},
+  \code{HyperbolicDist}, \code{SkewHyperbolic}, \code{VarianceGamma} and \code{fBasics} which cover the
+  univariate generalized hyperbolic distribution and/or some of its special cases. However, the univariate case is contained
   in this package as well because we aim to provide a uniform interface to deal with
   generalized hyperbolic distribution. Recently an \R port of the S-Plus library \code{QRMlib}
   was released. The package \code{QRMlib} contains fitting procedures for the multivariate NIG, hyp and
