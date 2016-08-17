@@ -112,7 +112,7 @@ License: \tab  GPL (GNU Public Licence), Version 2 or later \cr
 
 \strong{Package vignette:} \cr
 A document about generalized hyperbolic distributions can be found in the
-\code{doc} folder of this package or on \url{http://cran.r-project.org/web/packages/ghyp/}.
+\code{doc} folder of this package or on \url{ http://cran.r-project.org/package=ghyp}.
 }
 % <---------------------------------------------------------------------->
 \section{Existing solutions}{
@@ -174,7 +174,7 @@ David Luethi, Wolfgang Breymann \cr
 Institute of Data Analyses and Process Design
 (\url{http://www.idp.zhaw.ch}) \cr
 
-Maintainer: David Luethi <luethid@gmail.com>
+Maintainer: Marc Weibel <marc.weibel@zhaw.ch>
 }
 % <---------------------------------------------------------------------->
 \references{
@@ -188,7 +188,7 @@ Paolella \cr Wiley, 2007 \cr
 
 \emph{S-Plus and \R Library for Quantitative Risk Management QRMlib} by
 Alexander J. McNeil (2005) and Scott Ulman (\R-port) (2007)\cr
-\url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html} and
+\url{http://www.macs.hw.ac.uk/~mcneil/book/QRMlib.html} and
 \code{QRMlib}\cr
 
 }

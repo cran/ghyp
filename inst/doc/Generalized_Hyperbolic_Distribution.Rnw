@@ -1,5 +1,5 @@
 % <---------------------------------------------------------------------->
-\documentclass[11pt,english]{scrartcl}
+\documentclass[11pt,english]{scrreprt}
 % <---------------------------------------------------------------------->
 \usepackage{lmodern}            %% Optimale Fonts fuer T1
 \usepackage{ghypCommands}

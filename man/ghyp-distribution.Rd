@@ -85,7 +85,7 @@ rghyp(n, object = ghyp())
 \references{
 
   \code{ghyp}-package vignette in the \code{doc} folder or on
-  \url{http://cran.r-project.org/web/packages/ghyp/} and references
+  \url{ http://cran.r-project.org/package=ghyp} and references
   therein.
 
 }

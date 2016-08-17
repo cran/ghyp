@@ -8,6 +8,7 @@
 \usepackage{a4wide}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{fancyhdr}
+%\usepackage{scrlayer-scrpage}
 \usepackage{color}
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -21,6 +22,7 @@
 \newtheorem{proposition}{Proposition}
 % <---------------------------------------------------------------------->
 \pagestyle{fancy}
+\fancyhf{}
 \lhead{\thepage}
 \cfoot{\empty}
 % <---------------------------------------------------------------------->
@@ -32,7 +34,7 @@
 \numberwithin{table}{section}
 \numberwithin{figure}{section}
 % <---------------------------------------------------------------------->
-\SweaveOpts{engine=R,eps=FALSE}
+%\SweaveOpts{engine=R,eps=FALSE}
 % <---------------------------------------------------------------------->
 \definecolor{darkblue}{rgb}{0,0,.5}
 \hypersetup{
@@ -47,6 +49,7 @@
 }
 % <---------------------------------------------------------------------->
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 % <---------------------------------------------------------------------->
 \title{ghyp: A package on generalized hyperbolic distributions}
 \author{Wolfgang Breymann\footnote{Institute of Data Analysis and

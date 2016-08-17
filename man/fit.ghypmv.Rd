@@ -106,10 +106,10 @@ fit.gaussmv(data, na.rm = T, save.data = T)
   \cr
 
   \code{ghyp}-package vignette in the \code{doc} folder or on
-  \url{http://cran.r-project.org/web/packages/ghyp/}.\cr
+  \url{ http://cran.r-project.org/package=ghyp}.\cr
 
   S-Plus and R library \emph{QRMlib} (see
-  \url{http://www.math.ethz.ch/~mcneil/book/QRMlib.html})
+  \url{http://www.macs.hw.ac.uk/~mcneil/book/QRMlib.html})
 
 }
 % <---------------------------------------------------------------------->
