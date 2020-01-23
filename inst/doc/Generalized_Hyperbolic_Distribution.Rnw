@@ -1,13 +1,23 @@
 % <---------------------------------------------------------------------->
-\documentclass[11pt,english]{scrreprt}
+\documentclass[11pt,english]{scrartcl}
 % <---------------------------------------------------------------------->
 \usepackage{lmodern}            %% Optimale Fonts fuer T1
 \usepackage{ghypCommands}
 %\usepackage{inputenc}
 %\usepackage[latin1]{inputenc}
-\usepackage{a4wide}
+%\usepackage{a4wide}
+\usepackage{geometry}
+%\usepackage{a4wide}
+\usepackage{layout}
+ 
+\geometry{
+   includeheadfoot,
+   margin=2.54cm
+}
+ 
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{fancyhdr}
+%\usepackage{scrlayer-scrpage}
 \usepackage{color}
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -21,6 +31,7 @@
 \newtheorem{proposition}{Proposition}
 % <---------------------------------------------------------------------->
 \pagestyle{fancy}
+\fancyhf{}
 \lhead{\thepage}
 \cfoot{\empty}
 % <---------------------------------------------------------------------->
@@ -32,7 +43,7 @@
 \numberwithin{table}{section}
 \numberwithin{figure}{section}
 % <---------------------------------------------------------------------->
-\SweaveOpts{engine=R,eps=FALSE}
+%\SweaveOpts{engine=R,eps=FALSE}
 % <---------------------------------------------------------------------->
 \definecolor{darkblue}{rgb}{0,0,.5}
 \hypersetup{
@@ -47,6 +58,9 @@
 }
 % <---------------------------------------------------------------------->
 \begin{document}
+\layout
+
+\SweaveOpts{concordance=TRUE}
 % <---------------------------------------------------------------------->
 \title{ghyp: A package on generalized hyperbolic distributions}
 \author{Wolfgang Breymann\footnote{Institute of Data Analysis and

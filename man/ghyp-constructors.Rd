@@ -125,7 +125,7 @@ gauss(mu = 0, sigma = diag(rep(1, length(mu))), data = NULL)
 \author{ David Luethi }
 % <---------------------------------------------------------------------->
 \references{
-  \code{ghyp}-package vignette in the \code{doc} folder or on \url{ http://cran.r-project.org/package=ghyp}
+  \code{ghyp}-package vignette in the \code{doc} folder or on \url{ https://cran.r-project.org/package=ghyp}
 }
 % <---------------------------------------------------------------------->
 \note{

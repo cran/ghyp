@@ -308,7 +308,7 @@ setMethod("mean", signature(x = "ghyp"), mean.ghyp)
 ### <======================================================================>
 "pairs.ghyp" <- function(x, data = ghyp.data(x), main = "'ghyp' pairwise plot",
                            nbins = 30, qq = TRUE, gaussian = TRUE,
-                           hist.col = c("white", topo.colors(40)),
+                           hist.col = c("white", topo.colors(100)),
                            spline.points = 150, root.tol = .Machine$double.eps^0.5,
                            rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
 {
@@ -360,8 +360,11 @@ setMethod("mean", signature(x = "ghyp"), mean.ghyp)
 
                 if(i > j){
                     ## 2 dimensional histogramm from package 'gplots'
-                    hist2d(data[, c(j, i)], nbins = nbins, col = hist.col, xaxt = "n", yaxt = "n",
-                           xlab = "", ylab = "", axes = T, frame.plot = T, bty = "o")
+                    #hist2d(data[, c(j, i)], nbins = nbins, col = hist.col, xaxt = "n", yaxt = "n",
+                    #       xlab = "", ylab = "", axes = T, frame.plot = T, bty = "o")
+                    k <- kde2d(data[,j], data[,i],n=nbins)
+                    image(k, col=hist.col, xaxt = "n", yaxt = "n",
+                          xlab = "", ylab = "", axes = T, frame.plot = T, bty = "o")
                     box()
                 }else{
                     plot((data[, c(j, i)]), xaxt = "n", yaxt = "n", xlab = "", ylab = "", ...)

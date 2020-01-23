@@ -81,7 +81,7 @@ fit.gaussuv(data, na.rm = T, save.data = T)
 }
 % <---------------------------------------------------------------------->
 \references{
-  \code{ghyp}-package vignette in the \code{doc} folder or on \url{ http://cran.r-project.org/package=ghyp}.
+  \code{ghyp}-package vignette in the \code{doc} folder or on \url{ https://cran.r-project.org/package=ghyp}.
 }
 % <---------------------------------------------------------------------->
 \note{

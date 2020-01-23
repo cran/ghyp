@@ -1,3 +1,4 @@
+
 ### <======================================================================>
 ".abar2chipsi" <- function(alpha.bar, lambda, eps = .Machine$double.eps)
 {
@@ -767,7 +768,7 @@
     ## 51 indicates a warning from the "L-BFGS-B" method; see '?optim'.
     ## 52 indicates an error from the "L-BFGS-B" method; see '?optim'.
 
-    if(class(fit) == "try-error") {
+    if("try-error" %in% class(fit)) {
         convergence <- 100
         hess <- as.numeric(NA)
         n.iter <- as.numeric(NA)
@@ -797,7 +798,7 @@
             hess <- fit$hessian
             par.ses <- suppressWarnings(sqrt(diag(hess)))
             inv.hess <- try(solve(hess))
-            if(class(inv.hess) == "try-error") {
+            if("try-error" %in% class(inv.hess)) {
                 warning("Hessian matrix is singular!")
                 inv.hess <- matrix(NA, ncol(hess), ncol(hess),
                                    dimnames = dimnames(hess))
@@ -827,7 +828,7 @@
         int.pars <- list(f = pdf, lower = q, upper = upper)
     }
     tmp.prob <- try(do.call("integrate", c(pdf.args, int.pars, list(...))))
-    if(class(tmp.prob) == "try-error"){
+    if("try-error" %in% class(tmp.prob)){
         warning("Failed to determine probability with 'q = ", q,
                 "'!\nMessage: ", as.character(tmp.prob), "\n")
         return(NA)
@@ -852,7 +853,7 @@
                                     p.args = pdf.args, p = p,
                                     p.lower = p.lower, ...))
 
-        if(class(tmp.quantile) == "try-error"){
+        if("try-error" %in% class(tmp.quantile)){
             warning("Failed to determine quantile with 'probs = ", p,
                     "'!\nMessage: ", as.character(tmp.quantile), "\n")
             return(NA)

@@ -1,3 +1,5 @@
+
+
 /* 
  * rgig.c:
  *
@@ -14,6 +16,9 @@
 #include <Rmath.h>
 
 #define ZTOL sqrt(DOUBLE_EPS)
+
+
+
 
 /* 
  * gig_y_gfn: 

@@ -5,7 +5,16 @@
 \usepackage{ghypCommands}
 %\usepackage{inputenc}
 %\usepackage[latin1]{inputenc}
-\usepackage{a4wide}
+%\usepackage{a4wide}
+\usepackage{geometry}
+%\usepackage{a4wide}
+\usepackage{layout}
+ 
+\geometry{
+   includeheadfoot,
+   margin=2.54cm
+}
+ 
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{fancyhdr}
 %\usepackage{scrlayer-scrpage}
@@ -49,6 +58,8 @@
 }
 % <---------------------------------------------------------------------->
 \begin{document}
+\layout
+
 \SweaveOpts{concordance=TRUE}
 % <---------------------------------------------------------------------->
 \title{ghyp: A package on generalized hyperbolic distributions}

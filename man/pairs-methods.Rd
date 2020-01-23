@@ -18,7 +18,7 @@
 \usage{
 \S4method{pairs}{ghyp}(x, data = ghyp.data(x), main = "'ghyp' pairwise plot",
       nbins = 30, qq = TRUE, gaussian = TRUE,
-      hist.col = c("white", topo.colors(40)),
+      hist.col = c("white", topo.colors(100)),
       spline.points = 150, root.tol = .Machine$double.eps^0.5,
       rel.tol = root.tol, abs.tol = root.tol^1.5, ...)
 }
@@ -29,10 +29,10 @@
            an object of class \code{\link[=ghyp-class]{ghyp}} and a data matrix.}
   \item{data}{An object coercible to a \code{matrix}.}
   \item{main}{The title of the plot.}
-  \item{nbins}{The number of bins passed to \code{\link[gplots]{hist2d}}.}
+  \item{nbins}{The number of bins of the 2-d histogram.}
   \item{qq}{If \code{TRUE} qq-plots are drawn.}
   \item{gaussian}{If \code{TRUE} qq-plots with the normal distribution are plotted.}
-  \item{hist.col}{A vector of colors passed to \code{\link[gplots]{hist2d}}.}
+  \item{hist.col}{A vector of colors of the 2-d histgram.}
   \item{spline.points}{The number of support points when computing the quantiles used by the
                        qq-plot. Passed to \code{\link{qqghyp}}.}
   \item{root.tol}{The tolerance of the quantiles. Passed to \code{\link{uniroot}} via \code{\link{qqghyp}}.}
@@ -44,7 +44,7 @@
 \author{David Luethi}
 % <---------------------------------------------------------------------->
 \seealso{\code{\link{pairs}}, \code{\link{fit.ghypmv}},
-         \code{\link{qqghyp}}, \code{\link[gplots]{hist2d}}}
+         \code{\link{qqghyp}}}
 % <---------------------------------------------------------------------->
 \examples{
   data(smi.stocks)

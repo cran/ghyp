@@ -260,7 +260,7 @@
                                 standardize, nit, reltol, abstol, silent, save.data, ...))
 
 
-    if(class(save.fit) == "try-error"){
+    if("try-error" %in% class(save.fit)){
         lambda <- trace.pars$lambda[length(trace.pars$lambda)]
         alpha.bar <- trace.pars$alpha.bar[length(trace.pars$alpha.bar)]
         mu <- trace.pars$mu[nrow(trace.pars$mu), ]
@@ -395,7 +395,7 @@
                                     sigma = tmp.fit$par.ests["sigma"],
                                     gamma = tmp.fit$par.ests["gamma"],
                                     logvalue = TRUE)))
-        if(class(tmp.llh) == "try-error"){
+        if("try-error" %in% class(tmp.llh)){
             warning("Error occured during renormalization! Log-likelihood set to zero!\n")
             tmp.fit$ll.max <- as.numeric(NA)
         }else{
@@ -441,10 +441,10 @@
 
     type <- "uv"
     tmp.data <- try(.check.data(data, case = "uv", na.rm = T, fit = TRUE), silent = TRUE)
-    if(class(tmp.data) == "try-error"){
+    if("try-error" %in% class(tmp.data)){
         tmp.data <- try(.check.data(data, case = "mv", na.rm = T, fit = TRUE), silent = TRUE)
         type <- "mv"
-        if(class(tmp.data) == "try-error"){
+        if("try-error" %in% class(tmp.data)){
             stop("Invalid data!")
         }
     }

@@ -1,13 +1,12 @@
 Package: ghyp
 Type: Package
-Version: 1.5.7
-Date: 2016-08-17
-Title: A Package on Generalized Hyperbolic Distribution and Its Special
-        Cases
+Version: 1.5.8
+Date: 2020-01-16
+Title: Generalized Hyperbolic Distribution and Its Special Cases
 Author: David Luethi, Wolfgang Breymann
-Maintainer: Marc Weibel <marc.weibel@zhaw.ch>
+Maintainer: Damien Challet <damien.challet@gmail.com>
 LazyData: no
-Depends: R(>= 2.7), methods, numDeriv, graphics, stats, gplots
+Depends: R(>= 2.7), methods, numDeriv, graphics, stats, MASS
 Description: Detailed functionality for working
         with the univariate and multivariate Generalized Hyperbolic
         distribution and its special cases (Hyperbolic (hyp), Normal
@@ -18,10 +17,13 @@ Description: Detailed functionality for working
         variates, expected shortfall and some portfolio optimization
         and plotting routines as well as the likelihood ratio test. In
         addition, it contains the Generalized Inverse Gaussian
-        distribution.
+        distribution. See Chapter 3 of A. J. McNeil, R. Frey, and P. Embrechts. 
+        Quantitative risk management: Concepts, techniques and tools. 
+        Princeton University Press, Princeton (2005).
 License: GPL (>= 2)
 Encoding: latin1
-Packaged: 2016-08-17 06:54:54 UTC; marc
 Repository: CRAN
-Date/Publication: 2016-08-17 11:01:12
 NeedsCompilation: yes
+RoxygenNote: 7.0.2
+Packaged: 2020-01-23 07:07:08 UTC; damien
+Date/Publication: 2020-01-23 13:40:07 UTC

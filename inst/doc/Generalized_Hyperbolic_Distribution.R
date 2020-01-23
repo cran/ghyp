@@ -1,14 +1,14 @@
 ### R code from vignette source 'Generalized_Hyperbolic_Distribution.Rnw'
-### Encoding: ISO8859-1
+### Encoding: UTF-8
 
 ###################################################
-### code chunk number 1: Generalized_Hyperbolic_Distribution.Rnw:685-686
+### code chunk number 1: Generalized_Hyperbolic_Distribution.Rnw:696-697
 ###################################################
   library(ghyp)
 
 
 ###################################################
-### code chunk number 2: Generalized_Hyperbolic_Distribution.Rnw:688-757
+### code chunk number 2: Generalized_Hyperbolic_Distribution.Rnw:699-768
 ###################################################
   lambda <- -2:2
   a.bar <- 0.5 * 0:3 +0.01
@@ -82,7 +82,7 @@
 
 
 ###################################################
-### code chunk number 3: Generalized_Hyperbolic_Distribution.Rnw:823-847
+### code chunk number 3: Generalized_Hyperbolic_Distribution.Rnw:834-858
 ###################################################
   lambda <- seq(0.0, 8, length = 5)
   x <- seq(0, 20, length = 101)
@@ -111,7 +111,7 @@
 
 
 ###################################################
-### code chunk number 4: Generalized_Hyperbolic_Distribution.Rnw:953-988
+### code chunk number 4: Generalized_Hyperbolic_Distribution.Rnw:964-999
 ###################################################
   lambda <- -2:2 + 1e-5
   alpha.bar <- 0.5 * 0:3 + 0.01
@@ -151,7 +151,7 @@
 
 
 ###################################################
-### code chunk number 5: Generalized_Hyperbolic_Distribution.Rnw:1287-1296
+### code chunk number 5: Generalized_Hyperbolic_Distribution.Rnw:1298-1307
 ###################################################
   ## Load the package "ghyp" and the data "smi.stocks" first
   library(ghyp)
@@ -165,7 +165,7 @@
 
 
 ###################################################
-### code chunk number 6: Generalized_Hyperbolic_Distribution.Rnw:1347-1351
+### code chunk number 6: Generalized_Hyperbolic_Distribution.Rnw:1358-1362
 ###################################################
  data(smi.stocks)
  fitted.returns.mv <- fit.NIGmv(data=smi.stocks[1:500,c("CS","Nestle","Novartis")],
@@ -174,7 +174,7 @@
 
 
 ###################################################
-### code chunk number 7: Generalized_Hyperbolic_Distribution.Rnw:1358-1363
+### code chunk number 7: Generalized_Hyperbolic_Distribution.Rnw:1369-1374
 ###################################################
   fitted.smi.returns <- fit.hypuv(data=smi.stocks[,c("SMI")],silent=TRUE)
   par(mfrow=c(1,3))

@@ -278,7 +278,7 @@
                 tmp.result <- try(integrate(internal.moment.gaussian, lower = -Inf, upper = Inf,
                                             tmp.order = order[i], mu = mean(object), sigma = sqrt(vcov(object)),
                                             transf.fun = transf.fun, location.offset = location.offset, ...)$value)
-                if(class(tmp.result) == "try-error"){
+                if( "try-error" %in% class(tmp.result)){
                     result[i] <- NA
                 }else{
                     result[i] <- tmp.result
@@ -310,7 +310,7 @@
                                             sigma = object@sigma, gamma = object@gamma,
                                             transf.fun = transf.fun,
                                             location.offset = location.offset, ...)$value)
-                if(class(tmp.result) == "try-error"){
+                if("try-error" %in% class(tmp.result)){
                     result[i] <- NA
                 }else{
                     result[i] <- tmp.result
@@ -363,7 +363,7 @@
         ##                                   upper = L[i], ...)$value
         tmp.num <- try(integrate(call.part, lower = L[i], upper = Inf,
                                  obj = object, L = L[i], ...))
-        if(class(tmp.num) == "try-error"){
+        if("try-error" %in% class(tmp.num)){
             warning("Integral 'int_L^\\infty (x - L) * dghyp(x, obj) dx' did ",
                     "not converge for L =", L[i], "!")
             int.num[i] <- NA
@@ -373,7 +373,7 @@
 
         tmp.denom <- try(integrate(put.part, lower = -Inf, upper = L[i],
                                    obj = object, L = L[i], ...))
-        if(class(tmp.denom) == "try-error"){
+        if("try-error" %in% class(tmp.denom)){
             warning("Integral 'int_-\\infty^L (L - x) * dghyp(x, obj) dx' ",
                     "did not converge for L =", L[i], "!")
             int.denom[i] <- NA
@@ -646,7 +646,7 @@
                                  level = level, risk.measure = risk.measure,
                                  silent = silent, ...))
 
-            if(class(opt.ptf) == "try-error")
+            if("try-error" %in% class(opt.ptf))
             {
                 converged <- FALSE
                 risk <- NA
@@ -718,7 +718,7 @@
             opt.ptf <- try(optim(initial.weights, objective, object = object, type = type,
                                  r.f = risk.free, level = level, risk.measure = risk.measure,
                                  silent = silent, ...))
-            if(class(opt.ptf) == "try-error")
+            if("try-error" %in% class(opt.ptf))
             {
                 converged <- FALSE
                 risk <- NA
