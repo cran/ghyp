@@ -988,7 +988,7 @@
             return(rt(n, df = nu) * sqrt((nu - 2) / nu) * object@sigma + object@mu)
         }else{
             W <- rgig(n, object@lambda, object@chi, object@psi)
-            return(return(object@mu + W * object@gamma + sqrt(W) * object@sigma * rnorm(n)))
+            return(object@mu + W * object@gamma + sqrt(W) * as.vector(object@sigma) * rnorm(n))
         }
     }else{
         Z <- matrix(rnorm(n * object@dimension), ncol = object@dimension)

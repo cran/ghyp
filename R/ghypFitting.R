@@ -1,9 +1,9 @@
 ### <======================================================================>
 "fit.ghypmv" <- function(data, lambda = 1, alpha.bar = 1,
                          mu = NULL, sigma = NULL, gamma = NULL,
-                         opt.pars = c(lambda = T, alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
-                         symmetric = F, standardize = F, nit = 2000, reltol = 1e-8, abstol = reltol * 10,
-                         na.rm = F, silent = FALSE, save.data = T, trace = TRUE, ...)
+                         opt.pars = c(lambda = TRUE, alpha.bar = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                         symmetric = FALSE, standardize = FALSE, nit = 2000, reltol = 1e-8, abstol = reltol * 10,
+                         na.rm = FALSE, silent = FALSE, save.data = TRUE, trace = TRUE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -313,8 +313,8 @@
 ### <======================================================================>
 "fit.ghypuv" <- function(data, lambda = 1, alpha.bar = 0.5, mu = median(data),
                          sigma = mad(data), gamma = 0,
-                         opt.pars = c(lambda = T, alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
-                         symmetric = F, standardize = F, save.data = T, na.rm = T, silent = FALSE, ...)
+                         opt.pars = c(lambda = TRUE, alpha.bar = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                         symmetric = FALSE, standardize = FALSE, save.data = TRUE, na.rm = TRUE, silent = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -369,7 +369,7 @@
     }
     tmp.fit <- .mle.default(data = data, pdf = ".dghypuv",
                             vars = vars, opt.pars = opt.pars,
-                            transform = transform, se = T,
+                            transform = transform, se = TRUE,
                             silent = silent, ...)
 
     if(tmp.fit$convergence != 0){
@@ -440,9 +440,9 @@
     dist <- dist[!(dist == "gauss")]
 
     type <- "uv"
-    tmp.data <- try(.check.data(data, case = "uv", na.rm = T, fit = TRUE), silent = TRUE)
+    tmp.data <- try(.check.data(data, case = "uv", na.rm = TRUE, fit = TRUE), silent = TRUE)
     if("try-error" %in% class(tmp.data)){
-        tmp.data <- try(.check.data(data, case = "mv", na.rm = T, fit = TRUE), silent = TRUE)
+        tmp.data <- try(.check.data(data, case = "mv", na.rm = TRUE, fit = TRUE), silent = TRUE)
         type <- "mv"
         if("try-error" %in% class(tmp.data)){
             stop("Invalid data!")

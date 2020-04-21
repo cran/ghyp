@@ -1,5 +1,5 @@
 ### R code from vignette source 'Generalized_Hyperbolic_Distribution.Rnw'
-### Encoding: UTF-8
+### Encoding: ISO8859-1
 
 ###################################################
 ### code chunk number 1: Generalized_Hyperbolic_Distribution.Rnw:696-697
@@ -78,7 +78,7 @@
 
   title(main =  "Density and log-Density of the generalized hyperbolic distribution",
         sub=expression(paste("Y-Axis: ", lambda,"; X-Axis: ",bar(alpha),sep="")),
-        outer = T,cex.sub=1.2)
+        outer = TRUE, cex.sub=1.2)
 
 
 ###################################################

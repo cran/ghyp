@@ -1,7 +1,7 @@
 ### <======================================================================>
 "fit.hypmv" <- function(data,
-                        opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
-                        symmetric = F, ...)
+                        opt.pars = c(alpha.bar = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                        symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -11,7 +11,7 @@
     lambda <- (min(dim(data))+1)/2
 
     ghyp.object <- fit.ghypmv(data = data, lambda = lambda,
-                              opt.pars = c(lambda = F, opt.pars), ...)
+                              opt.pars = c(lambda = FALSE, opt.pars), ...)
 
     ghyp.object@parametrization <- "alpha.bar"
     ghyp.object@call <- call
@@ -23,8 +23,8 @@
 
 ### <======================================================================>
 "fit.NIGmv" <- function(data,
-                        opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
-                        symmetric = F, ...)
+                        opt.pars = c(alpha.bar = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                        symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -32,7 +32,7 @@
         stop("Do not submit lambda! Lambda is defined as -0.5.\n")
     }
     ghyp.object <- fit.ghypmv(data = data, lambda = -0.5,
-                              opt.pars = c(lambda = F, opt.pars),...)
+                              opt.pars = c(lambda = FALSE, opt.pars),...)
 
     ghyp.object@parametrization <- "alpha.bar"
     ghyp.object@call <- call
@@ -44,8 +44,8 @@
 
 ### <======================================================================>
 "fit.tmv" <- function(data, nu = 3.5,
-                      opt.pars = c(lambda = T, mu = T, sigma = T, gamma = !symmetric),
-                      symmetric = F, ...)
+                      opt.pars = c(lambda = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                      symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -62,7 +62,7 @@
         names(opt.pars)[which(names(opt.pars)=="nu")] <- "lambda"
     }
     ghyp.object <- fit.ghypmv(data = data, lambda = -nu/2, alpha.bar = 0,
-                              opt.pars = c(alpha.bar = F, opt.pars), ...)
+                              opt.pars = c(alpha.bar = FALSE, opt.pars), ...)
 
     ghyp.object@parametrization <- "alpha.bar"
     ghyp.object@call <- call
@@ -74,8 +74,8 @@
 
 ### <======================================================================>
 "fit.VGmv" <- function(data, lambda = 1,
-                       opt.pars = c(lambda = T, mu = T, sigma = T, gamma = !symmetric),
-                       symmetric = F, ...)
+                       opt.pars = c(lambda = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                       symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -86,7 +86,7 @@
         stop("Do not submit alpha.bar! alpha.bar is defined as 0.\n")
     }
     ghyp.object <- fit.ghypmv(data = data, lambda = lambda, alpha.bar = 0,
-                              opt.pars = c(alpha.bar = F, opt.pars), ...)
+                              opt.pars = c(alpha.bar = FALSE, opt.pars), ...)
 
     ghyp.object@parametrization <- "alpha.bar"
     ghyp.object@call <- call
@@ -97,7 +97,7 @@
 
 
 ### <======================================================================>
-"fit.gaussmv" <- function(data, na.rm = T, save.data = T)
+"fit.gaussmv" <- function(data, na.rm = TRUE, save.data = TRUE)
 {
     call <- match.call()
 
@@ -139,8 +139,8 @@
 
 ### <======================================================================>
 "fit.hypuv" <- function(data,
-                        opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
-                        symmetric = F, ...)
+                        opt.pars = c(alpha.bar = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                        symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -148,7 +148,7 @@
         stop("Do not submit lambda! Lambda is defined as 1.\n")
     }
     ghyp.object <- fit.ghypuv(data = data, lambda = 1,
-                              opt.pars = c(lambda = F, opt.pars),
+                              opt.pars = c(lambda = FALSE, opt.pars),
                               symmetric = symmetric, ...)
 
     ghyp.object@parametrization <- "alpha.bar"
@@ -161,8 +161,8 @@
 
 ### <======================================================================>
 "fit.NIGuv" <- function(data,
-                        opt.pars = c(alpha.bar = T, mu = T, sigma = T, gamma = !symmetric),
-                        symmetric = F, ...)
+                        opt.pars = c(alpha.bar = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                        symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -170,7 +170,7 @@
         stop("Do not submit lambda! Lambda is defined as -0.5.\n")
     }
     ghyp.object <- fit.ghypuv(data = data, lambda = -0.5,
-                              opt.pars = c(lambda = F, opt.pars),
+                              opt.pars = c(lambda = FALSE, opt.pars),
                               symmetric = symmetric, ...)
 
     ghyp.object@parametrization <- "alpha.bar"
@@ -183,8 +183,8 @@
 
 ### <======================================================================>
 "fit.tuv" <- function(data, nu = 3.5,
-                      opt.pars = c(nu = T, mu = T, sigma = T, gamma = !symmetric),
-                      symmetric = F, ...)
+                      opt.pars = c(nu = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                      symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -201,7 +201,7 @@
         names(opt.pars)[which(names(opt.pars)=="nu")] <- "lambda"
     }
     ghyp.object <- fit.ghypuv(data = data, lambda = -nu/2, alpha.bar = 0,
-                              opt.pars = c(alpha.bar = F, opt.pars),
+                              opt.pars = c(alpha.bar = FALSE, opt.pars),
                               symmetric = symmetric, ...)
 
     ghyp.object@parametrization <- "alpha.bar"
@@ -214,8 +214,8 @@
 
 ### <======================================================================>
 "fit.VGuv" <- function(data, lambda = 1,
-                       opt.pars = c(lambda = T, mu = T, sigma = T, gamma = !symmetric),
-                       symmetric = F, ...)
+                       opt.pars = c(lambda = TRUE, mu = TRUE, sigma = TRUE, gamma = !symmetric),
+                       symmetric = FALSE, ...)
 {
     call <- match.call(expand.dots = TRUE)
 
@@ -226,7 +226,7 @@
         stop("Do not submit alpha.bar! alpha.bar is defined as 0.\n")
     }
     ghyp.object <- fit.ghypuv(data = data, lambda = lambda, alpha.bar = 0,
-                              opt.pars = c(alpha.bar = F, opt.pars),
+                              opt.pars = c(alpha.bar = FALSE, opt.pars),
                               symmetric = symmetric, ...)
 
     ghyp.object@parametrization <- "alpha.bar"
@@ -238,7 +238,7 @@
 
 
 ### <======================================================================>
-"fit.gaussuv" <- function(data, na.rm = T, save.data = T)
+"fit.gaussuv" <- function(data, na.rm = TRUE, save.data = TRUE)
 {
     call <- match.call()
     data.vec <- .check.data(data, case = "uv", na.rm = na.rm, fit = TRUE)

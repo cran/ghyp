@@ -446,9 +446,9 @@
 
             out <- log.const.top + log.top - log.const.bottom
         }else{                          # Asymmetric Student-t
-            interm <- sqrt((chi + Q) * skewness.norm)
+            interm <- sqrt((chi + Q) * as.vector(skewness.norm))
 
-            log.const.top <- -lambda * log(chi) - lambda.min.0.5 * log(skewness.norm)
+            log.const.top <- -lambda * log(chi) - lambda.min.0.5 * log(as.vector(skewness.norm))
             log.const.bottom <- 0.5 * log(2 * pi) + log(sigma) + lgamma(-lambda) - (lambda + 1) * log(2)
 
             log.top <- .besselM3(lambda.min.0.5, interm, logvalue = TRUE) + skewness.scaled
@@ -458,10 +458,10 @@
         }
     }else if(psi > 0){
         if(chi > 0){                    # ghyp, hyp and NIG (symmetric and asymmetric)
-            log.top <- .besselM3((lambda - 0.5), sqrt((psi + skewness.norm) * (chi + Q)),logvalue = TRUE) + skewness.scaled
-            log.bottom <- (0.5 - lambda) * log(sqrt((psi + skewness.norm) * (chi + Q)))
+            log.top <- .besselM3((lambda - 0.5), sqrt((psi + as.vector(skewness.norm)) * (chi + Q)),logvalue = TRUE) + skewness.scaled
+            log.bottom <- (0.5 - lambda) * log(sqrt((psi + as.vector(skewness.norm)) * (chi + Q)))
             log.const.top <- -lambda/2 * log(psi * chi) + 0.5 * log(psi) +
-                (0.5 - lambda ) * log(1 + skewness.norm/psi)
+                (0.5 - lambda ) * log(1 + as.vector(skewness.norm)/psi)
             log.const.bottom <- 0.5 * log(2 * pi) +
                 .besselM3(lambda, sqrt(chi * psi),logvalue = TRUE) + log(sigma)
             out <- log.const.top + log.top - log.const.bottom - log.bottom
@@ -476,11 +476,11 @@
             ##<---------------  Internal function vg.density  ------------------>
             vg.density <- function(Q, skewness.norm, skewness.scaled, lambda, psi, sigma)
             {
-                log.top <- .besselM3((lambda - 0.5), sqrt((psi + skewness.norm) * Q),logvalue = TRUE) + skewness.scaled
-                log.bottom <- (0.5 - lambda) * log(sqrt((psi + skewness.norm) * Q))
+                log.top <- .besselM3((lambda - 0.5), sqrt((psi + as.vector(skewness.norm)) * Q),logvalue = TRUE) + skewness.scaled
+                log.bottom <- (0.5 - lambda) * log(sqrt((psi + as.vector(skewness.norm)) * Q))
 
                 log.const.top <- log(psi) * lambda + (1 - lambda) * log(2) +
-                    (0.5 - lambda) * log(psi + skewness.norm)
+                    (0.5 - lambda) * log(psi + as.vector(skewness.norm))
 
                 log.const.bottom <- 0.5 * log(2 * pi) + lgamma(lambda) + log(sigma)
                 return(log.const.top + log.top - log.const.bottom - log.bottom)
@@ -508,7 +508,7 @@
                     ##<----------  Internal function vg.density.singular  -------------->
                     vg.density.singular <- function(skewness.norm, lambda, psi, sigma)
                     {
-                        log.const.top <- log(psi) * lambda + (0.5 - lambda) * log(psi + skewness.norm) +
+                        log.const.top <- log(psi) * lambda + (0.5 - lambda) * log(psi + as.vector(skewness.norm)) +
                             lgamma(lambda - 0.5)
 
                         log.const.bottom <- log(2) + 0.5 * log(pi) + lgamma(lambda) + log(sigma)
@@ -586,7 +586,7 @@
         skewness.norm <- 0
     } else {
         symm <- FALSE
-        skewness.scaled <- as.vector((as.matrix(x) - matrix(mu, nrow = n, ncol = d, byrow = T)) %*%
+        skewness.scaled <- as.vector((as.matrix(x) - matrix(mu, nrow = n, ncol = d, byrow = TRUE)) %*%
                                      (inv.sigma %*% gamma))
         skewness.norm <- t(gamma) %*% inv.sigma %*% gamma
     }
@@ -603,9 +603,9 @@
             out <- log.const.top + log.top - log.const.bottom
 
         }else{                          # Asymmetric Student-t
-            interm <- sqrt((chi + Q) * skewness.norm)
+            interm <- sqrt((chi + Q) * as.vector(skewness.norm))
 
-            log.const.top <- -lambda * log(chi) - lambda.min.d.2 * log(skewness.norm)
+            log.const.top <- -lambda * log(chi) - lambda.min.d.2 * log(as.vector(skewness.norm))
             log.const.bottom <- d / 2 * log(2 * pi) + 0.5 * log(det.sigma) +
                 lgamma(-lambda) - (lambda + 1) * log(2)
             log.top <- .besselM3(lambda.min.d.2, interm, logvalue = TRUE) + skewness.scaled
@@ -617,13 +617,13 @@
     }
     else if (psi > 0){
         if (chi > 0){                   # ghyp, hyp and NIG (symmetric and asymmetric)
-            log.top <- .besselM3((lambda - d/2), sqrt((psi + skewness.norm) * (chi + Q)),
-                                logvalue = T) + skewness.scaled
-            log.bottom <- (d/2 - lambda) * log(sqrt((psi + skewness.norm) * (chi + Q)))
+            log.top <- .besselM3((lambda - d/2), sqrt((psi + as.vector(skewness.norm)) * (chi + Q)),
+                                logvalue = TRUE) + skewness.scaled
+            log.bottom <- (d/2 - lambda) * log(sqrt((psi + as.vector(skewness.norm)) * (chi + Q)))
             log.const.top <- -lambda/2 * log(psi * chi) + (d/2) * log(psi) +
-                (d/2 - lambda ) * log(1 + skewness.norm/psi)
+                (d/2 - lambda ) * log(1 + as.vector(skewness.norm)/psi)
             log.const.bottom <- d/2 * log(2 * pi) +
-                .besselM3(lambda, sqrt(chi * psi), logvalue = T) + 0.5 * log(det.sigma)
+                .besselM3(lambda, sqrt(chi * psi), logvalue = TRUE) + 0.5 * log(det.sigma)
             out <- log.const.top + log.top - log.const.bottom - log.bottom
         }
         else if (chi == 0){             # Variance gamma (symmetric and asymmetric)
@@ -643,11 +643,11 @@
                             "Observations set to ",sprintf("% .6E", eps),".\n",immediate. = TRUE)
                 }
             }
-            log.top <- .besselM3((lambda - d/2), sqrt((psi + skewness.norm) * (chi + Q)),
-                                logvalue = T) + skewness.scaled
-            log.bottom <- (d/2 - lambda) * log(sqrt((psi + skewness.norm) * (chi + Q)))
+            log.top <- .besselM3((lambda - d/2), sqrt((psi + as.vector(skewness.norm)) * (chi + Q)),
+                                logvalue = TRUE) + skewness.scaled
+            log.bottom <- (d/2 - lambda) * log(sqrt((psi + as.vector(skewness.norm)) * (chi + Q)))
             log.const.top <- d * log(psi)/2 + (1 - lambda) * log(2) +
-                (d/2 - lambda) * log(1 + skewness.norm/psi)
+                (d/2 - lambda) * log(1 + as.vector(skewness.norm)/psi)
             log.const.bottom <- (d/2) * log(2 * pi) + lgamma(lambda) + 0.5 * log(det.sigma)
             out <- log.const.top + log.top - log.const.bottom - log.bottom
         }else{
