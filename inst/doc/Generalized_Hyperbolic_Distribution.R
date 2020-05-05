@@ -1,5 +1,4 @@
 ### R code from vignette source 'Generalized_Hyperbolic_Distribution.Rnw'
-### Encoding: ISO8859-1
 
 ###################################################
 ### code chunk number 1: Generalized_Hyperbolic_Distribution.Rnw:696-697
