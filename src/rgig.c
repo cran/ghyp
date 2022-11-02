@@ -123,17 +123,9 @@ double rinvgauss(const double mu, const double lambda)
  */
 
 /* THIS FUNCTION HAS BEEN MODIFIED TO DEAL WITH GIG_Y_GFN (extra args) */
-
-double zeroin_gig(ax,bx,f,tol, m, beta, lambda)	/* An estimate to the root  */
-double ax;				/* Left border | of the range	*/
-double bx;  				/* Right border| the root is seeked*/
-/* Function under investigation	*/
-double (*f)(double x, double m, double beta, double lambda);	
-double tol;				/* Acceptable tolerance	*/
-double m;                               /* specific to gig_y_gfn */
-double beta;                            /* specific to gig_y_gfn */
-double lambda;                          /* specific to gig_y_gfn */
-{
+/*double zeroin_gig(ax,bx,f,tol, m, beta, lambda)*/	/* An estimate to the root  */
+double zeroin_gig(double ax, double bx, double (*f)(double x, double m, double beta, double lambda), double tol, double m, double beta, double lambda) /* An estimate to the root  */
+{	
   double a,b,c;				/* Abscissae, descr. see above	*/
   double fa;				/* f(a)				*/
   double fb;				/* f(b)				*/
