@@ -1,5 +1,28 @@
 \name{ghyp-internal}
 \alias{ghyp.internal}
+\alias{.abar2chipsi}
+\alias{.besselM3}
+\alias{.check.data}
+\alias{.check.gig.pars}
+\alias{.check.norm.pars}
+\alias{.check.opt.pars}
+\alias{.fit.ghyp}
+\alias{.ghyp.model}
+\alias{.t.transform}
+\alias{.inv.t.transform}
+\alias{.integrate.moment.gig}
+\alias{.integrate.moment.ghypuv}
+\alias{.dghypuv}
+\alias{.dghypmv}
+\alias{.mle.default}
+\alias{.p.default}
+\alias{.q.default}
+\alias{.test.ghyp}
+\alias{.is.gaussian}
+\alias{.is.univariate}
+\alias{.is.symmetric}
+\alias{.is.student.t}
+\alias{.get.stepAIC.ghyp}
 \title{Internal ghyp functions}
 % <---------------------------------------------------------------------->
 \description{

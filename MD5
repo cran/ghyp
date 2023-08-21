@@ -1,5 +1,5 @@
 afbfbb7331b5d569d56e23b898988410 *ChangeLog
-bc5ff8d988e61d25e891d8da977776e7 *DESCRIPTION
+810d338f5440c0985a1b3576b98cdd04 *DESCRIPTION
 aa9678846c84e0b4e7beb4cc4120b5d8 *NAMESPACE
 99996fb5486ac31aee84bd2107b4351c *R/ghyp-attribution.R
 ba73fb0131c72aaa7875b87153356fdb *R/ghypClasses.R
@@ -12,13 +12,13 @@ ab7fde1acf343024a16e9a255964755f *R/ghypInternals.R
 b0a9d568d8ff1651bba9d2c5595eab56 *R/ghypPlots.R
 499aa8b89ad11c13db3f3afc4fe955ac *R/ghypWrappers.R
 9f9f48b20c3678e431ab7d599af416de *README.md
-6415112a774cba3eeddcc856e67d1b8e *build/vignette.rds
+fa9a9b1c6d87c18e146edb79851877be *build/vignette.rds
 d76111c69ed4cef9f59fd7a97461c3a7 *data/indices.rda
 b24d4ba408c80dfa1acf4d333a13c2cb *data/smi.stocks.rda
 9b2dfc89ce0f0586a128dce5e7ea3b85 *inst/Fixme
-d228b80513435e44d2bd09d4cca2dfaf *inst/doc/Generalized_Hyperbolic_Distribution.R
+fdd9a5deb4ceebc69c083d7c9f79a672 *inst/doc/Generalized_Hyperbolic_Distribution.R
 7795022b3e3a8459810a1bfa7dde9d9f *inst/doc/Generalized_Hyperbolic_Distribution.Rnw
-4199eb14c8b6069682ad783e14d0d8b1 *inst/doc/Generalized_Hyperbolic_Distribution.pdf
+f88482604a1c5d39fe40e51d0e013ac0 *inst/doc/Generalized_Hyperbolic_Distribution.pdf
 a947ec87080ebcf7ce7bf36cd270c8ee *man/ESghyp.attribution.Rd
 f2449d4010a9b71cb3e45beae0104e38 *man/coef-method.Rd
 5a916cc68bbbf10fd96bb62107f26847 *man/fit.ghypmv.Rd
@@ -26,9 +26,9 @@ a9d1a8ebca28b22053d828b548ec5d13 *man/fit.ghypuv.Rd
 62b43f1ec081a101396b9d77d53de783 *man/ghyp-constructors.Rd
 c57bb89d63096965df8d5b5f453beb79 *man/ghyp-distribution.Rd
 f9db28dc12978d9f0a4cb807b6f89884 *man/ghyp-get.Rd
-b17d4db37e494eb89791bfec0f0f3a10 *man/ghyp-internal.Rd
+583ec27c53fe5ab50266235ed000d915 *man/ghyp-internal.Rd
 ec1f6944e74484775993f279d8009fc0 *man/ghyp-mle.ghyp-classes.Rd
-a579ba220ffff9e047994ea461e36bc6 *man/ghyp-package.Rd
+44a1d573713e0dfabb27d35a844c9996 *man/ghyp-package.Rd
 7ecda61e27ae972a06128b5841a7bc1d *man/ghyp-risk-performance.Rd
 48ee0f79f861a5c9ed32a361b4d2d7a1 *man/ghyp.attribution-class.Rd
 b0d01a17a261913a2b1924cddf08779b *man/ghyp.moment.Rd
@@ -39,7 +39,7 @@ b82619e7c736277b4d9649bc42f329b2 *man/gig-distribution.Rd
 56fd9a20630655a0729a9d3f81907973 *man/logLik-AIC-methods.Rd
 efba5943ac659417e3738e9947f99854 *man/mean-vcov-skew-kurt-methods.Rd
 09af9f28883104680d7a566b0600f41c *man/pairs-methods.Rd
-9951afb7b2a2cb44d8856d1bc90b962e *man/plot-ghyp.attribution.Rd
+6cca32ea09ff8dfa635615f736d46915 *man/plot-ghyp.attribution.Rd
 badf406c50a4ef94bda20dd0d1f0d722 *man/plot-lines-methods.Rd
 87f10f21cf4e95de53d7ba24ce2b1cfb *man/portfolio.optimize.Rd
 e9520eed4457c962e573eed64c70ff88 *man/qq-ghyp.Rd
