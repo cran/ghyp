@@ -1,5 +1,5 @@
 afbfbb7331b5d569d56e23b898988410 *ChangeLog
-810d338f5440c0985a1b3576b98cdd04 *DESCRIPTION
+ff2c5a46fee09eea7ff1a6f43ee1da90 *DESCRIPTION
 aa9678846c84e0b4e7beb4cc4120b5d8 *NAMESPACE
 99996fb5486ac31aee84bd2107b4351c *R/ghyp-attribution.R
 ba73fb0131c72aaa7875b87153356fdb *R/ghypClasses.R
@@ -12,13 +12,12 @@ ab7fde1acf343024a16e9a255964755f *R/ghypInternals.R
 b0a9d568d8ff1651bba9d2c5595eab56 *R/ghypPlots.R
 499aa8b89ad11c13db3f3afc4fe955ac *R/ghypWrappers.R
 9f9f48b20c3678e431ab7d599af416de *README.md
-fa9a9b1c6d87c18e146edb79851877be *build/vignette.rds
+2744bea1cfced9bf5c1f63004d9621cb *build/vignette.rds
 d76111c69ed4cef9f59fd7a97461c3a7 *data/indices.rda
 b24d4ba408c80dfa1acf4d333a13c2cb *data/smi.stocks.rda
-9b2dfc89ce0f0586a128dce5e7ea3b85 *inst/Fixme
 fdd9a5deb4ceebc69c083d7c9f79a672 *inst/doc/Generalized_Hyperbolic_Distribution.R
-7795022b3e3a8459810a1bfa7dde9d9f *inst/doc/Generalized_Hyperbolic_Distribution.Rnw
-f88482604a1c5d39fe40e51d0e013ac0 *inst/doc/Generalized_Hyperbolic_Distribution.pdf
+7e5ce5b4043e880089d4398edf54ef1c *inst/doc/Generalized_Hyperbolic_Distribution.Rnw
+3845850bfebb0bdf7b6e21b457857fa8 *inst/doc/Generalized_Hyperbolic_Distribution.pdf
 a947ec87080ebcf7ce7bf36cd270c8ee *man/ESghyp.attribution.Rd
 f2449d4010a9b71cb3e45beae0104e38 *man/coef-method.Rd
 5a916cc68bbbf10fd96bb62107f26847 *man/fit.ghypmv.Rd
@@ -49,8 +48,8 @@ e9520eed4457c962e573eed64c70ff88 *man/qq-ghyp.Rd
 c8025fcd2c4b3cb3fe86589d9be975da *man/summary-method.Rd
 eb2a5259632b6fe443a6fe57677ef18e *man/transform-extract-methods.Rd
 1fb411a1153ee818a2281134ca697140 *src/init.c
-14aa408266af765fae1904dbf8808410 *src/rgig.c
+cb8210f7cf3cf3af502469778efac6fb *src/rgig.c
 a8f86581af9ed943aa647096de946447 *src/rgig.h
-7795022b3e3a8459810a1bfa7dde9d9f *vignettes/Generalized_Hyperbolic_Distribution.Rnw
+7e5ce5b4043e880089d4398edf54ef1c *vignettes/Generalized_Hyperbolic_Distribution.Rnw
 8f084ee023da2d6ef975ef56e85c0d2f *vignettes/ghypCommands.sty
 1c3ba9f80093928b5bed005f5848444c *vignettes/ghypbib.bib

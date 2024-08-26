@@ -1,9 +1,21 @@
 Package: ghyp
 Type: Package
-Version: 1.6.4
-Date: 2023-08-21
+Version: 1.6.5
+Date: 2024-08-13
 Title: Generalized Hyperbolic Distribution and Its Special Cases
-Author: Marc Weibel, David Luethi, Wolfgang Breymann
+Author: Marc Weibel [aut, cre],
+  David Luethi [aut],
+  Henriette-Elise Breymann [aut]
+Authors@R: c(person(given = "Marc",
+                    family = "Weibel",
+                    role = c("aut", "cre"),
+                    email = "marc.weibel@quantsulting.ch"),
+             person(given = "David",
+                    family = "Luethi",
+                    role = "aut"),
+             person(given = "Henriette-Elise",
+                    family = "Breymann",
+                    role = "aut"))
 Maintainer: Marc Weibel <marc.weibel@quantsulting.ch>
 LazyData: no
 Depends: R(>= 2.7), methods, numDeriv, graphics, stats, MASS
@@ -25,5 +37,5 @@ Encoding: UTF-8
 Repository: CRAN
 NeedsCompilation: yes
 RoxygenNote: 7.1.0
-Packaged: 2023-08-21 08:14:14 UTC; marc
-Date/Publication: 2023-08-21 09:12:37 UTC
+Packaged: 2024-08-26 12:15:58 UTC; marc
+Date/Publication: 2024-08-26 12:50:07 UTC

@@ -49,7 +49,7 @@
 \hypersetup{
   pdftitle = {ghyp: A package on generalized hyperbolic distributions},
   pdfsubject = {R ghyp package vignette},
-  pdfauthor = {Marc Weibel and Wolfgang Breymann and David L\"uthi},
+  pdfauthor = {Marc Weibel and Henriette-Elise Breymann and David L\"uthi},
   colorlinks = {true},
   linkcolor = {black},
   citecolor = {black},
@@ -63,9 +63,9 @@
 \SweaveOpts{concordance=TRUE}
 % <---------------------------------------------------------------------->
 \title{ghyp: A package on generalized hyperbolic distributions}
-\author{Marc Weibel \footnote{Quantsulting GmbH, e-mail: marc.weibel@quantsulting.ch} \and Wolfgang Breymann\footnote{Institute of Data Analysis and
+\author{Marc Weibel \footnote{Quantsulting GmbH, e-mail: marc.weibel@quantsulting.ch} \and Henriette-Elise Breymann\footnote{Institute of Data Analysis and
     Process Design, e-mail:
-    wolfgang.breymann@zhaw.ch} \and David L\"uthi\footnote{Zurich Insurance}}
+    bwlf.breymann@zhaw.ch} \and David L\"uthi\footnote{Zurich Insurance}}
 %\publishers{}
 \date{\today}
 \maketitle

@@ -12,25 +12,12 @@
 #include "rgig.h"
 #include <math.h>
 #include <assert.h>
-/* #include <R.h> */
 #include <Rmath.h>
 #include <R_ext/Random.h>
+#include <float.h>  /* Include this to define DBL_EPSILON */
 
-
-#ifndef STRICT_R_HEADERS
-#define PI             M_PI
-#include <float.h>  /* Defines the rest, at least in C99 */
-#define SINGLE_EPS     FLT_EPSILON
-#define SINGLE_BASE    FLT_RADIX
-#define SINGLE_XMIN    FLT_MIN
-#define SINGLE_XMAX    FLT_MAX
-#define DOUBLE_DIGITS  DBL_MANT_DIG
-#define DOUBLE_EPS     DBL_EPSILON
-#define DOUBLE_XMAX    DBL_MAX
-#define DOUBLE_XMIN    DBL_MIN
-#define ZTOL sqrt(DOUBLE_EPS)
-#endif
-
+/* Replace these with standard macros from <float.h> */
+#define ZTOL sqrt(DBL_EPSILON)  /* Only define ZTOL, using DBL_EPSILON */
 
 /* 
  * gig_y_gfn: 
@@ -150,7 +137,7 @@ double zeroin_gig(double ax, double bx, double (*f)(double x, double m, double b
 	a = b;  b = c;  c = a;          /* best approximation		*/
 	fa=fb;  fb=fc;  fc=fa;
     }
-    tol_act = 2.0*DOUBLE_EPS*fabs(b) + tol/2.0;
+    tol_act = 2.0*DBL_EPSILON*fabs(b) + tol/2.0;
     new_step = (c-b)/2.0;
 
     if( fabs(new_step) <= tol_act || fb == (double)0 )
